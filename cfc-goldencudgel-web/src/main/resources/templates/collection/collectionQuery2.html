@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.visitingNotes})">
+
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+<br/>
+<div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{goldencudgel.menu.visitingNotes}"/></span></div>
+<br/>
+<div class="main">
+
+    <table class="tb03" >
+        <tr>
+            <th colspan="8" class="title"><img src="../images/measureWord/u5251.png"><span th:text="#{goldencudgel.menu.visitingNotes}"/></span></th>
+        </tr>
+        <tr style="height:40px;" th:unless="${session.user.userType == 'S' || session.user.userType == 'Z'}">
+            <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">區中心：</span></td>
+            <td style="width:16%;">
+                <span th:if="${session.user.userType == 'M'}"  th:unless="${#lists.isEmpty(areaList)}">
+                    <select name="areaCode" id="areaCode" onchange="getGroupList()" class="select" >
+                        <option value="">全部</option>
+                        <option th:each=" area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                    </select>
+                </span>
+                <span th:if="${session.user.userType == 'A' || session.user.userType == 'C'}" th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                                <span th:text="${area.key == session.user.userArea} ? ${area.value}:''"></span>
+                            </span>
+                <span th:if="${session.user.userType != 'M'}"><input name="areaCode" th:value="${session.user.userArea}" style="display: none"></span>
+            </td>
+            <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 業務組別：</span></td>
+            <td style="width:16%;">
+                <span th:if="${session.user.userType == 'M' || session.user.userType == 'A'}">
+                    <select name="groupCode" id="groupCode" onchange="getUserList()" class="select" >
+                        <option value="">全部</option>
+                        <option th:unless="${#lists.isEmpty(groupList)}" th:each=" group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                    </select>
+                </span>
+                <span th:if="${session.user.userType} == 'C'" th:unless="${#lists.isEmpty(groupList)}" th:each="group:${groupList}">
+                                <span th:text="${group.key == session.user.userGroup} ? ${group.value}:''"></span>
+                            </span>
+                <span th:if="${session.user.userType != 'M' && session.user.userType != 'A'}"><input name="groupCode" th:value="${session.user.userGroup}" style="display: none"></span>
+            </td>
+            
+            <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 經辦人：</span></td>
+            <td style="width:16%;">
+                <span th:if="${session.user.userType == 'M' || session.user.userType == 'A' || session.user.userType == 'C'}">
+                            <select name="userCode" id="userCode" class="select" >
+                                <option value="">全部</option>
+                                <option th:unless="${#lists.isEmpty(userList)}" th:each=" u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                            </select>
+                            </span>
+                <span th:if="${session.user.userType == 'S' || session.user.userType == 'Z'}"><input name="userCode" th:value="${session.user.userCode}" style="display: none"></span>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr style="height: 60px;">
+            <td style="width:8%;text-align:right;">授信戶統編：</td>
+            <td style="width:16%;"><input th:value="${compilationNo}" class="input" type="text" name="compilationNo" id="compilationNo" th:maxlength="10"/> </td>
+            <td style="width:8%;text-align:right;">授信戶名稱：</td>
+            <td style="width:16%;"><input th:value="${visitName}" class="input" type="text" name="visitName" id="visitName" th:maxlength="50"/></td>
+            <td style="width: 8%!important;text-align:right;">拜訪時間：</td>
+            <td style="width:34%;"><input th:value="${startDate}" type="text" class="input" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">&nbsp;~&nbsp;<input th:value="${endDate}" class="input" type="text" name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png"></td>
+            <td style="width: 10%!important;"><input type="button" class="button_blue" value="查詢" onclick="javascript:viewQueryVisit(1);"></td>
+        </tr>
+
+    </table>
+
+    <div id="collectionQuery_list"> 
+    
+    <table class="tb01 mgt">
+    <tr>
+        <th>授信戶統編</th>
+        <th>授信戶名稱</th>
+        <th>行業別</th>
+        <th>拜訪時間</th>
+        <th th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">經辦人</th>
+        <th>操作</th>
+    </tr>
+    <span th:unless="${#lists.isEmpty(collectionList)}">
+    <tr th:each="collection : ${collectionList}">
+                <td th:text="${collection[0]}"></td>
+                <td th:text="${collection[1]}"></td>
+                <td th:text="(${collection[2]==''}?'':${collection[2]})"></td>
+                <td th:text="${collection[4]}+' '+${collection[5]}+':'+${collection[6]}"></td>
+          <td th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}" th:text="${collection[9]}"></td>
+                <td >
+                <span th:if="${userUtil.hasFunction('WEB_VISIT_NOTES_QUERY')}">
+                <a style="cursor: pointer;" th:onclick="javascript:viewVisitDetail(this);" th:appointmentDate="${collection[4]}" th:compilationNo="${collection[0]}" th:trandId="${collection[3]}">查看</a>
+                   <!--  <span  th:if="${userUtil.hasFunction('WEB_VISIT_NOTES_UPDATE')}" >
+<a style="cursor: pointer;"   th:if="${collection[6]!='1'}"  th:onclick="javascript:editVisitDetail(this);" th:appointmentDate="${collection[4]}"  th:compilationNo="${collection[0]}" th:trandId="${collection[3]}">修改</a>
+              </span>  </td> -->
+              </span>
+               <span  th:if="${userUtil.hasFunction('WEB_VISIT_NOTES_UPDATE')}" >
+<!-- <a style="cursor: pointer;"   th:if="${collection[6]!='1'}"  th:onclick="javascript:editVisitDetail(this);" th:appointmentDate="${collection[4]}" th:curPage="${curPage}" th:compilationNo="${collection[0]}" th:compilationName="${collection[1]}"   th:trandId="${collection[3]}">修改</a>
+ -->
+ <a style="cursor: pointer;"   th:onclick="javascript:editVisitDetail(this);" th:appointmentDate="${collection[4]}" th:curPage="${curPage}" th:compilationNo="${collection[0]}" th:compilationName="${collection[1]}"   th:trandId="${collection[3]}">修改</a>
+ 
+               </span>
+             
+                </td>
+              
+              
+              
+              </tr>
+             
+    </span>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('viewQueryVisit')}" style="text-align: right"/>
+</p>
+    
+    
+    </div>
+</div>
+
+
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" src="../../js/collection/collection.js"></script>
+
+</body>
+</html>

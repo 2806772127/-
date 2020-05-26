@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.rating})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：企業經營報告書  > 企業評等配置</div></br>
+
+        <div >
+            <form id="searchForm">
+                <table class="tb03">
+                    <tbody>
+                    <tr>
+                        <th colspan="10" class="title">
+                            <input type="hidden" id="searchData" th:value="${searchData}">
+                            <img src="../images/applyIncom/applyIncom.png" />企業評等配置查詢
+                        </th>
+                    </tr>
+                    <tr >
+                        <td style="width:8%;text-align: right"> 評等：</td>
+                        <td style="width:14%;">
+                            <select name="rating" class="select">
+                                <option value="">全部</option>
+                                <option value="A" th:selected="${rating} eq 'A'">A</option>
+                                <option value="B" th:selected="${rating} eq 'B'">B</option>
+                                <option value="C" th:selected="${rating} eq 'C'">C</option>
+                                <option value="D" th:selected="${rating} eq 'D'">D</option>
+                                <option value="E" th:selected="${rating} eq 'E'">E</option>
+                            </select>
+                        </td>
+                        <td style="width: 8%!important;text-align:right;"> 創建時間：</td>
+                        <td style="width:30%;"><input class="input" type="text" style="    width: 150px;" id="startDate" name ="startDate" th:value="${startDate}" readonly="readonly" />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input"  type="text" style="  width: 150px;"  id="endDate" name ="endDate" th:value="${endDate}" readonly="readonly"/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+                   </tr>
+                    <tr>
+                        <td style="width: 8%!important;text-align:right;"> 更新時間：</td>
+                        <td style="width:30%;"><input class="input" style="    width: 150px;"  type="text" id="startDates" name ="startDates" readonly="readonly" th:value="${startDates}" />&nbsp;<img id="startImgs" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input"  style="    width: 150px;" type="text" id="endDates" name ="endDates" th:value="${endDates}" readonly="readonly"/>&nbsp;<img id="endImgs" src="../images/measureWord/u22.png" /></td>
+                        <td style="width: 8%!important;"><input type="button" class="button_blue" value="查詢" onclick="javascript:queryRatingconfig(1);"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <!--<input th:type="button" th:text="test" onclick="testimg()" id ="22"/>-->
+        <!--<form  action="/ApplyIncom/upload" method="post" enctype="multipart/form-data">-->
+            <!--<input type="file" name="file"> <button type="submit">上传</button>-->
+        <!--</form>-->
+        <div id="abilibty_list">
+        </div>
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+    </div>
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/ratingconfig/ratingConfig.js"></script>
+</body>
+
+</html>

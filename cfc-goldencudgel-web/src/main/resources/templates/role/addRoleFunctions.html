@@ -1,0 +1,65 @@
+<div>
+    <table class="tb02" style="width:100%">
+        <tbody>
+        <tr>
+            <th style="width: 15%" ><span style="color: red">*</span>選擇權限：</th>
+            <td colspan="15">
+                <ul class="li02">
+                    <span th:replace="::showFunc(${topFunctions})"></span>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="16" style="text-align: center;">
+                <input type="button" id="add_save_funs" value="儲存設置" onclick="javascript:saveAddFunctions()" class="button_blue" style="width: 112px;height: 36px;">
+                <input type="button" value="返回" class="button_blue" onclick="javascript:rebackSearchPage()" style="width: 112px;height: 36px;">
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--菜单功能-->
+<span th:each="root : ${funtioncs}" th:fragment="showFunc(funtioncs)">
+   <li th:if="${root.menu==1}">
+        <span th:unless="${root.parent}">
+            <input type="checkbox" th:id="${root.code}" th:funcCode="${root.code}" th:_dependencyCode="${root.dependency?.code}" th:_parentCode="${root.parent?.code}" class="funcNode functions" onclick="selectHome(this)"/>
+                <span th:if="${#lists.size(root.children)}>0">
+                    <img th:if="${root.children[0].menu==1}" src="../../images/selected_down.png" onclick="tabFunction(this)"/>
+                    <img src="../../images/select01.gif"/>
+                    <span th:text="#{${root.name}}"></span>
+                    <span th:if="${#lists.size(root.children)} > 0" th:each="root1:${root.children}">
+                        <ul th:if="${root1.menu==1}">
+                            <span th:replace="::showFunc2(${root1})"/>
+                        </ul>
+                        <span th:if="${root1.menu==0}">
+                            <span th:replace="::showFunc3(${root1})"/>
+                        </span>
+                    </span>
+                </span>
+        </span>
+    </li>
+</span>
+<!--下一層級為菜單-->
+<span th:if="${root2} != null" th:fragment="showFunc2(root2)">
+   <li>
+        <input type="checkbox" th:id="${root2.code}" th:funcCode="${root2.code}" th:_dependencyCode="${root2.dependency?.code}" th:_parentCode="${root2.parent?.code}" class="funcNode functions" onclick="selectHome(this)"/>
+        <img th:if="${#lists.size(root2.children) >0 && root2.children[0].menu==1}" src="../../images/selected_down.png" onclick="tabFunction(this)"/>
+        <img th:src="${#lists.size(root2.children) >0 && root2.children[0].menu==1 ? '../../images/select01.gif' : ' ../../images/yellow.gif'}" th:if="${root2.menu==1}"/>
+        <span th:text="#{${root2.name}}"></span>
+        <span th:if="${#lists.size(root2.children)} > 0" th:each="root3:${root2.children}">
+            <ul th:if="${root3.menu==1}">
+                <span th:replace="::showFunc2(${root3})"/>
+            </ul>
+            <span th:if="${root3.menu==0}">
+                <span th:replace="::showFunc3(${root3})"/>
+            </span>
+        </span>
+    </li>
+</span>
+<!--下一層級不為菜單-->
+<span th:if="${root3} != null" th:fragment="showFunc3(root3)">
+    <span>&nbsp;&nbsp;</span>
+    <input type="checkbox" th:id="${root3.code}" th:funcCode="${root3.code}" th:_dependencyCode="${root3.dependency?.code}" th:_parentCode="${root3.parent?.code}" class="funcNode functions" onclick="selectHome(this)"/>
+    <span th:text="#{${root3.name}}"></span>
+</span>

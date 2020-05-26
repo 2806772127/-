@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{golden.system.goal})">
+</head>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">
+               當前位置：<span th:text="#{golden.menu.system}"></span>
+               ><span th:text="#{golden.system.goal}"/></span>
+  </div>
+   <br/>
+  <div class="main">
+
+      <table class="tb03">
+          <tbody>
+          <tr>
+              <td style="text-align:center" > 產品:
+                  <select id="dictId">
+                      <option th:value="1" th:text="企業貸款"></option>
+                      <option th:value="2" th:text="企業主房貸"></option>
+                      <option th:value="3" th:text="企業主信貸"></option>
+                      <!--<span th:unless="${#lists.isEmpty(dataList)}">-->
+                          <!--<option th:each="dict : ${dataList}" th:value="${dict[0]}" th:text="${dict[1]}"></option>-->
+                      <!--</span>-->
+                  </select></td>
+              <td style="text-align:center" > 區別:
+                  <select id="areaId" onchange="getGroupList()">
+                      <option th:value="allarea" th:text="全部"></option>
+                      <!--<span th:unless="${#lists.isEmpty(areaList)}">-->
+                      <option th:each="area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                      <!--</span>-->
+                  </select></td>
+              <td style="text-align:center" > 組別:
+                  <select id="groupId" onchange="getUserList()" style="width: 180px;">
+                      <option th:value="allgroup" th:text="全部"></option>
+                      <!--<span th:unless="${#lists.isEmpty(groupList)}">-->
+                      <option th:each="group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                      <!--</span>-->
+                  </select></td>
+              <td style="text-align:center" > 經辦人:
+                  <select id="userId">
+                      <option th:value="alluser" th:text="全部"></option>
+                      <!--<span th:unless="${#lists.isEmpty(userList)}">-->
+                      <option th:each="user : ${userList}" th:value="${user.key}" th:text="${user.value}"></option>
+                      <!--</span>-->
+                  </select></td>
+              <td style="text-align:center" > 月份:
+                  <select id="monId">
+                      <option th:value="allmon" th:text="全部"></option>
+                      <option th:value="01" th:text="1月"></option>
+                      <option th:value="02" th:text="2月"></option>
+                      <option th:value="03" th:text="3月"></option>
+                      <option th:value="04" th:text="4月"></option>
+                      <option th:value="05" th:text="5月"></option>
+                      <option th:value="06" th:text="6月"></option>
+                      <option th:value="07" th:text="7月"></option>
+                      <option th:value="08" th:text="8月"></option>
+                      <option th:value="09" th:text="9月"></option>
+                      <option th:value="10" th:text="10月"></option>
+                      <option th:value="11" th:text="11月"></option>
+                      <option th:value="12" th:text="12月"></option>
+                      <!--<span th:unless="${#lists.isEmpty(userList)}">-->
+                      <!--<option th:each="user : ${userList}" th:value="${user[0]}" th:text="${user[1]}"></option>-->
+                      <!--</span>-->
+                  </select></td>
+              <td style="text-align:center" > 指標:
+                  <select id="targetId">
+                      <option th:value="1" th:text="進件數"></option>
+                      <option th:value="2" th:text="業績數"></option>
+                      <!--<span th:unless="${#lists.isEmpty(userList)}">-->
+                      <!--<option th:each="user : ${userList}" th:value="${user[0]}" th:text="${user[1]}"></option>-->
+                      <!--</span>-->
+                  </select></td>
+              <td style="float:left">
+                  <div style="position: relative;">
+                      <div style="position: absolute;top:6px;left:10px;">
+                          <img src="../images/u5255.png"/>
+                      </div>
+                      <input type="button" value="查詢" class="button_blue" onclick="findTarget(1);">
+                  </div>
+              </td>
+              <td style="float:left">
+                  <div style="position: relative;">
+                      <input th:if="${userUtil.hasFunction('WEB_SYSTEM_GOAL_IMPORT')}" type="button" value="導入" class="button_blue" onclick="uploanTarget();">
+                  </div>
+              </td>
+          </tr>
+          </tbody>
+      </table>
+
+
+      <div id = "uploadfile"style="display:none" >
+       <form method="post" th:action="@{/indexTarget/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+        <table class="tb01">
+        <tr>
+          <th width="20%">選擇導入文件:</th>
+          <td width="80%">
+            <span width="70%">
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" style="float:left;margin-left:5px;"/>
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+            <input id="_upload" type="button" value="導入" onclick="window.parent.upload();" style="float:right;margin-right:15px;" disabled/>
+              <input id="close" type="button" value="取消" onclick="window.parent.colse();" style="float:right;margin-right:15px;" />
+          </td>
+        </tr>
+        </table>
+       </form>
+       
+        <!-- 下载模板 -->
+          <!-- <a style="margin-top:20px;" href="../Excl/365.xlsx" download="365.xlsx">点击下载</a> -->
+	       <div class="ExcleTemplate" style="margin-top:20px;margin-left:15px;">
+	       <a th:href="@{/indexTarget/excleDownload}"><span style="color:blue;">點擊下載指標目標數上傳模板</span></a>
+	       </div>
+       
+      </div>
+      <div id="dataLists"></div>
+  </div>
+  <div id="alertMessage" style="display:none">
+    <p id="message" style="text-align:center"></p>
+  </div>
+  <div th:replace="~{common/footer :: footer}"></div>
+  <script type="text/javascript" src="../../js/indexTarget/indexTarget.js"></script>
+  <script type="text/javascript">
+  $(function(){
+		findTarget();
+	});
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{golden.menu.achiRate})">
+</head>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">
+               當前位置：<span th:text="#{golden.menu.system}"></span>
+               ><span th:text="#{golden.menu.achiRate}"/></span>
+  </div>
+   <br/>
+  <div class="main">
+  
+  
+  <!-- divList -->
+  
+        <table class="tb03">
+          <tbody>
+         
+          <tr >
+
+           <!-- <td style="text-align:center">員工身份證號：<input class="input" type="text" name="employeeIdNum" id="employeeIdNum" th:maxlength="10"/> </td>
+            <td style="text-align:center">員工編號：<input class="input" type="text" name="employeeNum" id="employeeNum" th:maxlength="50"/></td>-->
+            <td style="    text-align: center;">日期時間：<input type="text" class="input" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">&nbsp;~&nbsp;<input class="input" type="text" name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png"></td>
+           
+           <td style="float:left">
+                  <div style="position: relative;">
+                      <div style="position: absolute;top:6px;left:10px;">
+                          <img src="../images/u5255.png"/>
+                      </div>
+                      <input type="button" value="查詢" class="button_blue" onclick="findTarget(1);">
+                  </div>
+              </td>
+              
+              <td style="float:left">
+                  <div style="position: relative;">
+                      <input th:if="${userUtil.hasFunction('WEB_SYSTEM_ACHIRATE_IMPORT')}" type="button" value="導入" class="button_blue" onclick="uploanTarget();">
+                  </div>
+              </td>
+        </tr>
+         
+         
+          </tbody>
+      </table>
+      
+      <!-- 导入弹框先display：none -->
+        <div id = "uploadfile"style="display:none" >
+       <form method="post" th:action="@{/achiRate/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+        <table class="tb01">
+        <tr>
+          <th width="20%">選擇導入文件:</th>
+          <td width="80%">
+            <span width="70%">
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" style="float:left;margin-left:5px;"/>
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+            <input id="_upload" type="button" value="導入" onclick="window.parent.upload();" style="float:right;margin-right:15px;" disabled/>
+              <input id="close" type="button" value="取消" onclick="window.parent.colse();" style="float:right;margin-right:15px;" />
+          </td>
+        </tr>
+        </table>
+       </form>
+       
+       
+        <!-- 下载模板 -->
+        <!-- <a style="margin-top:20px;" href="../Excl/365.xlsx" download="365.xlsx">点击下载</a> -->
+       
+       <div class="ExcleTemplate" style="margin-top:20px;margin-left:15px;">
+       <a th:href="@{/achiRate/excleDownload}"><span style="color:blue;">點擊下載365天達成率模板</span></a>
+       </div>
+       
+      </div>
+      
+      
+  
+  <div id="achiRateList"> </div>
+  
+  
+  
+  <!-- divList -->
+
+  </div>
+  <div id="alertMessage" style="display:none">
+    <p id="message" style="text-align:center"></p>
+  </div>
+  <div th:replace="~{common/footer :: footer}"></div>
+  <script type="text/javascript" src="../../js/achiRate/achiRate.js"></script>
+   <script type="text/javascript">
+  $(function(){
+		findTarget();
+	});
+  </script>
+</body>
+</html>

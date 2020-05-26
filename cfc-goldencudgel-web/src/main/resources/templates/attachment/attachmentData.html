@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.attachment})">
+</head>
+
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理  > 附件管理</div></br>
+    <div >
+        <input id="backFlag" th:value="${backFlag}" type="text" style="display: none;" />
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <input id = "jieCode" type="hidden"  value=""/>
+                <td style="text-align:center" ><a style ="color:#FF0000;">*</a>節點<input type="button" id ="baiId" value="拜訪筆記" th:nodeCode="1" class="pic" onclick="changClass(5,'baiId')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "jinId" value="進件申請" class="pic" th:nodeCode="2" onclick="changClass(6,'jinId')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "zhengId" th:nodeCode="3" value="徵信實訪" class="pic" onclick="changClass(7,'zhengId')"/>
+                </td>
+                <td style="text-align:center" id = "intyId" hidden> 行業別:
+                    <select id="dictId" style="height:20px;width:200px;">
+                        <option th:value="nothing" th:text="-請選擇-"></option>
+                        <span th:unless="${#lists.isEmpty(dataLi)}">
+                          <option th:each="dict : ${dataLi}" th:value="${dict[0]}" th:text="${dict[1]}"></option>
+                      </span>
+                    </select></td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <input type="button" value="查詢" class="button_blue" onclick="findRole(1);">
+                    </div>
+                </td>
+                <td style="float:left">&nbsp;</td>
+                <td style="float:left">&nbsp;</td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/basic/u9177.png"/>
+                        </div>
+                        <input th:if="${userUtil.hasFunction('WEB_SYSTEM_ATTACHMENT_ADD')}" type="button" value="新增" class="button_blue" onclick="openNewWin();">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="newWindow" style="display:none;">
+        <form id ="newItemData">
+            <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+                <tbody>
+                <tr>
+
+                    <input id = "newNodeCode" type="hidden" name = "nodeCode" value=""/>
+                    <input id = "newNodeName" type="hidden"  value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>節點</th><td>
+                    <input type="button" id ="newbaiId" value="拜訪筆記" class="pic" onclick="changClass(8,'newbaiId')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "newjinId" value="進件申請" class="pic" onclick="changClass(9,'newjinId')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "newzhengId" value="徵信實訪" class="pic" onclick="changClass(10,'newzhengId')"/>
+                    </select></td>
+                </tr>
+                <tr id ="newintyId">
+                    <input id = "newIndustryType" type="hidden" name = "industryType" value=""/>
+                    <input id = "newIndustryTypeName" type="hidden"  value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>行業別</th><td>
+                    <select style="height:20px;width:200px;"  id="newIndustryId" onchange="window.parent.getSelt('newIndustryId','newIndustryType','newIndustryTypeName')">
+                        <option th:value="nothing" th:text="-請選擇-"></option>
+                        <span th:unless="${#lists.isEmpty(dataLi)}">
+                          <option th:each="dict2 : ${dataLi}" th:value="${dict2[0]}" th:text="${dict2[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+                <tr>
+                    <input id = "newAttachTypeCode" type="hidden" name = "attachTypeCode" value=""/>
+                    <input id = "newAttachTypeName" type="hidden" name = "attachTypeName" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>附件類型</th><td>
+                    <select style="height:20px;width:200px;" id="newCheckId" onchange="window.parent.getSelt('newCheckId','newAttachTypeCode','newAttachTypeName')">
+                        <option th:value="nothing" th:text="-請選擇-"></option>
+                        <span th:unless="${#lists.isEmpty(dataLis)}">
+                          <option th:each="dict3 : ${dataLis}" th:value="${dict3[0]}" th:text="${dict3[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+                <tr>
+                    <input id = "newAttachCode" type="hidden" name = "attactNameCode" value=""/>
+                    <input id = "newAttachName" type="hidden" name = "attactName" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>附件名稱</th><td>
+                    <select style="height:20px;width:200px;" id="newdictId" onchange="window.parent.getSelt('newdictId','newAttachCode','newAttachName')">
+                        <option th:value="nothing" th:text="-請選擇-"></option>
+                        <span th:unless="${#lists.isEmpty(dataList4)}">
+                          <option th:each="dict4 : ${dataList4}" th:value="${dict4[0]}" th:text="${dict4[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+
+                <tr>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>顯示順序</th>
+                    <!-- <td><input id = "newshowOrder" type="text" name = "showOrder" value="" style=" height: 20px;width: 196px;"/></td> -->
+                    <td><input id = "newshowOrder" type="text" name = "showOrder" value="" style=" height: 20px;width: 196px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="6"/></td>
+                </tr>
+                <tr>
+                    <input id = "newIsEnable" type="hidden" name = "isEnable" value=""/>
+                    <th width= "25%"><a style ="color:#FF0000;">*</a>是否啟用</th><td><input type="button" id ="newenab" value="啟用" class="pic" onclick="changClass(1,'new')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "newnoenab" value="禁用" class="pic" onclick="changClass(2,'new')"/></td>
+                </tr>
+                <tr>
+                    <input id = "newIsRequired" type="hidden" name = "isRequired" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>是否必備</th><td><input type="button" id ="newneed" value="必備" class="pic" onclick="changClass(3,'new')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "newnoneed" value="不必備" class="pic" onclick="changClass(4,'new')"/></td>
+                </tr>
+                <tr>
+                    <td colspan = '2'><input id = "saveItem" type="button" value="儲存" onclick="window.parent.saveNewItem('new')"/>
+                        <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closenew()"/></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="changeWindow" style="display:none;">
+        <form id ="changeItemData">
+            <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+                <tbody>
+                <tr>
+                    <input id = "changeAttachTypeId" type="hidden" name = "attachTypeId" value=""/>
+                    <input id = "changeNodeCode" type="hidden" name = "nodeCode" value=""/>
+                    <input id = "changeNodeName" type="hidden" name = "" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>節點</th><td>
+                    <input type="button" disabled id ="changebaiId" value="拜訪筆記" class="pic" onclick="window.parent.changClass(11,'changebaiId')"/>&nbsp;&nbsp;&nbsp;<input type="button" disabled id = "changejinId" value="進件申請" class="pic" onclick="window.parent.changClass(12,'changejinId')"/>&nbsp;&nbsp;&nbsp;<input disabled type="button" id = "changezhengId" value="徵信實訪" class="pic" onclick="window.parent.changClass(13,'changzhengId')"/>
+                    </select></td>
+                    <!--<th width="25%"><a style ="color:#FF0000;">*</a>節點</th><td>-->
+                    <!--<select id="changeNodeId" onclick="window.parent.getSelt('changeNodeId','changeNodeCode','changeNodeName')">-->
+                    <!--<span th:unless="${#lists.isEmpty(dataList)}">-->
+                    <!--<option th:each="dict1 : ${dataList}" th:value="${dict1[0]}" th:text="${dict1[1]}"></option>-->
+                    <!--</span>-->
+                    <!--</select></td>-->
+                </tr>
+                <tr id ="changeintyId">
+                    <input id = "changeIndustryType" type="hidden" name = "industryType" value=""/>
+                    <input id = "changeIndustryTypeName" type="hidden"  value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>行業別</th><td>
+                    <select id="changeIndustryId" disabled style="height:20px;width:200px;" onchange="window.parent.getSelt('changeIndustryId','changeIndustryType','changeIndustryTypeName')">
+                      <span th:unless="${#lists.isEmpty(dataLi)}">
+                          <option th:each="di : ${dataLi}" th:value="${di[0]}" th:text="${di[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+                <tr>
+                    <input id = "changeAttachTypeCode" type="hidden" name = "attachTypeCode" value=""/>
+                    <!-- <input id = "changeAttachTypeName" type="hidden" name="attachTypeName" value=""/> -->
+                    <input id = "changeAttachTypeName" type="hidden" name="attachTypeNameUpdate" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>附件類型</th><td>
+                    <select id="changeCheckId" style="height:20px;width:200px;" onchange="window.parent.getSelt('changeCheckId','changeAttachTypeCode','changeAttachTypeName')">
+                        <option value=''>--請選擇--</option>
+                        <span th:unless="${#lists.isEmpty(dataLis)}">
+                          <option th:each="dic : ${dataLis}" th:value="${dic[0]}" th:text="${dic[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+                <tr>
+                    <input id = "changeAttachCode" type="hidden" name = "attactNameCode" value=""/>
+                    <input id = "changeAttachName" type="hidden" name = "attactName" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>附件名稱</th><td>
+                    <select id="changedictId" style="height:20px;width:200px;" onchange="window.parent.getSelt('changedictId','changeAttachCode','changeAttachName')">
+                        <option value=''>--請選擇--</option>
+                        <span th:unless="${#lists.isEmpty(dataList)}">
+                          <option th:each="dict : ${dataList}" th:value="${dict[0]}" th:text="${dict[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+
+                <tr>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>顯示順序</th>
+                    <!--  <td><input id = "changeshowOrder" type="text" name = "showOrder" value="" style=" height: 20px;width: 196px;"/></td> -->
+                    <td><input id = "changeshowOrder" type="text" name = "showOrder" value="" style=" height: 20px;width: 196px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="6"/></td>
+                </tr>
+
+                <tr>
+                    <input id = "changeIsEnable" type="hidden" name = "isEnable" value=""/>
+                    <th width= "25%"><a style ="color:#FF0000;">*</a>是否啟用</th><td><input type="button" id ="changeenab" value="啟用" class="pic" onclick="changClass(1,'change')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "changenoenab" value="禁用" class="pic" onclick="changClass(2,'change')"/></td>
+                </tr>
+                <tr>
+                    <input id = "changeIsRequired" type="hidden" name = "isRequired" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>是否必備</th><td><input type="button" id ="changeneed" value="必備" class="pic" onclick="changClass(3,'change')"/>&nbsp;&nbsp;&nbsp;<input type="button" id = "changenoneed" value="不必備" class="pic" onclick="changClass(4,'change')"/></td>
+                </tr>
+                <tr>
+                    <td colspan = '2'><input id = "changesaveItem" type="button" value="儲存" onclick="window.parent.saveItem('update')"/>
+                        <input id = "changeclose" type="button" value="關閉" onclick="window.parent.closeChange()"/></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="dataListDiv">
+    </div>
+    <input id="deleteId" value="" hidden />
+    <div id="delWindow" hidden="hidden">
+        <table class="tb03"  style="border:0px;word-wrap:break-word;word-break:break-all;">
+            <tbody>
+            <tr>
+                <td style="text-align: center">你確定刪除嗎？</td>
+            </tr>
+            <tr>
+                <td style="text-align: center"><input id = "delItem" type="button" value="確定" onclick="window.parent.deleteWin()"/>
+                    <input id = "delclose" type="button" value="關閉" onclick="window.parent.closedel()"/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/attachment/attachment.js"></script>
+</body>
+</html>

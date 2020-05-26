@@ -1,0 +1,51 @@
+<!--<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5" />
+</head>
+<body>-->
+<div style="pointer-events: none">
+    <table class="tb01 mgt">
+        <tr>
+            <th style="background:#CAE3DF;" >
+                <span th:text="#{company}"></span>
+            </th>
+        </tr>
+        <tr>
+        <span th:unless="${#lists.isEmpty(fbZjxJcicList)}">
+            <td><iframe style="pointer-events: none" class="jcic" th:src="${fbZjxJcicList[0].showUrl}"/></td>
+        </span>
+        </tr>
+        <tr>
+            <th style="background:#CAE3DF;" ><span th:text="#{charge.person}"></span></th>
+        </tr>
+        <tr>
+        <span th:unless="${#lists.isEmpty(fbZjxJcicList)}">
+            <td><iframe style="pointer-events: none" class="jcic" th:src="${fbZjxJcicList[1].showUrl}"/></td>
+        </span>
+        </tr>
+        <tr>
+        <span th:unless="${#lists.isEmpty(fbZjxJcicList)}">
+            <td><iframe style="pointer-events: none" class="jcic" th:src="${fbZjxJcicList[2].showUrl}"/></td>
+        </span>
+        </tr>
+        <span th:if="${fbZjxJcicList.size()>3}">
+    <tr>
+        <th style="background:#CAE3DF;" ><span th:text="#{charge.person.spouse}"></span></th>
+    </tr>
+    <tr>
+        <span th:unless="${#lists.isEmpty(fbZjxJcicList) && fbZjxJcicList[3].url!= ''}">
+            <td><iframe style="pointer-events: none" class="jcic" th:src="${fbZjxJcicList[3].showUrl}"/></td>
+        </span>
+    </tr>
+    <tr>
+        <span th:if="${fbZjxJcicList.size()>4}">
+            <td><iframe style="pointer-events: none" class="jcic" th:src="${fbZjxJcicList[4].showUrl}"/></td>
+        </span>
+    </tr>
+    </span>
+    </table>
+</div>
+<!--
+</body>
+</html>-->

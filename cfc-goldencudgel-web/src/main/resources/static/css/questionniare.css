@@ -1,0 +1,68 @@
+._red{
+  color:red;
+}
+.add{
+background:none;
+border:none;
+background-image:url(../images/measureWord/add.png);
+background-repeat:no-repeat;
+background-position: center center;
+background-size:100% 100%;
+-moz-background-size:100% 100%;
+width:18px;
+height:18px;
+}
+.del{
+background: #FAFAFA;
+border:none;
+background-image:url(../images/measureWord/del1.png);
+background-repeat:no-repeat;
+background-position:,center center ;
+background-size:100% 100%;
+-moz-background-size:100% 100%;
+width:18px;
+height:18px;
+}
+.up{
+background:none;
+border:none;
+background-image:url(../images/measureWord/u9324.png);
+background-repeat:no-repeat;
+background-position: center center;
+background-size:100% 100%;
+-moz-background-size:100% 100%;
+width:18px;
+height:18px;
+}
+.down{
+background:none;
+border:none;
+background-image:url(../images/measureWord/u9328.png);
+background-repeat:no-repeat;
+background-position: center center;
+background-size:100% 100%;
+-moz-background-size:100% 100%;
+width:18px;
+height:18px;
+}
+.textarea{
+    background: none;
+    background-image:url(../questionnaire/u5492.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 1px;
+    width: 800px;
+    height: 80px;
+}
+.input1{
+    background: none;
+    border:none;
+    background-image:url(../images/u3810.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 0px;
+    width: 90px;
+    height: 26px;
+}

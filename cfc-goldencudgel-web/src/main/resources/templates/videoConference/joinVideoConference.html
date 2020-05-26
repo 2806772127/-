@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.videoConference.attend})">
+</head>
+<body>
+    <input type="hidden" th:value="${webexUrl}" id="webexUrl" />
+    <script type="text/javascript">var context_path = '..';</script>
+    <script type="text/javascript" src="../../js/jquery1.10.4/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var webexUrl = $("#webexUrl").val();
+            window.open(webexUrl, "_self");
+        });
+    </script>
+</body>
+</html>

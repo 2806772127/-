@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.system.log})">
+</head>
+
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理    > 日誌查詢</div></br>
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <td style="text-align:center" > 操作類型:
+                    <select id="operationType">
+                        <option th:value="nothing" th:text="-請選擇-"></option>
+                        <option th:value="01" th:text="登入"></option>
+                        <option th:value="02" th:text="登出"></option>
+                    </select></td>
+                <td style="text-align:center"> 操作人：<input class="input" type="text" id="operationUser"/></td>
+                <td style="text-align:center"> 操作時間：<input class="input" type="text" id="startDate" name ="startDate" readonly="readonly" />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input"  type="text" id="endDate" name ="endDate" readonly="readonly"/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <span>
+                            <input type="button" value="查詢" class="button_blue" onclick="findLog(1);">
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="dataListDiv">
+    </div>
+
+</div>
+
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/systemLog/systemLog.js"></script>
+</body>
+</html>

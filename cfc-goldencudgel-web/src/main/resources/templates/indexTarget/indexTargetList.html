@@ -1,0 +1,23 @@
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+            <th width="20%">業務員</th>
+            <th width="20%">指標</th>
+            <th width="20%">目標值</th>
+            <th width="20%">月份</th>
+            <th width="20%">操作日期</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(datas)}">
+             <tr  th:each="connection,connectionStart : ${datas}">
+                <td th:text="${connection[0]}"></td>
+                <td th:text="${connection[1]}"></td>
+                <td th:text="${connection[2]}"></td>
+                 <td th:text="${connection[3]}"></td>
+                 <td th:text="${connection[4]}"></td>
+             </tr>
+        </span>
+        </tbody>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

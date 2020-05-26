@@ -1,0 +1,43 @@
+<table class="tb01 mgt">
+    <tr>
+        <th>授信戶統編</th>
+        <th>授信戶名稱</th>
+        <th>行業別</th>
+        <th>拜訪時間</th>
+        <th th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">經辦人</th>
+        <th>操作</th>
+    </tr>
+    <span th:unless="${#lists.isEmpty(collectionList)}">
+    <tr th:each="collection : ${collectionList}">
+                <td th:text="${collection[0]}"></td>
+                <td th:text="${collection[1]}"></td>
+                <td th:text="(${collection[2]==''}?'':${collection[2]})"></td>
+                <td th:text="${collection[4]}+' '+${collection[5]}+':'+${collection[6]}"></td>
+               <td th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}" th:text="${collection[9]}"></td>
+             <!--    <td ><a style="cursor: pointer;" th:onclick="javascript:viewVisitDetail(this);" th:appointmentDate="${collection[4]}" th:compilationNo="${collection[0]}" th:trandId="${collection[3]}">查看</a> -->
+                   <!--  <span  th:if="${userUtil.hasFunction('WEB_VISIT_NOTES_UPDATE')}" >
+<a style="cursor: pointer;"   th:if="${collection[6]!='1'}"  th:onclick="javascript:editVisitDetail(this);" th:appointmentDate="${collection[4]}"  th:compilationNo="${collection[0]}" th:trandId="${collection[3]}">修改</a>
+              </span>  </td> -->
+              
+              <span th:if="${userUtil.hasFunction('WEB_VISIT_NOTES_QUERY')}">
+                 <td ><a style="cursor: pointer;" th:onclick="javascript:viewVisitDetail(this);" th:appointmentDate="${collection[4]}" th:curPage="${curPage}" th:compilationNo="${collection[0]}" th:trandId="${collection[3]}">查看</a>
+              </span>
+               <span  th:if="${userUtil.hasFunction('WEB_VISIT_NOTES_UPDATE')}" >
+<!-- <a style="cursor: pointer;"   th:if="${collection[6]!='1'}"  th:onclick="javascript:editVisitDetail(this);" th:appointmentDate="${collection[4]}" th:curPage="${curPage}" th:compilationNo="${collection[0]}" th:compilationName="${collection[1]}"   th:trandId="${collection[3]}">修改</a>
+  -->            
+             
+      <a style="cursor: pointer;"     th:onclick="javascript:editVisitDetail(this);" th:appointmentDate="${collection[4]}" th:curPage="${curPage}" th:compilationNo="${collection[0]}" th:compilationName="${collection[1]}"   th:trandId="${collection[3]}">修改</a>
+             
+              </span>
+             
+                </td>
+              
+              
+              
+              </tr>
+             
+    </span>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('viewQueryVisit')}" style="text-align: right"/>
+</p>

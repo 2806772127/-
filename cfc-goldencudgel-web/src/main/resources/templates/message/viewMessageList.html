@@ -1,0 +1,45 @@
+<div>
+<table class="tb01 mgt">
+   <tr>
+     <th style="width:5%;text-align:center">序號</th>
+     <th style="width:10%;text-align:center">訊息類型</th>
+     <th style="width:10%;text-align:center">訊息主旨</th>
+     <th style="width:30%;text-align:center">訊息內容</th>
+     <th style="width:30%;text-align:center">訊息接收者</th>
+     <th style="width:10%;text-align:center">發送時間</th>
+     <th style="width:5%;text-align:center">操作</th>
+   </tr>
+   <span th:unless="${#lists.isEmpty(messageList)}"> 
+    <tr th:each="msg,msgStat : ${messageList}" class="messageList">  
+                <td style="width:5%;text-align:center" th:text="${msgStat.index+1+(curPage-1)*15}"></td>
+                <td style="width:10%;text-align:center" th:text="${msg[0]}"></td>   
+                <td style="width:10%;text-align:center"><span th:text="${msg[1]}"></span>
+                </td>  
+                <td style="width:30%;text-align:left">
+                  <div>
+                     <div th:if="${msg[5]} == null" th:id="|message_${msg[6]}|" style="position:relative;display:inline;width:38px;height:36px;" >
+                       <img src="../images/message/u13803.png" width="38px" height="36px">
+                       <span style="position: absolute; top:0px; left:4px;color:white">NEW</span>
+                     </div>
+                     <div style="display:inline;">
+                       <a style="cursor: pointer;" th:onclick="showContext(this)" th:messageId="${msg[6]}" th:receiveId="${msg[7]}">
+		                 <span class="messageContent" th:text="${msg[2]}"></span>
+		               </a>
+		               <input type="hidden" th:id="${msg[6]}" th:value="${msg[2]}"> 
+	                 </div>
+                  </div>
+                </td>  
+                <td style="width:30%;text-align:center">
+                  <span th:text="${#strings.abbreviate(msg[3],30)}" th:title="${msg[3]}"></span>
+                </td>  
+                <td style="width:10%;text-align:center" th:text="${#dates.format(msg[4], 'yyyy-MM-dd HH:mm')}"></td>   
+                <td style="width:5%;text-align:center">
+                   <a style="cursor: pointer;"th:onclick="javascript:deleteMessage(this);" 
+                      th:messageId="${msg[6]}" th:receiveId="${msg[7]}" th:dataIndex="${msgStat.index+1+(curPage-1)*15}">
+                     <img src="../images/questionnaire/del.png"></a>
+                </td>
+                </tr>
+    </span>
+</table>
+<p class="page" th:insert="~{common/page :: page('queryMessage')}"></p>
+</div>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.toDoList})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<link rel="stylesheet" th:href="@{../../css/missionStroke.css}" type="text/css" />
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：案件分配  >  待辦清單</div></br>
+        <div>
+            <table class="tb03">
+                <thead>
+                    <tr>
+                        <th colspan="12" class="title"><img src="../images/caseAllocation/caseAllocation.png" />待辦清單</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">縣市別：</td>
+                        <td>
+                            <select name="cityCode" id="cityCode" class="select1" onchange="choseCity()">
+                                <option value="">全部</option>
+                                <span th:unless="${#lists.isEmpty(cityList)}">
+                                    <option th:each=" city : ${cityList}" th:value="${city.key}" th:text="${city.value}"></option>
+                                </span>
+                            </select>
+                        </td>
+                        <td style="text-align: right;">區域：</td>
+                        <td>
+                            <select name="areaCode" id="areaCode" class="select1" >
+                                <option value="">全部</option>
+                            </select>
+                        </td>
+                        <td style="text-align: right;">授信戶統編：</td>
+                        <td><input type="text" id="compCode" class="input1"/></td>
+                        <td style="text-align: right;">授信戶名稱：</td>
+                        <td><input type="text" id="compName" class="input1"/></td>
+                        <td>
+                            <div style="position: relative;" onclick="queryCase();">
+                                <div style="position: absolute;top:6px;left:10px;">
+                                    <img src="../images/u5255.png"/>
+                                </div>
+                                <input type="button" value="查詢" class="button_blue" onclick="queryCase()">
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            <!-- 未分配 -->
+            <table class="tb03 caseList" style="display: none">
+                <thead>
+                <tr>
+                    <td style="width:45%;margin-left:2px">
+                        <span style="margin-left: 2% ">未分配授信戶列表(共 <span style="color: #FF4F00" id="unCheckNumText">0</span> 項)：</span>
+                        <div style="height:300px;width:98%;border:2px solid #F2F2F2;border-radius:10px;margin-left:2%;overflow:auto;overflow-y:hidden;">
+                            <table class="tab03" style="width:150%;margin:2%;">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; width: 20%;cursor: pointer;" orderType="desc" id="unCheckedCaseOrderType" onclick="showOrder(this,'applyTime','unCheckedCaseList')">
+                                        進件時間<img src="../images/caseAllocation/desc.jpg" />
+                                    </th>
+                                    <th style="text-align: center; width: 20%">授信戶統編</th>
+                                    <th style="text-align: center; width: 20%">授信戶名稱</th>
+                                    <th style="text-align: center; width: 20%">縣市別</th>
+                                    <th style="text-align: center; width: 20%">區域</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div style="height:230px;width:150%;margin-left:2%;overflow-y:auto;overflow-x:hidden" id="unCheckedCase"/>
+                        </div>
+                    </td>
+                    <td style="text-align: center;width:10%">
+                        <input type="button" class="chose" value="選擇>>" onclick="choseCase()">
+                        <br/><br/><br/>
+                        <input type="button" class="chose" value="<<移除" onclick="unChoseCase()">
+                    </td>
+                    <td style="width:45%">
+                        分配授信戶列表(共 <span style="color: #FF4F00" id="checkNumText">0</span> 項)：
+                        <div style="height:300px;width:98%;border:2px solid #F2F2F2;border-radius:10px;overflow:auto;overflow-y:hidden;">
+                            <table class="tab03" style="width:150%;margin:2%;">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; width: 20%;cursor: pointer;" orderType="desc" id="checkedCaseOrderType" onclick="showOrder(this,'applyTime','checkedCaseList')">
+                                        進件時間<img src="../images/caseAllocation/desc.jpg" />
+                                    </th>
+                                    <th style="text-align: center; width: 20%">授信戶統編</th>
+                                    <th style="text-align: center; width: 20%">授信戶名稱</th>
+                                    <th style="text-align: center; width: 20%">縣市別</th>
+                                    <th style="text-align: center; width: 20%">區域</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div style="height:230px;width:150%;overflow-y:auto;overflow-x:hidden" id="checkedCase">
+                                <table style="width:100%;margin-left:2%;">
+                                    <tbody id="checkedCaseList">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            <!-- 已分配 -->
+            <table class="tb03 caseList">
+                <thead>
+                <tr>
+                    <td style="width:45%;margin-left:2px">
+                        <span style="margin-left: 2% ">未分配授信戶列表(共 <span style="color: #FF4F00" >0</span> 項)：</span>
+                        <div style="height:300px;width:98%;border:2px solid #F2F2F2;border-radius:10px;margin-left:2%;overflow:auto;overflow-y:hidden;">
+                        </div>
+                    </td>
+                    <td style="text-align: center;width:10%">
+                        <input type="button" class="chose" value="選擇>>" onclick="choseCase()" disabled>
+                        <br/><br/><br/>
+                        <input type="button" class="chose" value="<<移除" onclick="unChoseCase()" disabled>
+                    </td>
+                    <td style="width:45%">
+                        分配授信戶列表(共 <span style="color: #FF4F00" id="checkAllocationNumText">0</span> 項)：
+                        <div style="height:300px;width:98%;border:2px solid #F2F2F2;border-radius:10px;overflow:auto;overflow-y:hidden;">
+                            <table class="tab03" style="width:800px;margin:2%;">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; width: 20%;cursor: pointer;" orderType="desc" id="allocationCaseOrderType" onclick="showOrder(this,'allocationTime','allocationCaseList')">
+                                        分配時間<img src="../images/caseAllocation/desc.jpg" />
+                                    </th>
+                                    <th style="text-align: center; width: 20%;cursor: pointer;" orderType="desc" onclick="showOrder(this,'applyTime','allocationCaseList')">
+                                        進件時間<img src="../images/caseAllocation/desc.jpg" />
+                                    </th>
+                                    <th style="text-align: center; width: 10%" th:text="${(session.user.userType !='C' ? '組長' : '經辦人')}"></th>
+                                    <th style="text-align: center; width: 10%">授信戶統編</th>
+                                    <th style="text-align: center; width: 20%">授信戶名稱</th>
+                                    <th style="text-align: center; width: 10%">縣市別</th>
+                                    <th style="text-align: center; width: 10%">區域</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div style="height:230px;width:150%;overflow-y:auto;overflow-x:hidden" id="allocationCase">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            <!-- 分配人员 -->
+            <table class="tb03">
+                <tr style="display: none" class="allocationUserList">
+                    <th style="text-align: right;width:15%;background-color: #F2F2F2;">分配至：</th>
+                    <td th:style="'width: 25%;'+ ${(session.user.userType!='C'?'':'display:none')}">
+                        <span style="margin-left:2% ">請選擇區中心：</span>
+                        <div style="height:200px;overflow:auto;border:2px solid #F2F2F2;border-radius:10px;margin-left:2% ">
+                            <table id="areaList" style="margin-left:20%;margin-top:5%;width: 60%;">
+                                <tr th:unless="${#lists.isEmpty(userAreaList)}" th:each="area : ${userAreaList}" th:area="${area.key}" class="area" onclick="choseUser(this,'area')">
+                                    <td th:text="${area.value}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td th:style="'width: 25%;'+ ${(session.user.userType!='C' ? '' : 'display:none')}">
+                        <span style="margin-left:2% ">請選擇業務組別：</span>
+                        <div style="height:200px;overflow:auto;border:2px solid #F2F2F2;border-radius:10px;margin-left:2% ">
+                            <table id="groupList" style="margin-left:20%;margin-top:5%;width: 60%;"></table>
+                        </div>
+                    </td>
+                    <td th:style="'width: 25%;'+ ${(session.user.userType == 'C' ? '' : 'display:none')}">
+                        <span style="margin-left:2% ">請選經辦人：</span>
+                        <div style="height:200px;overflow:auto;border:2px solid #F2F2F2;border-radius:10px;margin-left:2% ">
+                            <table id="userList" style="margin-left:20%;margin-top:5%;width: 60%;">
+                                <tr th:unless="${#lists.isEmpty(userList)}" th:each="user : ${userList}" th:agentUser="${user.key}" class="agentUser" onclick="choseUser(this,'agentUser')">
+                                    <td th:text="${user.value}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="width: 85%"></td>
+                </tr>
+                <tr>
+                    <th colspan="4" style="text-align: center;background-color: #F2F2F2;">
+                        <input type="text" style="display: none" id = "allocationUser">
+                        <input type="button" th:if="${userUtil.hasFunction('WEB_ALLOCATION_CASE')}" class="button_blue allocation" style="display: none" value="確認分配" onclick="saveAllocation()"/>
+                        <input type="button" th:if="${userUtil.hasFunction('WEB_SAVE_BLACK_LIST')}" class="button_blue allocation" style="display: none" value="不可開發名單" onclick="showBlackList()"/>
+                        <input type="button" th:if="${userUtil.hasFunction('WEB_SHOW_DETIAL')}"class="button_blue" value="檢視" onclick="showCaseDetail()"/>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <!--  黑名單  -->
+        <div id="blackList" style="display: none">
+            <span>選中的案件將列為不可開發名單，請輸入備註。</span>
+            <table class="tb03" style="margin-top: 10px">
+                <tr>
+                    <th style="height:120px;width:10%;background-color: #F2F2F2;"><span style="color: #cc0000">*</span>說明：</th>
+                    <td style="text-align: center;">
+                        <div>
+                        <textarea id="remark" style="width: 350px;height: 100px;border-radius:8px;" maxlength="500" onkeyup="setCount(this)"></textarea>
+                        <div style="float:right;margin-right:8%;top:130px;color:#D7D7D7">您還可以輸入<span id="count">500</span>個字</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="tab02" style="margin-top: 10px">
+                <tr>
+                    <th colspan="2" style="text-align: center">
+                        <input type="button" class="button_blue" onclick="saveBlackList()" value="確認">
+                        <input type="button" class="button_gray" onclick="clsoeBlackList()" value="返回">
+                    </th>
+                </tr>
+            </table>
+        </div>
+        </div>
+        <!--  案件详情  -->
+        <div id="caseDetail" style="display: none"/>
+    </div>
+
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/caseAllocation/caseAllocation.js"></script>
+</body>
+
+</html>

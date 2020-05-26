@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.questionnaire.audit})">
+</head>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{golden.product.manager}"/></span>><span th:text="#{goldencudgel.menu.questionnaire.audit}"/></span></div>
+   <br/>
+  <div class="main">
+  <table class="tb03">
+     <tr>
+      <th colspan="4" class="title">
+       <img src="../images/measureWord/u8597.png">
+        <span th:text="#{goldencudgel.menu.questionnaire.audit}" style="margin-left:5px;"/></span>
+      </th>
+     </tr>
+     <tr >
+      <th colspan="2" class="title" style="width:50%;text-align:center">
+          <input type="button" name="questionnaireConfig" class="gpic" id="toBeAudited"  value="待審核"  onclick="showOrHide(this);">
+      </th>
+      <th colspan="2" class="title" style="width:50%;text-align:center">
+       <input type="button" name="questionnaireConfig" class="pic" id="beAudited" value="已審核" onclick="showOrHide(this);">
+      </th>
+     <tr>
+       <td style="text-align:center">問卷名稱：<input type="text" name="questionareName" id="qName" class="input"/></td>
+       <td style="text-align:center">提交人員：<input type="text" name="createUser" id="createUserId" class="input"/></td>
+       <td style="text-align:center">
+                       <span class="coSpanClass">提交時間：</span><input type="text" name="startDate" id="startDateId" readOnly class="input"/>&nbsp;<img id="startImg" src="../images/u22.png"/>
+            &nbsp;~&nbsp;<input type="text" name="endDate" id="endDateId" readOnly class="input"/>&nbsp;<img id="endImg" src="../images/u22.png" />
+       </td>
+       <td>
+          <div style="position: relative;float:right" onclick="javascript:queryQuestionaires(1);"> 
+		     <div style="position: absolute;top:6px;left:10px;">
+		        <img src="../images/u5255.png"/>
+		     </div>  
+		     <input type="button" value="查詢" class="button_blue" />
+	       </div>
+        </td>
+     </tr>
+  </table>
+  <div id="questionaires_list"></div>
+  </div>
+   <div th:replace="~{common/footer :: footer}"/>
+   <script type="text/javascript" src="../../js/questionnaire/auditQuestionnaire.js"></script>
+   <input type="hidden" id="flag" th:value="${flag}" />
+   <input type="hidden" id="introduceType" th:value="${introduceType}" />
+   <input type="hidden" id="backFlagView" th:value="${backFlag}" />
+</body>
+</html>

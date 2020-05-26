@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.apply})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理  > 角色權限管理  > 新增角色</div></br>
+
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <th colspan="5" class="title"><img src="../images/role/u14262.png" />新增角色</th>
+            </tr>
+            <tr>
+                <td style="text-align:center" > 角色名稱： <input type="text" th:id="roleName"  th:name="roleName"   th:maxlength="50"/></td>
+                <td style="text-align:center"> 角色代號：<input th:type="text" th:id="roleId" th:name="roleId" th:maxlength="36"/></td>
+                <td style="text-align: center">序號：<input th:type="number" th:id="orderNum" th:name="orderNum"  th:maxlength="10" /></td>
+                <td>
+                <span>啟用/禁用：</span>
+                    <input th:type="hidden" th:id="roleEnable" th:value="1" >
+                    <input th:type="button" th:id="qiyong" th:value="啟用" th:class="vsb" th:onclick="changeEnable(1)" >
+                    <input th:type="button" th:id="jingyong" th:value="禁用" th:class="vsw" th:onclick="changeEnable(0)" >
+                </td>
+
+                <td>
+                    <div style="float: right;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/u9196.png"/>
+                        </div>
+                        <input type="button" value="取消" class="button_blue"  >
+                    </div>
+                    <div style="float: right;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <input type="button" value="儲存設置" class="button_blue" onclick="saveAddRoles();">
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="all_role_list">
+        <table class="tb02" style="width:100%">
+            <tbody>
+            <td colspan="5">
+                <ul class="li02">
+                <div th:unless="${#lists.isEmpty(functionList)}" th:each="func:${functionList}">
+                <input type="checkbox" th:funcCode = "${func.code}"/>
+                    <img src="../images/role/select01.gif"/><span th:text="#{${func.name}}"></span>
+                    <span th:each="children:${func.children}">
+                       </br> <input type="checkbox"  th:funcCode = "${children.code}" th:text="#{${children.name}}" />
+                    </span>
+            </div>
+                </ul>
+            </td>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/role/role.js"></script>
+</body>
+
+</html>

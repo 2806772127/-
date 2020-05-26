@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{golden.menu.indicatorsConfigDetail})">
+</head>
+<!-- <script type="text/javascript" defer=true src="../../js/indicatorsConfig/indicatorsConfig.js"></script> -->
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<script type="text/javascript" src="../../js/common/jquery.min.js"></script>
+<!--<script type="text/javascript" defer=true src="../../js/applyIncom/jquery.min.js"></script>-->
+<style>
+.u11098 {
+font-size: 16px;
+color: #23799E;
+}
+input {
+    border: none;
+    background: white;
+}
+</style>
+<body class="body_bg">
+ <div th:replace="index/index :: #top"/>
+ <div th:insert="~{index/index :: menu}"/>
+ <div class="main">
+     </br><div>當前位置：企業經營報告書  > 企業指標配置  > 企業指標配置詳情</div></br>
+     <div >
+         <table class="tb03">
+             <tbody>
+             <tr>
+                 <input type="hidden" id="searchData"  th:value="${searchData}">
+                 <th colspan="6" class="title"><img src="../images/applyIncom/applyIncom.png" />企業指標配置詳情</th>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <div id ="companyInfo">
+         <table class="tb02 mgt">
+             <tbody>
+               <tr>
+                   <th style="text-align:right;">類型：</th><td><input type="text"   th:value="${viewIndicatorsList[0][1]}"  disabled="disabled"/></td>
+                   <th style="text-align:right;">行業別：</th><td><input type="text"  th:value="${viewIndicatorsList[0][2]}"   disabled="disabled"/></td>
+                 </tr>
+               <tr>
+                   <th style="text-align:right;">成立年數：</th><td><input type="text"   th:value="${viewIndicatorsList[0][3]}"  disabled="disabled"/></td>
+                   <th style="text-align:right;">比例：</th><td><input type="text"  th:value="${viewIndicatorsList[0][4]}+'%'"   disabled="disabled"/></td>
+               </tr>
+             </tbody>
+         </table>
+     </div>
+     <br>
+     <div style="text-align: center;">
+         <!-- <input th:type="button"
+                class="button_blue" th:value="返回" onclick="javascript:history.go(-1);"> -->
+                
+                <input th:type="button"
+                class="button_blue" th:value="返回" onclick="goBack('/indicatorsConfig/viewIndicatorsConfig');">
+     </div>
+     
+ </div>
+ <div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

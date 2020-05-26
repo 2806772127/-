@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{apply.detail})">
+</head>
+
+<script type="text/javascript" defer=true src="../../js/applyIncom/applyIncom.js"></script>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<script type="text/javascript" src="../../js/common/jquery.min.js"></script>
+<!--<script type="text/javascript" defer=true src="../../js/applyIncom/jquery.min.js"></script>-->
+<style>
+.u11098 {
+font-size: 16px;
+color: #23799E;
+}
+input {
+    border: none;
+    background: white;
+}
+</style>
+<body class="body_bg">
+ <div th:replace="index/index :: #top"/>
+ <div th:insert="~{index/index :: menu}"/>
+ <div class="main">
+     </br><div>當前位置：進件申請  > 進件申請查詢  > 進件申請詳情</div></br>
+     <div >
+         <table class="tb03">
+             <tbody>
+             <tr>
+                 <th colspan="6" class="title"><img src="../images/applyIncom/applyIncom.png" />進件申請詳情</th>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <div id ="companyInfo">
+         <table class="tb02 mgt">
+             <tbody>
+               <tr>
+                   <th style="text-align:right">授信戶統編：</th><td><input type="text" id ="compilationNote"  th:value="${company.compilationNo}"  disabled="disabled"/>
+                   <th style="text-align:right">授信戶名稱：</th><td><input type="text" id ="comName" th:value="${company.comName}"   disabled="disabled"/>
+                 <!--  <th style="text-align:right">行業別：</th><td colspan="5"><input type="text" id ="comIndustryCode" th:value="${comIndustryCode}"   disabled="disabled"/></td> -->
+                   
+                   <span th:unless="${#lists.isEmpty(applyIncomList)}">
+                   <th style="text-align:right">行業別：</th><td th:each="applyIncom : ${applyIncomList}"  colspan="5"><input th:value="${applyIncom[3]}" type="text" id ="comIndustryCode"  disabled="disabled"/></td>
+                   </span>
+                   <!--  <th style="text-align:right">負責人姓名：</th><td><input type="text" id ="principalName" th:value="${company.principalName}"  disabled="disabled"/></td> -->
+               </tr>
+               <!-- <tr>
+                   <th style="text-align:right">負責人ID：</th><td><input type="text" id ="principalId" th:value="${company.principalId}" disabled="disabled"/></td>
+                   <th style="text-align:right">負責人配偶姓名：</th><td><input type="text" id ="principalSpouseName" th:value="${company.principalSpouseName}" disabled="disabled"/></td>
+                   <th style="text-align:right">負責人配偶ID：</th><td><input type="text" id ="principalSpouseId" th:value="${company.principalSpouseId}" disabled="disabled"/></td>
+               </tr>
+               <tr>
+                   <th style="text-align:right">行業別：</th><td colspan="5"><input type="text" id ="comIndustryCode" th:value="${comIndustryCode}"   disabled="disabled"/></td>
+               </tr> -->
+             </tbody>
+         </table>
+     </div>
+     <div >
+         <table class="tb02 mgt" style="border-collapse: collapse;">
+            <tbody>
+            <tr style="border-bottom:3px solid #00ABB7;">
+                <th colspan="6" class="title">
+                    <input th:type="text" th:value="'拍照'+'/'+'錄音文件'" th:class="u4229_img"
+                           style="width: 135px; position:relative;bottom:-2px;text-align: center;font-size: 16px;" readonly/>
+                 </th>
+            </tr>
+            <tr>
+                <th style="text-align:center" colspan="6"  > <a class ="u11098">拍照文件</a></th>
+            </tr>
+            </tbody>
+        </table>
+     </div>
+     <!--    拍照文件   -->
+     <div id ="attachmentInfo">
+         <table class="tb02 mgt" id="attach_photo_list">
+             <tbody>
+             <tr th:each="imgs : ${imgList}">
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                 <th width="16%" th:each="type : ${imgs.key}" th:id="${type.key} " th:text="${type.value}"></th>
+                 <td th:each="type : ${imgs.key}">
+                    <span th:unless="${#lists.isEmpty(imgs.value)}" th:each="li,liStat : ${imgs.value}">
+                        <a href="#" th:id="${li[2]}+'_1'"  th:imgName="${li[0]}" th:imgId="${li[2]}" th:imgType ="2" th:imgDate="${li[1]}" th:onclick="showImg(this)" th:text="${li[0]}"></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span th:if="${(liStat.index+1) % 3 eq 0}"></br></span>
+                 </td>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <!--    錄音文件   -->
+     <div >
+         <table class="tb03">
+             <tbody>
+             <tr>
+                 <th style="text-align:center" colspan="6"  > <a class ="u11098">錄音文件</a></th>
+             </tr>
+             </tbody>
+         </table>
+         <table class="tb02 mgt">
+             <tbody>
+               <span th:unless="${#lists.isEmpty(musList)}">
+                   <td style="text-align: center">
+                           <span th:each="mus,musStat : ${musList}">
+                            <a style="cursor: pointer;" th:onclick="showImg(this)"
+                               th:imgName="${mus[0]}" th:imgDate="${mus[1]}" th:imgId="${mus[2]}" th:imgType ="${mus[4]}">
+                                <span th:text="${mus[0]}"></span>
+	                        </a>
+                               <span th:if="${(musStat.index+1) % 3 eq 0}"></br></span>
+                                                   &nbsp;&nbsp;&nbsp;&nbsp;
+                           </span>
+                       </a>
+                   </td>
+
+               </span>
+             </tbody>
+         </table>
+     </div>
+     <!--    附加檔案   -->
+     <!--<div>
+         <table class="tb02 mgt">
+             <tbody>
+             <tr>
+                 <th style="text-align:center" colspan="6"  > <a class ="u11098">附加檔案</a></th>
+             </tr>
+             </tbody>
+         </table>
+         <table class="tb02 mgt" id="attach_other_list">
+             <td style="text-align: center" id="other_td_list" th:unless="${#lists.isEmpty(otherList)}">
+                    <span th:unless="${#lists.isEmpty(otherList)}" th:each="other,musStat : ${otherList}">
+                        <a th:href="${other[5]}" target="_blank" th:id="${other[2]}+'_1'" th:text="${other[0]}" th:imgName="${other[0]}" style="cursor:pointer;" th:imgDate="${other[1]}" th:imgId="${other[2]}" th:imgType ="9" th:onclick="showImg(this)"></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span th:if="${(musStat.index+1) % 5 eq 0}"></br></span>
+                    </span>
+             </td>
+         </table>
+     </div>-->
+
+     <!--    彈窗   -->
+     <div class="mask-layer" id="musicorimg"  style="max-width: 660px;max-height: 400px;overflow:hidden"  hidden>
+         <div class="mask-layer-black">
+         </div>
+         <div class="mask-layer-container" >
+             <div class="mask-layer-container-operate" style="text-align: right;max-width: 650px;" >
+                 <img src="../images/common/u4063.png" class="mask-out btn-default-styles" style="background-color: white;border: none">
+                 <img src="../images/common/u4064.png" class="mask-in btn-default-styles" style="background-color: white;border: none">
+             </div>
+             <div class="mask-layer-imgbox auto-img-center" th:id="photo_center" >
+                 <p style="text-align: center;"><img style="margin-right: 1cm;" th:id="photo_index" src="" alt=""></p>
+             </div>
+             <div>
+                 <table class="tb02 mgt" >
+                     <tbody>
+                     <tr >
+                         <th th:id="showname">圖片名稱：</th><td><input type="text" id="phName" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+                     </tr>
+                     <tr >
+                         <th>上傳日期：</th><td><input type="text" id="phDate" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+                     </tr>
+                     </tbody>
+                 </table>
+                 <div style="text-align:center;">
+                     <input align="center" th:type="button" th:class="visitreback" onclick="closeImg('musicorimg')" th:value="返回"/>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div id ="musicorvideo"  hidden>
+         <div style="text-align:center;max-height: 100px;" class ="mask-layer-imgbox auto-img-center">
+             <audio   controls="controls" id="audioBox">
+                 <source th:id="vedioCon" type="audio/mpeg">
+             </audio>
+         </div>
+         <table class="tb02 mgt" >
+             <tbody>
+             <tr >
+                 <th th:id="showname">音頻名稱：</th><td><input type="text" id="videoName" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+             </tr>
+             <tr >
+                 <th>上傳日期：</th><td><input type="text" id="videoDate" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+             </tr>
+             <tr>
+                 <td colspan="4" style="text-align:center;"><input align="center" th:class="visitreback" th:type="button" onclick="closeImg('musicorvideo')" th:value="返回"/></td>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <!--    附加檔案   -->
+     <!--<div class="mask-layer" id="otherDoc" style="max-width: 660px;max-height: 400px;overflow:hidden"  hidden>
+         <div class="mask-layer-black">
+         </div>
+         <div class="mask-layer-container" >
+             <div class="mask-layer-imgbox auto-img-center" th:id="otherDoc_center" >
+                 <p style="text-align: center;" id="otherDocSrc"></p>
+             </div>
+             <div>
+                 <table class="tb02 mgt" >
+                     <tbody>
+                     <tr >
+                         <th>附加檔案名稱：</th>
+                         <td><input type="text" id="otherDocName" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+                     </tr>
+                     <tr >
+                         <th>上傳日期：</th><td><input type="text" id="otherDocDate" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+                     </tr>
+                     </tbody>
+                 </table>
+                 <div style="text-align:center;">
+                     <input align="center" th:type="button" th:class="visitreback" onclick="closeImg('otherDoc')" th:value="返回"/>
+                 </div>
+             </div>
+         </div>
+     </div>-->
+
+     <div>
+         <p style="min-height: 15px;max-height: 15px;"></p>
+     </div>
+     <!-- <div style="text-align: center;">
+         <input th:type="button"
+                th:class="visitreback" th:value="返回" onclick="javascript:history.go(-1);">
+     </div> -->
+     
+     <div style="text-align: center;">
+         <input th:type="button" class="button_blue" th:value="返回" onclick="javascript:backPage();">
+     </div>
+
+ </div>
+ <div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

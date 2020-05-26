@@ -1,0 +1,40 @@
+<table class="tb01 mgt" style="text-align: left;">
+    <tr>
+         <th style="width: 15%" ><span style="color: red">*</span>選擇權限：</th>
+         <td colspan="5">
+             <span th:unless="${#lists.isEmpty(topFunctions)}"  th:each="func,funcStat:${topFunctions}">
+                 <!-- 一级 -->
+                 <span th:if="${func.menu==1}"></br>
+                 <input type="checkbox" th:id="${func.code}" th:funcCode = "${func.code}" th:_dependencyCode="${func.dependency?.code}" th:_parentCode="${func.parent?.code}" class="functions" />
+                 <img src="../images/role/select01.gif"/><span th:text="#{${func.name}}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <!--二级-->
+                 <span th:each="children:${func.children}">
+                       <span th:if="${children.menu==1}"></br></span>
+                       <input type="checkbox" th:id="${children.code}"   th:funcCode = "${children.code}" th:_dependencyCode="${children.dependency?.code}" th:_parentCode="${children.parent?.code}" class="functions" th:onclick="javascript:selectHome(this,1)"/>&nbsp;&nbsp;&nbsp;
+                       <img src="../images/role/u9795.gif" th:if="${children.menu==1}"/><span th:text="#{${children.name}}"></span>
+                       &nbsp;&nbsp;
+                       <!--三级-->
+                       <span th:unless="${#lists.isEmpty(children.children)}"  th:each="secChild : ${children.children}">
+                           <input type="checkbox" th:id="${secChild.code}"  th:funcCode = "${secChild.code}" th:_dependencyCode="${secChild.dependency?.code}" th:_parentCode="${secChild.parent?.code}" class="functions" th:onclick="javascript:selectHome(this,2)"/>&nbsp;&nbsp;
+                           <span th:text="#{${secChild.name}}"></span>
+                           <!-- 四級 -->
+                           <span th:unless="${#lists.isEmpty(secChild.children)}"  th:each="thrChild : ${secChild.children}">
+                               <input type="checkbox" th:id="${thrChild.code}"  th:funcCode = "${thrChild.code}" th:_dependencyCode="${thrChild.dependency?.code}" th:_parentCode="${thrChild.parent?.code}" class="functions" th:onclick="javascript:selectHome(this,3)"/>&nbsp;&nbsp;
+                               <span th:text="#{${thrChild.name}}"></span>
+                           </span>
+                       </span>
+                 </span>
+
+                </span>
+              </span>
+         </td>
+    </tr>
+    <tr>
+        <th colspan="6" style="text-align: center;">
+            <input type="button" id="add_save_funs" value="儲存設置" onclick="javascript:saveAddFunctions()" class="button_blue" style="width: 112px;height: 36px;">
+            <input type="button" value="取消" class="button_blue" onclick="javascript:rebackSearchPage()" style="width: 112px;height: 36px;">
+        </th>
+    </tr>
+</table>
+
+

@@ -1,0 +1,25 @@
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+        <!--    <th>員工身份證號</th>
+            <th>員工編號</th>-->
+            <th>企貸達成率</th>
+            <th>信貸達成率</th>
+            <th> 房貸達成率</th>
+            <th>日期</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(datas)}">
+             <tr  th:each="connection,connectionStart : ${datas}">
+           <!--     <td th:text="${connection[0]}"></td>
+                <td th:text="${connection[1]}"></td>-->
+                <td th:text="${connection[2]}"></td>
+                 <td th:text="${connection[3]}"></td>
+                 <td th:text="${connection[4]}"></td>
+                 <td th:text="${#strings.replace(connection[5],'/','-')}"></td>
+             </tr>
+        </span>
+        </tbody>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

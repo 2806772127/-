@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.abilityCompareConfig})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：企業經營報告書  > 企業能力對比配置</div></br>
+
+        <div >
+            <table class="tb03">
+                <tbody>
+                <tr>
+                    <th colspan="10" class="title"><img src="../images/applyIncom/applyIncom.png" />企業能力對比配置查詢</th>
+                </tr>
+
+              
+                <tr >
+                    <td style="width:8%;text-align: right"> 類型：</td>
+                    <td style="width:25%;">  <select name="userCode" id="TYPE" class="select" >
+                        <option value="">全部</option>
+                        <option value="01">經營能力</option>
+                        <option value="02">償債能力</option>
+                        <option value="03">財務能力</option>
+                    </select>
+                    <td style="width:8%;text-align: right"> 能力類型：</td>
+                    <td style="width:25%;">  <select name="userCode" id="ABILITY_TYPE" class="select" >
+                        <option value="">全部</option>
+                        <option value="01">優於同業</option>
+                        <option value="02">與同業相當</option>
+                        <option value="03">劣於同業</option>
+                       </select></td>
+                    <td style="width: 8%!important;text-align:right;"> 創建時間：</td>
+                    <td style="width:25%;"><input class="input" type="text" style="    width: 120px;" id="startDate" name ="startDate" readonly="readonly" />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input"  type="text" style="  width: 120px;"  id="endDate" name ="endDate" readonly="readonly"/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+
+               </tr>
+
+                <tr>
+                    <td style="width: 8%!important;text-align:right;"> 更新時間：</td>
+                    <td style="width:25%;"><input class="input"style="    width: 120px;"  type="text" id="startDates" name ="startDate" readonly="readonly" />&nbsp;<img id="startImgs" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input"  style="    width: 120px;" type="text" id="endDates" name ="endDate" readonly="readonly"/>&nbsp;<img id="endImgs" src="../images/measureWord/u22.png" /></td>
+
+                    <th colspan="3"></th>
+                    <td style="float:left">
+                        <div style="position: relative;">
+                            <div style="position: absolute;top:6px;left:10px;">
+                                <img src="../images/u5255.png"/>
+                            </div>
+                            <input type="button" class="button_blue" value="查詢" onclick="javascript:queryAbilityCompagerconfig(1);">
+                        </div>
+                    </td>
+                </tr>
+                       
+                </tbody>
+            </table>
+        </div>
+        <!--<input th:type="button" th:text="test" onclick="testimg()" id ="22"/>-->
+        <!--<form  action="/ApplyIncom/upload" method="post" enctype="multipart/form-data">-->
+            <!--<input type="file" name="file"> <button type="submit">上传</button>-->
+        <!--</form>-->
+        <div id="abilibty_list">
+        </div>
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+        <input type="hidden" id="types" th:value="${type}"/>
+        <input type="hidden" id="abilityTypes" th:value="${abilityType}"/>
+        <input type="hidden" id="sDate" th:value="${startDate}"/>
+        <input type="hidden" id="sDates" th:value="${startDates}"/>
+        <input type="hidden" id="EDate" th:value="${endDate}"/>
+        <input type="hidden" id="EDates" th:value="${endDates}"/>
+    </div>
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/abilityCompareConfig/abilityCompareConfig.js"></script>
+</body>
+
+
+</html>

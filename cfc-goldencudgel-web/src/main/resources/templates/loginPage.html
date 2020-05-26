@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>login</title>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+	<script type="text/javascript" src="../../js/jquery1.10.4/js/jquery-1.10.2.js"></script>
+	<script type="text/javascript">
+		//为表单提交绑定回车键响应
+		document.onkeydown = function (evt) {
+			var evt = window.event ? window.event : evt;
+			if (evt.keyCode == 13) {
+				document.forms["loginform"].submit();
+			}
+		}
+		function check() {
+			var username = document.getElementById("username").value;
+			var pwd = document.getElementById("pwd").value;
+			if (username == "" || pwd == "") {
+				var innerText = document.getElementById("message").innerText;
+				if (innerText == null || innerText == '') {
+					chgloginH();
+				}
+				document.getElementById("message").innerText = "用户名或密码不能为空！";
+				return false;
+			}
+			return true;
+		}
+		function loadCheck() {
+			document.forms[0].j_username.focus();
+			var hasError = document.getElementById("hasError").value;
+			if (hasError == "true") {
+				var innerText = document.getElementById("message").innerText;
+				if (innerText == null || innerText == '') {
+					chgloginH();
+				}
+				document.getElementById("message").innerText = "用户名或密码错误！";
+				chgloginH();
+			}
+		}
+		function dynamicSize(id, width, height) {
+			var target = document.getElementById(id);
+			if (width != null) {
+				target.style.width = width + "px";
+			}
+			if (height != null) {
+				target.style.height = height + "px";
+			}
+		}
+		function dynamicLocation(id, left, top) {
+			var target = document.getElementById(id);
+			if (left != null) {
+				target.style.left = left + "px";
+			}
+			if (top != null) {
+				target.style.top = top + "px";
+			}
+
+		}
+		function changeWindowsSize() {
+			var parentW; //= window.innerWidth;
+			var parentH; //= window.innerHeight;
+			if (window.innerWidth) {
+				parentW = window.innerWidth;
+			} else if ((document.body) && (document.body.clientWidth)) {
+				parentW = document.body.clientWidth;
+			}
+			if (window.innerHeight) {
+				parentH = window.innerHeight;
+			} else if ((document.body) && (document.body.clientHeight)) {
+				parentH = document.body.clientHeight;
+			}
+
+			if (parentW < 900) {
+				parentW = 900;
+
+			}
+			if (parentH < 550) {
+				parentH = 550;
+			}
+			//dynamicSize('navbar2', parentW - 266, null);
+			dynamicSize('loginBody', parentW, parentH - 90);
+
+			//dynamicLocation('CRDIV',0,parentH-90);
+			//dynamicSize('loginbg2',null,parentH-290);
+			var logbg2Y = parentH / 2 - 200;
+			if (logbg2Y < 90) {
+				logbg2Y = 90;
+			}
+			dynamicLocation('loginbg2', (parentW - 900) / 2, logbg2Y);
+			//dynamicSize('CRDIV',parentW,null);
+		}
+		function loadFunc() {
+			loadCheck();
+			changeWindowsSize();
+		}
+		function chgloginH() {
+			var height = $('#login').height();
+			//dynamicSize('login', null, height + 21);
+		}
+		var context_path = "${request.contextPath}";
+		if (document.getElementById("loginBody") != document.body) {
+			window.location.href = context_path + "/login";
+		}
+		function submitFunc() {
+			if (check())
+				document.getElementById("loginform").submit();
+		}
+
+		function resetFunc() {
+			document.getElementById("username").value = '';
+			document.getElementById("pwd").value = '';
+		}
+	</script>
+
+	<style>
+		body {
+			position:relative;
+			top:0;
+			left:0;
+
+			background-position: center 0;
+			background-repeat: no-repeat;
+			background-size: cover;
+			-webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+			-o-background-size: cover;/* 兼容Opera */
+			zoom: 1;
+			font-family: Microsoft YaHei;
+			background-image:url(../../images/loginBody_bg_new.jpg);
+		}
+		#login {width:100%; margin:10% 10% 0 0;padding:0 15% 24% 0;}
+		.logo {width:45%; float:right; } .logo img {width:32%; margin-left:45%;}
+		.main-table {border-radius:5px; clear:both;width:32%; border:0;}
+		.main-table h1 {font-size:25px; color:#555; letter-spacing:3px}
+		.main-table .form-control {width:75%; font-size:100%; height:40px; background:transparent;}
+		.main-table .btn {width:34%; font-size:100%; margin:0 10px; opacity:0.8}
+		.notice-table td {padding:0 5px}
+		.notice-table h2 {font-size:100%; letter-spacing:1px;}
+		.notice-table p {font-size:100%; line-height:12px; letter-spacing:1px; color:#555}
+		.footer {
+			position: relative;
+			width:100%;
+			min-height:160px;
+			clear:both;
+			background:rgba(0,0,0,0.1);
+		}
+		.footer p {text-align:center; color:#555; font-size:100%; line-height:5px;}
+		.footer ul {width:70%; margin:2% 15% 0 15%; padding: 1%; text-align:center; }
+		.footer li {float:left; list-style:none; padding:0 1%;} .footer li:hover { transform: scale(1.1); transition:ease-in-out 0.2s }
+		.footer li img {width:56%; margin-left:3px;}
+		.footer li a {color:#555; font-size:100%;} .footer li a:hover {text-decoration:none;}
+	</style>
+</head>
+<body id="loginBody" onload="javascript:loadFunc();" onresize="changeWindowsSize();">
+<input id="hasError" type="hidden" value="$!hasError">
+<div id="loginbg2">
+	<div id="login">
+		<div class="logo"><img src="../../images/logo_comwave.png" /></div>
+		<form name="loginform" th:action="@{/loginform}" method="POST" id="loginform">
+			<table class="main-table" align="right">
+				<tr align="center" valign="middle">
+					<td height="50"><h1>消费金融云平台</h1></td>
+				</tr>
+				<tr align="center" valign="middle">
+					<td><span id="message" style="color:red;"></span></td>
+				</tr>
+				<tr align="center" valign="middle">
+					<td height="50">
+						<input id="username" class="form-control" type="text" name="username" placeholder="用户名称">
+					</td>
+				</tr>
+				<tr align="center" valign="middle">
+					<td height="50">
+						<input id="pwd" class="form-control" type="password" name="password" placeholder="用户密码">
+					</td>
+				</tr>
+				<tr align="center" valign="middle">
+					<td height="70">
+						<span><button type="button" class="btn btn-primary" onclick="submitFunc()">登录</button></span>
+						<span><button type="button" class="btn btn-primary" onclick="resetFunc()">重置</button></span>
+					</td>
+				</tr>
+				<tr align="center" valign="middle">
+					<td height="10">
+						<span style="color:#aaa; font-size:11px;">Copyright@ Internatianal LTD. All Right Reserved.</span>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+</body>
+</html>

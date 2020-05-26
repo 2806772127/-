@@ -1,0 +1,25 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <table class="tb01 mgt">
+        <tr>
+            <th width="25%">資料庫</th>
+            <th width="25%">表名</th>
+            <th width="20%">產制狀態</th>
+            <th width="20%">產制時間</th>
+            <th width="10%">操作</th>
+        </tr>
+        <tr th:unless="${#lists.isEmpty(systemDataList)}" th:each="systemData : ${systemDataList}">
+            <td style="text-align: center;" th:text="${systemData[0]}"></td>
+            <td style="text-align: center;" th:text="${systemData[1]}"></td>
+            <td id="generateStatus" style="text-align:" th:text="${systemData[4]}"></td>
+            <td th:text="${#dates.format(systemData[3],'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <span style="display: none" th:if="${userUtil.hasFunction('SYSTEM_DATA_DOWNLOAD')}" ></span>
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('SYSTEM_DATA_DELETE')}" th:systemDataId="${systemData[5]}" th:onclick="javascript:deleteSystemData(this);">刪除</a>
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('SYSTEM_DATA_GENERATE')}" th:schemaName="${systemData[0]}" th:tableName="${systemData[1]}" th:onclick="javascript:generateData(this);">產制</a>
+                <a style="cursor: pointer;" class="export" th:if="${userUtil.hasFunction('SYSTEM_DATA_DOWNLOAD') && systemData[2] == '3'}" th:schemaName="${systemData[0]}" th:tableName="${systemData[1]}" th:onclick="javascript:downloadData(this);">匯出</a>
+            </td>
+        </tr>
+    </table>
+    
+    <p class="page" th:insert="~{common/page :: page('querySystemDataList')}" />
+</div>

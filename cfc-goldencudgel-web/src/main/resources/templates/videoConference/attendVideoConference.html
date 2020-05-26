@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.videoConference.attend})">
+</head>
+<script type="text/javascript">
+ function setIframeHeight(){
+	 var _height = $('#_iframe').parent().height();
+	 $('#_iframe').css('height', _height +'px'); 
+ }
+
+</script>
+<body class="body_bg body">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div class="main" id="_main" height=100%>
+    <iframe id="_iframe" name="_iframe" height=100% width=100%; src="/videoMeeting" onload="setIframeHeight()"></iframe>
+  </div>
+  <div th:replace="~{common/footer :: footer}"/>
+ </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.introducy})">
+</head>
+
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：徵信實訪  > 徵信報告問卷查詢</div></br>
+        <input id="backFlag" type="text" th:value="${backFlag}" style="display: none;" />
+        <div >
+            <table class="tb03">
+                <tbody>
+                <tr>
+                    <th colspan="8" class="title"><img src="../images/applyIncom/applyIncom.png" />徵信報告問卷查詢</th>
+                </tr>
+                <tr>
+                    <td style="width:10%;text-align:right;" > 授信戶統編： </td><td style="width:16%;"><input class="input" type="text" id="compilationNo"     /></td>
+                    <td style="width:6%;text-align:right;"> 授信戶名稱：</td><td style="width:30%;"><input class="input" type="text" id="companyName"     /></td>
+                    <td style="width:10%;text-align:right;"> 問卷名稱：</td><td style="width:16%;"><input class="input" type="text" id="questionnaireName"     /></td>
+
+                    </tr>
+                    <tr>
+                        <td style="width:6%;text-align:right;"> 徵信員姓名：</td><td style="width:17%;"><input class="input" type="text" id="creditName"     /></td>
+                    <td style="width:6%;text-align:right;"> 答題時間：</td><td style="width:26%;"><input class="input" type="text" id="startDate" name ="startDate" readonly />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input" type="text" id="endDate"   name ="endDate" readonly />&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+                    <td style="width:6%;"></td>
+                    <td >
+                        <input type="button" value="查詢" class="button_blue" onclick="queryNcoms(1);" >
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--<form  action="/ApplyIncom/upload" method="post" enctype="multipart/form-data">-->
+            <!--<input type="file" name="file"> <button type="submit">上传</button>-->
+        <!--</form>-->
+        <div id="applyIncom_list">
+        </div>
+    </div>
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/creditQues/creditQues.js"></script>
+</body>
+
+</html>

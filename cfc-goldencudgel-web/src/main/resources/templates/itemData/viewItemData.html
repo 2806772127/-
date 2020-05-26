@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.itemData})">
+</head>
+
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理    > 選項資料</div></br>
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <td style="text-align:center" > <span style="color: red">*</span>數據名稱:
+                    <select id="dictId">
+                        <option th:value="nothing" th:text="-請選擇-"></option>
+                      <span th:unless="${#lists.isEmpty(dataList)}">
+                          <option th:each="dict : ${dataList}" th:value="${dict[0]}" th:text="${dict[1]}"></option>
+                      </span>
+                    </select></td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <input type="button" value="查詢" class="button_blue" onclick="findRole(1);">
+                    </div>
+                </td>
+                <td style="float:left">&nbsp;</td>
+                <td style="float:left">&nbsp;</td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/basic/u9177.png"/>
+                        </div>
+                        <input th:if="${userUtil.hasFunction('WEB_SYSTEM_IMFORMATION_ADD')}" type="button" value="新增" class="button_blue" onclick="openNewWin();">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="newWindow" style="display:none;">
+        <form id ="newItemData">
+            <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+                <tbody>
+                <tr>
+                    <input id = "newMainCode" type="hidden" name = "dictId" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>數據名稱</th><td>
+                    <select id="newdictId">
+                      <span th:unless="${#lists.isEmpty(dataList)}">
+                          <option th:each="dict : ${dataList}" th:value="${dict[0]}" th:text="${dict[1]}"></option>
+                      </span>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th width= "25%"><a style ="color:#FF0000;">*</a>細項編號</th><td><input id = "newviewCode" type="text" name = "itemCode" value=""/></td>
+                </tr>
+                <tr>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>名稱</th><td><input id = "newviewName" type="text" name = "itemName" value=""/></td>
+                </tr>
+                <tr>
+                    <td colspan = '2'><input id = "saveItem" type="button" value="儲存" onclick="window.parent.saveNewItem()"/>
+                        <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closenew()"/></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="dataListDiv">
+    </div>
+
+</div>
+
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/itemData/itemData.js"></script>
+</body>
+</html>

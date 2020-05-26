@@ -1,0 +1,57 @@
+<div style="height:460px;overflow:auto;overflow-x:hidden;background:#fff;border:1px solid #F2F2F2;"  xmlns:th="http://www.thymeleaf.org">
+    <table class="tab03">
+        <thead>
+        <tr>
+            <th style="width:11%;">預約拜訪時間</th>
+            <th style="width:20%;">授信戶名稱</th>
+            <th style="width:30%;">實際營業地址</th>
+            <th style="width:10%;">拜訪對象</th>
+            <th style="">公司聯絡電話</th>
+            <span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">
+                            <th style="width:9%;">經辦人</th>
+                            </span>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <span th:unless="${#lists.isEmpty(appointmentRecordList)}">
+                        <tr th:each="appointmentRecord : ${appointmentRecordList}">
+                            <td th:unless="${queryType == 'M'}" th:text = "${appointmentRecord[0]} + ':' + ${appointmentRecord[1]}"/>
+                            <td th:if="${queryType == 'M'}" th:text = "${appointmentRecord[2]}"/>
+                            <td th:text = "${appointmentRecord[3]}"></td>
+                            <td>
+                                <span th:text = "${appointmentRecord[4]}"></span>
+                            </td>
+                            <td>
+                                <span th:text = "${appointmentRecord[5]}"></span>
+                            </td>
+                            <td>
+                                <span th:unless="${#strings.isEmpty(appointmentRecord[6])}" th:text = "''+${appointmentRecord[6]}+'-'"/>
+                                <span th:text = "${appointmentRecord[7]}"/>
+                                <span th:unless="${#strings.isEmpty(appointmentRecord[8])}" th:text = "'#'+${appointmentRecord[8]}"/>
+                            </td>
+                            <span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">
+                            <td th:text = "${appointmentRecord[9]}"/>
+                            </span>
+                            <td>
+                                <span th:if="${userUtil.hasFunction('WEB_TRAVEL_PLAY_QUERY')}">
+                                    <a style="cursor:pointer" th:onclick="javascript:showStrokeDetial([[${appointmentRecord[10]}]],[[${appointmentRecord[11]}]],[[${appointmentRecord[12]}]])">查看</a>
+                                </span>
+                                <span th:if="${userUtil.hasFunction('WEB_TRAVEL_PLAY_UPDATE') && (appointmentRecord[13] != '1' && appointmentRecord[14] != '1')}">
+                                    <a style="cursor:pointer" th:onclick="javascript:editMissionStroke([[${appointmentRecord[10]}]],[[${appointmentRecord[11]}]],[[${appointmentRecord[12]}]])">修改</a>
+                                </span>
+                                <span th:if="${userUtil.hasFunction('WEB_TRAVEL_PLAY_DELETE') && appointmentRecord[13] == '-1' && appointmentRecord[14] != '1'}">
+                                    <a style="cursor:pointer" th:onclick="javascript:delMissionStroke([[${appointmentRecord[10]}]],[[${appointmentRecord[11]}]],[[${appointmentRecord[12]}]],[[${appointmentRecord[15]}]])">刪除</a>
+                                </span>
+                            </td>
+                         </tr>
+                    </span>
+        <tr th:if="${#lists.isEmpty(appointmentRecordList)}" style="text-align: center">
+            <td style="height:345px;border:none;" colspan="7">
+                查無數據！
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<span style="float:right;margin-right:15px;margin-top:10px;" th:text = "'共計'+ ${#lists.size(appointmentRecordList)}+ '筆'"></span>

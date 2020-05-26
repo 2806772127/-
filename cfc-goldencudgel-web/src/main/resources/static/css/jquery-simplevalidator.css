@@ -1,0 +1,19 @@
+.validerror {
+	border: 1px solid red;
+}
+
+.sv_errormessage {
+	color: red;
+	position: relative;
+	float: none;
+}
+
+.sv_errormessage font {
+	position: relative;
+}
+
+.sv_close_text {
+	cursor: pointer;
+	color: #666;
+	margin-left: 5px;
+}

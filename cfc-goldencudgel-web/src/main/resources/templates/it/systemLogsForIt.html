@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.system.logs})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="it/indexForIT :: #top"></div>
+    <div th:insert="~{it/indexForIT :: menu}"></div>
+
+    <div class="main">
+         <br/><div>當前位置：系統管理   > 系統日誌</div><br/>
+
+        <div >
+            <form id="searchForm">
+            <table class="tb03">
+                <tbody>
+                <tr>
+                    <th colspan="8" class="title"><img src="../images/applyIncom/applyIncom.png" />系統日誌文件</th>
+                </tr>
+                <tr >
+                    <td style="text-align: right"> 日誌文件類型：</td>
+                    <td >  <select id="operationType" class="select">
+                        <option th:value="WEB" th:text="WEB"></option>
+                        <option th:value="BWCE" th:text="BWCE"></option>
+                        <option th:value="APPWEB" th:text="APPWEB"></option>
+                        <option th:value="FRONT" th:text="FRONT"></option>
+                    </select>
+                   <!--  </tr>
+                <tr> -->
+                    <!-- <td style="text-align:right;"> 創建時間：</td>
+                    <td ><input  class="input" type="text" th:value="${startDate}" style="     width: 120px;" id="startDate" name ="startDate" readonly="readonly" />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input" th:value="${endDate}" type="text" style="  width: 120px;"  id="endDate" name ="endDate" readonly="readonly"/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+ -->
+                    <td style="text-align:right;"> 更新時間：</td>
+                    <td ><input  class="input" th:value="${startDates}" style="    width: 120px;"  type="text" id="startDates" name ="startDates" readonly="readonly" />&nbsp;<img id="startImgs" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input" th:value="${endDates}" style="    width: 120px;" type="text" id="endDates" name ="endDates" readonly="readonly"/>&nbsp;<img id="endImgs" src="../images/measureWord/u22.png" /></td>
+                    <td > </td>
+                    <td ><input type="button" class="button_blue" value="查詢" onclick="javascript:findSystemLogs(1,-1);"></td>
+                </tr>
+                       
+                </tbody>
+            </table>
+            </form>
+        </div>
+         <div id="systemLogs_list">
+        </div>
+        
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+        <input type="hidden" id="queryFlag" value="-1"/>
+    </div>
+    <div th:replace="~{common/footer :: footer}"></div>
+    <script type="text/javascript" defer=true src="../../js/systemLog/systemLogs.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <table class="tb01 mgt">
+        <tr>
+            <th>報表名稱</th>
+            <!-- <th>報表路徑</th> -->
+            <!-- <th>報表類型</th> -->
+            <th>更新時間</th>
+            <th>創建時間</th>
+            <th>操作</th>
+        </tr>
+        <tr th:unless="${#lists.isEmpty(reportConfigList)}" th:each="reportConfig : ${reportConfigList}">
+            <td style="text-align: left; padding-left: 30px;" th:text="${reportConfig[0]}"></td>
+            <!-- <td style="text-align: left; padding-left: 30px;" th:text="${reportConfig[1]}"></td> -->
+            <!-- <td th:text="${reportConfig[2]}"></td> -->
+            <td th:text="${#dates.format(reportConfig[3],'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(reportConfig[4],'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_ACOUNT_REPORT_LOOK')}" th:reportName="${reportConfig[0]}" th:reportPath="${reportConfig[1]}" 
+                th:queryDateLabel="${reportConfig[6]}" th:queryDateFormat="${reportConfig[7]}" th:reportQueryRegion="${reportConfig[8]}" th:reportDownload="${reportConfig[9]}"
+                th:reportCode="${reportConfig[10]}" th:roleStr="${reportConfig[11]}"
+                th:onclick="javascript:showSpotfire(this);">查看</a>
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_ACOUNT_REPORT_UPDATE')}" th:reportId="${reportConfig[5]}" th:reportName="${reportConfig[0]}" th:reportPath="${reportConfig[1]}" th:reportType="${reportConfig[2]}" 
+                th:queryDateLabel="${reportConfig[6]}" th:queryDateFormat="${reportConfig[7]}" th:reportQueryRegion="${reportConfig[8]}" th:reportDownload="${reportConfig[9]}"
+                th:reportCode="${reportConfig[10]}" th:roleStr="${reportConfig[11]}"
+                th:onclick="javascript:showAddReportConfigDialog('update', this);">修改</a>
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_ACOUNT_REPORT_DELETE')}" th:reportId="${reportConfig[5]}" th:onclick="javascript:delReportConfig(this);" >刪除</a>
+            </td>
+        </tr>
+    </table>
+    
+    <p class="page" th:insert="~{common/page :: page('queryReportConfigList')}" />
+</div>

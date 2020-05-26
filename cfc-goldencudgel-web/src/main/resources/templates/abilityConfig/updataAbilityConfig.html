@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{golden.menu.abilityConfig})">
+</head>
+<!-- <script type="text/javascript" src="../../js/abilityConfig/abilityConfig.js"></script> -->
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<body class="body_bg">
+<div th:replace="index/index :: #top"></div>
+<div th:insert="~{index/index :: menu}"></div>
+<br/>
+<div style="margin-left:50px;margin-top:5px;">
+    當前位置：<span th:text="#{goldencudgel.menu.company}"></span>
+    ><span th:text="#{golden.menu.abilityConfig}"/></span>
+    ><span th:text="企業能力配置修改"/></span>
+</div>
+<br/>
+<div class="main">
+    <table class="tb02 mgt" style="border-collapse: collapse;">
+        <tbody>
+        <tr>
+            <th colspan="10" class="title"><img src="../images/measureWord/u8597.png">&nbsp;<span th:text="企業能力配置詳情"/></span></th>
+        </tr>
+
+        <tr>
+            <th>類型：</th><td  th:text="${ability[1]}"></td>
+            <th>財務能力：</th><td th:text="${ability[2]}"></td>
+            <th>償債能力：</th><td th:text="${ability[3]}"></td>
+            <th>經營能力：</th><td th:text="${ability[4]}"></td>
+            <th>成立年數：</th><td th:text="${ability[5]}"></td>
+        </tr>
+        <tr>
+            <th>描述：</th>
+            <td th:colspan="9">
+                <textarea id="ABILITY_DESCRIBE" rows="5" cols="120" class="required" name="conferencecontext" maxlength="200"></textarea>
+                <!--<input type="text" th:value="${ability[6]}"  id="ABILITY_DESCRIBE" style="width: 100%; height: 100%; border: 0px;outline:none;cursor: pointer;" th:maxlength="200" />-->
+            </td>
+        </tr>
+
+        <tr>
+            <th style="text-align: center;margin-top:15px;" colspan="10">
+                <input type="hidden" th:value="${ability[0]}" id="configId">
+                <input type="button" class="button_blue" value="儲存" onclick="javascript:updataById()" />
+                <input type="button" class="button_blue" value="返回" onclick="backFunc();" />
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <!--条件和页码信息放在隐藏域里  -->
+     <input type="hidden" id="typeSeePage" th:value="${type}"/>
+     <input type="hidden" id="businessSeePage" th:value="${business}"/>
+     <input type="hidden" id="debitSeePage" th:value="${debit}"/>
+     <input type="hidden" id="financialSeePage" th:value="${financial}"/>
+     <input type="hidden" id="conpanyYearSeePage" th:value="${conpanyYear}"/>
+     <input type="hidden" id="startDateSeePage" th:value="${startDate}"/>
+     <input type="hidden" id="endDateSeePage" th:value="${endDate}"/>
+     <input type="hidden" id="startDatesSeePage" th:value="${startDates}"/>
+     <input type="hidden" id="endDatesSeePage" th:value="${endDates}"/>
+     <input type="hidden" id="page_selectSeePage" th:value="${page_select}"/>
+
+<div hidden>
+    <input type="hidden" id="ratings" th:value="${ability[6]}"/>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>
+<script type="text/javascript" src="../../js/abilityConfig/abilityConfigEdit.js"></script>

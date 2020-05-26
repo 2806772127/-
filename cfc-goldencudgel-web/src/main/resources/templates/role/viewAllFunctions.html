@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- <head th:replace="common/header :: commonHeader(#{goldencudgel.menu.apply})"> -->
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.auth})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理  > <span th:text="#{goldencudgel.menu.auth}"/></div></br>
+
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <th colspan="4" class="title"><img src="../images/role/u14262.png" /> <span th:text="#{goldencudgel.menu.auth}"/></th>
+            </tr>
+            <tr>
+                <td id="typeEle" style="text-align:center" > <span style="color: red;">*</span>類型：
+                    <input  th:type="hidden" th:id="hi_type" th:value="1"/>
+                    <input th:type="button" th:id="APP" th:value="APP" style="width: 60px;height: 30px;" th:class="vsb" th:onclick="changeClass(1)">
+                    <input th:type="button" th:id="WEB" th:value="WEB"  style="width: 60px;height: 30px;" th:class="vsw" onclick="changeClass(2)"/>
+                  </td>
+                <td style="text-align:center" > 角色名稱：
+                    <select th:class="roleSelect" th:id="roleId">
+                        <option th:value="null">-- 請選擇 --</option>
+                        <span th:unless="${#lists.isEmpty(roleList)}" th:each="role:${roleList}">
+                            <option th:value="${role[0]}" th:text="${role[1]}"></option>
+                        </span>
+                    </select>
+                    </td>
+                <td>
+                    <div style="float:right;position: relative;">
+                        <div style="float:right;position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5350.png"/>
+                        </div>
+                        <input th:if="${userUtil.hasFunction('WEB_SYSTEM_AUTHS_ADD')}" th:type="button" value="新增" class="button_blue" onclick="goAddFunctions();">&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div style="float:right;position: relative;">
+                        <div style="float:right;position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <input type="button" value="查詢" class="button_blue" onclick="queryFunctions(1);">
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+         
+    </div>
+    <div id="func_list"></div>
+
+
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/role/function.js"></script>
+</body>
+
+</html>

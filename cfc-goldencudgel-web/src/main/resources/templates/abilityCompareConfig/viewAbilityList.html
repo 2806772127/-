@@ -1,0 +1,39 @@
+
+<table class="tb01 mgt">
+
+     <tr>
+        <th style="width:  6%">類型</th>
+        <th style="width: 6%">能力類型</th>
+        <th style="width: 6%">開始範圍</th>
+        <th style="width: 6%">結束範圍</th>
+        <th style="width: 42%;">描述</th>
+         <th style="width: 13%">創建時間</th>
+         <th style="width: 13%">更新時間</th>
+        <th style="width: 6%">操作</th>
+    </tr>
+    
+    <span th:unless="${#lists.isEmpty(viewAbilityList)}">
+    <tr th:each="viewAbilityList : ${viewAbilityList}">
+                <td th:text="${viewAbilityList[1]}"></td>
+                <td th:text="${viewAbilityList[6]}"></td>
+                <td th:text="${viewAbilityList[2]}"></td>
+                <td th:text="${viewAbilityList[4]}"></td>
+               <td th:text="${viewAbilityList[7]}" style="text-align: left"></td>
+                <td th:text="${viewAbilityList[8]}"></td>
+        <td th:text="${viewAbilityList[9]}"></td>
+                <td >
+                    <span th:if="${userUtil.hasFunction('WEB_ENTER_CASE_QUERY')}">
+                        <a style="cursor: pointer;" th:compilationNo="${viewAbilityList[0]}"  th:curPage="${curPage}"
+                           th:onclick="javascript:viewIncomDetail(this);" >查看</a>
+                    </span>
+                    
+                    <span th:if="${userUtil.hasFunction('WEB_ENTER_CASE_UPDATE')}">
+                        <a style="cursor: pointer;" th:compilationNo="${viewAbilityList[0]}"  th:curPage="${curPage}" th:onclick="javascript:editIncom(this);" >修改</a>
+                    </span>
+                </td>
+              </tr>
+    </span>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

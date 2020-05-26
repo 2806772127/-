@@ -1,0 +1,35 @@
+
+<table class="tb01 mgt">
+     <tr>
+        <th>產品名稱</th>
+        <th>設定項目</th>
+        <th>提交時間</th>
+        <th>提交人</th>
+        <th>審核狀態</th>
+        <th>操作</th>
+    </tr>
+    
+    <span th:unless="${#lists.isEmpty(productManagementList)}">
+    <tr th:each="productManagement : ${productManagementList}">
+                <td th:text="${productManagement[0]}"></td>
+                <td th:text="${productManagement[1]}"></td>
+                <td th:text="${productManagement[2]}"></td>
+                <td th:text="${productManagement[3]}"></td>
+                <!-- <td th:text="${userCode}"></td> -->
+                <td th:text="${productManagement[4]=='01'?'已審核':'待審核'}"></td>
+                <td >
+                <span th:if="${productManagement[4]=='02'}">
+                <a style="cursor: pointer;" th:onclick="javascript:viewAdudit(this);" th:productVersion="${productManagement[5]}" 
+                        th:prodName="${productManagement[0]}" th:questionnaireType="${productManagement[6]}" th:estimatedLaunchTime="${productManagement[7]}" th:prodId="${productManagement[8]}" th:commitName="${productManagement[3]}" th:editFlag="editFlag" >審核</a>
+                </span>
+                <span th:if="${productManagement[4]=='01'}">
+                <a style="cursor: pointer;" th:onclick="javascript:viewAduitDetail(this);" th:productVersion="${productManagement[5]}" 
+                        th:prodName="${productManagement[0]}" th:questionnaireType="${productManagement[6]}" th:estimatedLaunchTime="${productManagement[7]}" th:prodId="${productManagement[8]}" >查看</a>
+                </span>
+                </td>
+              </tr>
+    </span>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

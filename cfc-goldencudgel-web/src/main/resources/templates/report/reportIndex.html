@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- <head th:insert="common/header :: commonHeader(#{goldencudgel.menu.letterConsent})"> -->
+<head th:insert="common/header :: commonHeader(#{golden.menu.report})">
+</head>
+
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+    <br/>
+    <div style="margin-left:50px;margin-top:5px;">當前位置：<span>報表</span></div>
+    <br/>
+    <div class="main" id="mybg">
+        <input type="hidden" id="spotfireParam" th:value="${spotfireParam}"/>
+        <table class="tb03" >
+            <tr>
+                <th colspan="5" class="title"><img src="../images/measureWord/u5251.png"><span>報表</span></th>
+            </tr>
+            <tr style="height: 60px;">
+                <td style="width: 32%;text-align: right;">報表名稱：</td>
+                <td style="text-align: left ;width: 16%;"><input class="input" type="text" name="queryReportName" id="queryReportName" /> </td>
+                <td  style="text-align: left ;width: 10%;"><input type="button" class="button_blue" value="查詢" onclick="queryReportConfigList();"></td>
+                <td  style="text-align: center ;width: 10%;"><input th:if="${userUtil.hasFunction('WEB_ACOUNT_REPORT_ADD')}" type="button" class="button_blue" value="新增" onclick="showAddReportConfigDialog('add');"></td>
+                <td style="width: 32%;"></td>
+            </tr>
+        </table>
+        <div id="report_list"></div>
+    </div>
+    
+    <div th:id="addReportConfig" class="popupbox1" style="display:none">
+        <form>
+            <input type="hidden" id="operateType" />
+            <input type="hidden" id="reportId" />
+            <table class="tb02 mgt">
+                <tbody>
+                    <tr>
+                        <th><span  style="color: red">*</span>報表名稱：</th>
+                        <td>
+                            <select id="reportName">
+                                <option value="">--請選擇--</option>
+                                <option th:unless="${#lists.isEmpty(reportCodeList)}" th:each="reportCode : ${reportCodeList}" th:value="${reportCode.itemCode}" th:text="${reportCode.itemName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span  style="color: red">*</span>報表路徑：</th>
+                        <td><input id="reportPath" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th><span  style="color: red">*</span>報表類型：</th>
+                        <td>
+                            <select id="reportType">
+                                <option value="">--請選擇--</option>
+                                <option value="S">Spotfire報表</option>
+                                <option value="E">Excel報表-</option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th><span  style="color: red">*</span>日期查詢標籤：</th>
+                        <td>
+                            <select id="queryDateLabel">
+                                <option value="">--請選擇--</option>
+                                <option th:unless="${#lists.isEmpty(queryDateLabelList)}" th:each="queryDateLabel : ${queryDateLabelList}" th:value="${queryDateLabel.itemCode}" th:text="${queryDateLabel.itemName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th><span  style="color: red">*</span>日期查詢格式：</th>
+                        <td>
+                            <select id="queryDateFormat">
+                                <option value="">--請選擇--</option>
+                                <option th:unless="${#lists.isEmpty(queryDateFormatList)}" th:each="queryDateFormat : ${queryDateFormatList}" th:value="${queryDateFormat.itemCode}" th:text="${queryDateFormat.itemName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th><span  style="color: red">*</span>是否需要查下區間：</th>
+                        <td>
+                            <select id="reportQueryRegion">
+                                <option value="">--請選擇--</option>
+                                <option th:unless="${#lists.isEmpty(reportQueryRegionList)}" th:each="reportQueryRegion : ${reportQueryRegionList}" th:value="${reportQueryRegion.itemCode}" th:text="${reportQueryRegion.itemName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th><span  style="color: red">*</span>是否需要下載：</th>
+                        <td>
+                            <select id="reportDownload">
+                                <option value="">--請選擇--</option>
+                                <option th:unless="${#lists.isEmpty(reportDownloadList)}" th:each="reportDownload : ${reportDownloadList}" th:value="${reportDownload.itemCode}" th:text="${reportDownload.itemName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th><span  style="color: red">*</span>報表權限：</th>
+                        <td>
+                            <span th:unless="${#lists.isEmpty(roleMap)}" th:each="role:${roleMap}">
+                                <input type="checkbox" th:value="${role.key}" th:name="reportAuthority">[[${role.value}]]
+                            </span>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="4" style="text-align:center;">
+                            <input type="button" class="button_blue" value="儲存" onclick="saveReportConfig()"/>
+                            <input align="center" th:type="button" class="button_blue" onclick="closeWindow('addReportConfig')" th:value="返回"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    
+    <div th:replace="~{common/footer :: footer}"></div>
+    <script type="text/javascript" src="../../js/report/loginSpotfire.js"></script>
+    <script type="text/javascript" src="../../js/report/report.js"></script>
+</body>
+</html>

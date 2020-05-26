@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- <head th:replace="common/header :: commonHeader(#{goldencudgel.menu.apply})">-->
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.role})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理  > <span th:text="#{goldencudgel.menu.role}"/></div></br>
+
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <th colspan="4" class="title"><img src="../images/role/u14262.png" /> <span th:text="#{goldencudgel.menu.role}"/></th>
+            </tr>
+            <tr>
+                <td style="text-align:center" > 角色名稱： <input type="text" th:class="roleSelect" th:id="roleName"  th:name="roleName"   th:maxlength="50"/></td>
+                <td>
+                    <div style="float:right;position: relative;">
+                        <div style="float:right;position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5350.png"/>
+                        </div>
+                        <input th:if="${userUtil.hasFunction('WEB_SYSTEM_ROLE_ADD')}" th:type="button" value="新增" class="button_blue" onclick="addRoles();">&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div style="float:right;position: relative;">
+                        <div style="float:right;position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <input type="button" value="查詢" class="button_blue" onclick="queryRoles(1);">
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="role_list"></div>
+
+
+    <div th:id="hi_add_role" class="popupbox1" style="display:none;">
+        <table class="tb02 mgt">
+            <tr>
+                <th><span style="color: red;">*</span>角色名稱：</th><td><input th:type="text" th:class="roleSelect" th:id="hi_role_name" th:maxlength="50" required="required"/></td>
+            </tr>
+            <tr>
+                <th><span style="color: red;">*</span>角色代號：</th><td><input th:type="text" th:class="roleSelect" th:id="hi_role_id" th:maxlength="36" th:onblur="javascript:checkRoleId()" required="required"/></td>
+            </tr>
+            <tr>
+                <th><span style="color: red;">*</span>序號：</th><td><input th:type="text" th:class="roleSelect" th:id="hi_order_num" th:maxlength="30" required="required"/></td>
+            </tr>
+            <tr>
+                <th><span style="color: red;">*</span>是否啟用：</th><td>
+                <input th:type="hidden" th:id="roleEnable" th:value="1">
+                <input type="button" id ="qiyong"  style="width: 60px;" th:value="啟用"  th:class="vsb"  th:onclick="javascript:changeEnable(1)"/>&nbsp;&nbsp;
+                <input type="button" id = "jingyong" style="width: 60px;"  th:value="禁用" th:class="vsw" th:onclick="javascript:changeEnable(0)"/></td>
+            </td>
+            </tr>
+        </table>
+        <div>
+            <p style="min-height: 45px;max-height: 45px;"></p>
+        </div>
+        <div style="text-align: center;">
+            <input th:type="button" id="add_save_button" th:value="確定" th:class="button_blue" >
+            <input th:type="button" th:value="取消" th:class="button_blue" th:onclick="javascript:closeWindow('hi_add_role')">
+
+        </div>
+    </div>
+    <div th:id="hi_edit_role" class="popupbox1" style="display:none;">
+        <table class="tb02 mgt">
+            <tr>
+                <th><span style="color: red;">*</span>角色名稱：</th><td><input th:type="text" th:class="roleSelect" th:id="edit_role_name" th:maxlength="50"/></td>
+            </tr>
+            <tr>
+                <th><span style="color: red;">*</span>角色代號：</th><td><input th:type="text" th:class="roleSelect" th:id="edit_role_id"  readonly/></td>
+            </tr>
+            <tr>
+                <th><span style="color: red;">*</span>序號：</th><td><input th:type="text" th:class="roleSelect" th:id="edit_order_num" th:maxlength="30"/></td>
+            </tr>
+            <tr>
+                <th><span style="color: red;">*</span>是否啟用：</th><td>
+                <input th:type="hidden" th:id="edit_roleEnable" th:value="1">
+                <input type="button" id ="edit_qiyong"  style="width: 60px;" th:value="啟用"  th:class="vsw"  th:onclick="javascript:changeEditEnable(1)"/>&nbsp;&nbsp;
+                <input type="button" id = "edit_jingyong" style="width: 60px;"  th:value="禁用" th:class="vsw" th:onclick="javascript:changeEditEnable(0)"/></td>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <p style="min-height: 45px;max-height: 45px;"></p>
+        </div>
+        <div style="text-align: center;">
+            <input th:type="button" id="edit_save_button" th:value="確定" th:class="button_blue">
+            <input th:type="button" th:value="取消" th:class="button_blue" th:onclick="javascript:closeWindow('hi_edit_role')">
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/role/role.js"></script>
+</body>
+
+</html>

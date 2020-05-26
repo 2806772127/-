@@ -1,0 +1,19 @@
+<table style="width:100%;">
+<tbody id="unCheckedCaseList">
+    <span th:unless="${#lists.isEmpty(caseList)}" th:each="case,iterStat: ${caseList}">
+        <tr onclick="checkCase(this)" checkStatus = "false" th:caseNum="${case[0]}" class="unChoseCase" th:rowNum = "${iterStat.index}">
+            <td style="text-align: center; width: 20%" class="applyTime" th:text="${case[1]}"></td>
+            <td style="text-align: center; width: 20%" class="compCode" th:text="${case[2]}"></td>
+            <td style="text-align: center; width: 20%" class="compName" th:text="${case[3]}"></td>
+            <td style="text-align: center; width: 20%" class="cityCode" th:text="${case[4]}"></td>
+            <td style="text-align: center; width: 20%" class="areaCode" th:text="${case[5]}"></td>
+        </tr>
+    </span>
+    <tr th:if="${#lists.isEmpty(caseList)}" style="text-align: center">
+        <td style="text-align: center;height:220px;border:none;" colspan="3">
+            查無數據！
+        </td>
+    </tr>
+    <input type="text" th:value="${caseList.size()}" style="display: none" id="unCheckNum">
+</tbody>
+</table>

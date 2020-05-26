@@ -1,0 +1,38 @@
+<div>
+<form id=letterConsent>
+<table class="tb01 mgt">
+   <tr>
+     <th style="width: 10%;">問卷名稱</th>
+      <th style="width: 10%;">問卷類別</th>
+     <th style="width: 40%;">問卷說明</th>
+     <th class="comDate" style="width: 10%;">提交時間</th>
+     <th class="comDateAudit" style="width: 10%;">審核時間</th>
+     <th class="resultClass" style="width: 10%;">審核結果</th>
+     <th class="statusClass" style="width: 10%;">審核狀態</th>
+     <th style="width: 10%;">提交人員</th>
+     <th style="width: 10%;">操作</th>
+   </tr>
+   <span th:unless="${#lists.isEmpty(questionList)}"> 
+    <tr th:each="question : ${questionList}">  
+                <td th:text="${question[0]}"></td>
+                <td  th:text="${question[12]}=='04'?'企業沿革':(${question[12]}=='05'?'資金調度及償債能力':(${question[12]}=='06'?'保人資力':(${question[12]}=='07'?'產業-批發':(${question[12]}=='08'?'產業-零售&餐飲':(${question[12]}=='09'?'產業-營造':(${question[12]}=='10'?'產業-製造':(${question[12]}=='11'?'產業-服務&其他':(${question[12]}=='12'?'產業-旅行社':(${question[12]}=='13'?'綜合評估說明':(${question[12]}=='01'?'初篩問卷1':(${question[12]}=='03'?'初篩問卷2':(${question[12]}=='14'?'初篩問卷3':(${question[12]}=='02'?'額度問卷':'')))))))))))))"></td>
+                <td style="text-align: left;" th:text="${question[1]}"></td>
+                <!-- <td th:text="${#dates.format(question[2], 'yyyy-MM-dd')}"></td> -->
+                <td class="comDateTd" th:text="${question[2]}"></td>
+                <td class="comDateAuditTd" th:text="${question[10]}"></td>
+                <td class="comDateAudit" th:text="${question[11]}=='01'?'通過':'拒絕'"></td>
+                <td class="statusClass" th:text="${question[6]}=='01'?'已審核':'待審核'"></td>
+                <td th:text="${question[7]}"></td>
+                <td>
+                 <span th:if="${question[6]} eq '02'">
+                        <a style="cursor: pointer;" th:onclick="javascript:viewEditQueston(this);" th:questionId="${question[4]}" th:createUserCode="${question[9]}" th:forAuditFlag="forAuditFlag" th:addDelUpdateFlag="${question[8]}" th:questionType="${question[13]}">審核</a>
+                </span>
+                 <span th:if="${question[6]} eq '01'">
+                        <a style="cursor: pointer;" th:onclick="javascript:viewEditQueston(this);" th:questionId="${question[4]}" th:forAuditFlag="forAuditFlag" th:viewForAudit="viewForAudit" th:addDelUpdateFlag="${question[8]}" th:questionType="${question[13]}">查看</a>
+                </span>
+                </td>
+    </span>
+</table>
+<p class="page" th:insert="~{common/page :: page('queryQuestionaires')}" />
+</form>
+</div>

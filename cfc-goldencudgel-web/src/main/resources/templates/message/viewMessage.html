@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.message})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/message.css}" type="text/css" />
+<style>
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+       
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{goldencudgel.menu.systemManager}"></span>><span th:text="#{goldencudgel.menu.message}"></span></div>
+   <br/>
+  <div class="main">
+  <input id="backFlag" type="text" th:value="${backFlag}" style="display: none;" />
+  <table class="tb03">
+     <tr>
+      <th colspan="4" class="title">
+       <img src="../images/message/u13716.png">
+       <span th:text="#{goldencudgel.menu.message}" style="margin-left:5px;"></span>
+      </th>
+     </tr>
+     <tr>
+       <td style="text-align:center">訊息類型：
+          <select id="type" class="select" >
+             <option value="">全部</option>
+             <option  th:unless="${#lists.isEmpty(messageTypes)}" th:each="msgType:${messageTypes}" 
+               th:value="${msgType.itemCode}" th:text="${msgType.itemName}"></option>
+          </select>
+       </td>
+       <td style="text-align:center">發送時間：
+         <!--  <input type="text" name="startDate" readOnly class="input"/>&nbsp;<img src="../images/u22.png"/>
+            &nbsp;~&nbsp;
+           <input type="text" name="endDate" readOnly class="input"/>&nbsp;<img src="../images/u22.png" />
+-->
+
+           <input class="input" type="text" id="startDate" name ="startDate" readonly />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />
+           &nbsp;~&nbsp;<input class="input" type="text" id="endDate"   name ="endDate" readonly />&nbsp;<img id="endImg" src="../images/measureWord/u22.png" />
+       </td>
+       <td>
+         <div style="position: relative;float:left" onclick="javascript:queryMessage(1);">
+		     <div style="position: absolute;top:6px;left:10px;">
+		        <img src="../images/u5255.png"/>
+		     </div>  
+		     <input  type="button" value="查詢" class="button_blue" />
+	       </div>
+	       <div style="position: relative;float:left;margin-left:15px;" th:if="${userUtil.hasFunction('WEB_USER_NEWS_ADD')}" onclick="javascript:viewAddMessage();">
+		     <div style="position: absolute;top:6px;left:10px;">
+		        <img src="../images/u9177.png"/>
+		     </div>  
+		     <input  type="button" value="新增" class="button_blue"/>
+	       </div>  
+	       <!-- 导入 -->
+	         <div style="position: relative;float:left;margin-left:15px;" th:if="${userUtil.hasFunction('WEB_USER_NEWS_IMPORT')}" onclick="uploadTarget();">
+		     <input  type="button" value="導入" class="button_blue"/>
+	       </div>  
+        </td>
+     </tr>
+  </table>  
+  
+     <div id = "uploadfile"style="display:none" >
+       <form method="post" th:action="@{/indexTarget/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+        <table class="tb01">
+        <tr>
+          <th width="20%">選擇導入文件:</th>
+          <td width="80%">
+            <span width="70%">
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" style="float:left;margin-left:5px;"/>
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+            <input id="_upload" type="button" value="導入" onclick="window.parent.uploadExcle();" style="float:right;margin-right:15px;" disabled/>
+              <input id="close" type="button" value="取消" onclick="window.parent.colse();" style="float:right;margin-right:15px;" />
+          </td>
+        </tr>
+        </table>
+       </form>
+       
+        <!-- 下载模板 -->
+        <!-- <a style="margin-top:20px;" href="../Excl/365.xlsx" download="365.xlsx">点击下载</a> -->
+       
+       <div class="ExcleTemplate" style="margin-top:20px;margin-left:15px;">
+       <a th:href="@{/message/excleDownload}"><span style="color:blue;">點擊下載獎金通知模板</span></a>
+       </div>
+       
+      </div>
+  
+  
+  
+  <div id="message_list"></div>
+  <div id ="show_dialog" style="display:none;overflow: hidden;padding:0;">
+    <div style="text-algin:cener;height:85%;width:100%;overflow: auto;">
+       <p style="margin:10px;word-break:break-all;" id="show_info">
+
+       </p>
+       <!--通过隐藏域来判断是否已经全部把未读的消息全部读取完  -->
+       <input type="hidden" id="messageCountt"/> 
+       <!--通过隐藏域（结果数据是否都有readTime）来判断是否已经全部把未读的消息全部读取完  -->
+       <input type="hidden" id="hasIsReadTime"/> 
+    </div>
+   <!--  <div style="text-align:center;margin-top:10px;margin:auto;"> -->
+    <div style="text-align:center;">
+       <input type="button" value="返回" class="button_gray" onclick="closeDialog();">
+    </div>
+  </div>
+  </div>
+   <div th:replace="~{common/footer :: footer}"></div>
+   <script type="text/javascript" src="../../js/message/message.js"></script>
+</body>
+</html>

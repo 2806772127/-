@@ -1,0 +1,49 @@
+<table class="tb01 mgt">
+   <tr>
+        <th style="width: 8%">授信戶統編</th>
+        <th >授信戶名稱</th>
+        <th style="width: 10%">產業別</th>
+        <th style="width: 10%" class="wordTimeList">測字時間</th>
+        <th style="width: 5%" class="resultList">測試結果（級）</th>
+        <!-- <th>展業金失敗原因</th> -->
+        <th style="width: 10%" class="CalculatingList">測算結果(仟元)</th>
+        <th style="width: 5%" class="wordList">解字</th>
+        <th style="width: 5%" class="quotaList">是否額度問卷</th>
+        <th style="width: 7%" class="sendList">發送企業經營報告書</th>
+        <th style="width: 8%" th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">經辦人</th>
+        <th style="width: 10%">操作<input th:value="${trustedSites}" style="display: none" id = "trustedSites"/></th>
+   </tr>
+   <span th:unless="${#lists.isEmpty(measureWordList)}"> 
+    <tr th:each="measureWord : ${measureWordList}">  
+        <td th:text="${measureWord[0]}"></td>
+        <td th:text="${measureWord[1]}"></td>
+        <td th:text="${measureWord[2]}"></td>
+        <td  th:text="${measureWord[3]}"></td>
+        <td class="resultList" th:text="${measureWord[4]}"></td>
+        <!-- <td  th:text="${measureWord[13]}"></td> -->
+        <td class="CalculatingList" th:text="${measureWord[12]}"></td>
+        <td class="wordList" th:text="${measureWord[5]}"></td>
+        <td class="quotaList" th:text="${measureWord[9]}"></td>
+        <td class="sendList" th:text="${measureWord[8]}"></td>
+        <td th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}" th:text="${measureWord[7]}"></td>
+        <td>
+            <span th:if="${userUtil.hasFunction('WEB_QUESTION_RESEND') && measureWord[17] != 'S24'}">
+                <a style="cursor: pointer;" th:onclick="javascript:resendMeasure(this);" th:compilationNo="${measureWord[0]}" th:compilationName="${measureWord[1]}" 
+                th:trandId = "${measureWord[16]}" th:measureId="${measureWord[6]}" th:userCode = "${measureWord[15]}">重測</a>
+            </span>
+            <span th:if="${userUtil.hasFunction('WEB_QUESTION_SEARCH_QUERY')}">
+                <a style="cursor: pointer;" th:onclick="javascript:viewDetail(this);" th:measureId="${measureWord[6]}" th:produceName="${measureWord[14]}">查看詳情</a>
+            </span>
+            <span th:if="${measureWord[11]>0 && measureWord[4]!=''}">
+                <a style="cursor: pointer;" th:onclick="showJcicDetail([[${measureWord[10]}]]);">JCIC</a>
+            </span>
+        </td>
+    </tr>
+    </span>
+</table>
+<script>
+$(".CalculatingList").hide();
+</script>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

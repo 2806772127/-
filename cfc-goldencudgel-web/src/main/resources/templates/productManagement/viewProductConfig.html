@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{golden.menu.viewLetterConfig})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/questionniare.css}" type="text/css" />
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{golden.menu.productManagement}"/></span>><span th:text="#{golden.menu.letterConfig}"/></span></div>
+  
+  <br/>
+  <div class="main">
+  <input type="hidden" id="flag" th:value="${flag}" />
+  <input type="hidden" id="questionnaireType" th:value="${questionnaireType}" />
+  <form id="questionnarie">
+  <!-- <div> -->
+  <table class="tb01 mgt">
+     <tr>
+      <th colspan="6" class="title">
+       <img src="../images/measureWord/u8597.png">
+       <span th:text="#{golden.menu.viewLetterConfig}" style="margin-left:5px;"/></span>
+      </th>
+     </tr>
+       <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>產品名稱：</td>
+       <td  style="text-align:left" th:text="${prodName}"></td>
+     </tr>
+     
+     
+      <!--  <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>選擇問卷：</td>
+       <td  style="text-align:left" th:text="${questionnaire.name}"></td>
+     </tr> -->
+     
+      <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>選擇問卷：</td>
+       <td style="text-align:left" class="not">
+       <div id="questionNames">
+       <span th:unless="${#lists.isEmpty(questionNames)}" th:each="questionName:${questionNames}">
+          <input name="questionNameCheckBox" type="checkbox" class="checkbox" th:value="${questionName.key}" th:text="${questionName.value}" th:questionId="${questionName.key}" th:questionName="${questionName.value}" th:onclick="checkChange(this)"></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>
+        </div>
+        </td>
+     </tr>
+     
+      <!--  <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>問卷設置：</td>
+       <td  style="text-align:left">
+       <input type="button" th:value="${questionnaire.name}" id="questionnaireConfig" class="input" onclick="showOrHide(this)" />
+       </td>
+     </tr> -->
+     
+      <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>問卷設置：</td>
+       <td style="text-align:left">
+       <div id="questionnaireConfigDiv">
+       <!-- <span th:unless="${#lists.isEmpty(questionNames)}" th:each="questionName:${questionNames}">
+          <input type="button" class="input" id="questionnaireConfig" th:value="${questionName.value}"  onclick="showOrHide(this)" ></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span> -->
+        </div>
+        </td>
+       
+     </tr>
+     
+      
+      <!--  <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>預計上線時間：</td>
+       <td  style="text-align:left" th:text="${estimatedLaunchTime}"></td>
+     </tr> -->
+       
+       
+       </table>
+       
+       
+       
+       <div id="productManagementcom_list">
+        </div>
+        <div style="text-align:center;margin-top:15px;">
+      <input type="button" id="backQueryPage" class="button_blue" value="返回查詢頁" onclick="javascript:history.back(-1);" />
+       </div> 
+       </form>
+       </div>
+       <!-- </div> -->
+
+
+<div th:replace="~{common/footer :: footer}"></div>
+<script type="text/javascript" src="../../js/productManagement/editProductManagement.js"></script>
+</body>
+</html>

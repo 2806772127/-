@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.rateOfferCOnfig})">
+</head>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">
+               當前位置：<span th:text="#{goldencudgel.menu.wordShop}"></span>
+               ><span th:text="#{goldencudgel.menu.rateOfferCOnfig}"/></span>
+  </div>
+   <br/>
+  <div class="main"  >
+
+<form method="post" th:action="@{/rateOfferCOnfig/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+   <table class="tb03">
+    <tr>
+        <th colspan="4" class="title"><img src="../images/applyIncom/applyIncom.png" />利率報價配置</th>
+    </tr>
+       <tr>
+          <td style="text-align:center" >
+          <!-- ie浏览器会没有"选择文件"，谷歌有 -->
+          <span>選擇文件<span>
+            <span>
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" />
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+       </td>
+       <td>
+            <div style="position: relative;">
+                <!--  <div style="position: absolute;top:6px;left:10px;">
+                      <img src="../images/u5255.png"/>
+                 </div> -->
+                      <input id="_upload" class="button_blue" type="button" value="上傳" onclick="upload();" disabled/>
+            </div>
+       </td>
+       </tr>
+   </table> 
+   </form>
+  </div>
+  
+  <div id="alertMessage" style="display:none">
+    <p id="message" style="text-align:center"></p>
+  </div>
+  <div th:replace="~{common/footer :: footer}"></div>
+  <script type="text/javascript" src="../../js/rateOfferConfig/rateOfferConfig.js"></script>
+</body>
+</html>

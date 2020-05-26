@@ -1,0 +1,164 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.itemData})">
+</head>
+
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理    > 負面表列行業</div></br>
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <td style="text-align:center" > 負面行業類型： <input type="text" th:id="negativeType"  th:name="negativeType"/></td>
+                 <td style="text-align:center" > 負面行業名稱： <input type="text" th:id="negativeName"  th:name="negativeName"/></td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/u5255.png"/>
+                        </div>
+                        <input type="button" value="查詢" class="button_blue" onclick="findNegativeIndustry(1);">
+                    </div>
+                </td> 
+                <td style="float:left">&nbsp;</td>
+                <td style="float:left">&nbsp;</td>
+                <td style="float:left">
+                    <div style="position: relative;">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/basic/u9177.png"/>
+                        </div>
+                        <input type="button" value="新增" class="button_blue" onclick="openNewWin();">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="newWindow" style="display:none;">
+        <form id ="newItemData">
+            <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+                <tbody>
+                <tr>
+                    <input id = "newMainCode" type="hidden" name = "dictId" value=""/>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>負面行業類型</th><td>
+                    <input id = "newNegativeType" type="text" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width= "25%"><a style ="color:#FF0000;">*</a>負面行業名稱</th><td><input id = "newNegativeName" type="text" value=""/></td>
+                </tr>
+                <tr>
+                    <th width="25%"><a style ="color:#FF0000;">*</a>負面行業標準分類</th><td><input id = "newNegativeScore" type="text" value=""/></td>
+                </tr>
+                <tr>
+                    <td colspan = '2'><input id = "saveItem" type="button" value="儲存" onclick="window.parent.saveNewNegative()"/>
+                        <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closenew()"/></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="dataListDiv">
+    </div>
+
+</div>
+
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/negativeIndustry/negativeIndustry.js"></script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.itemData})">
+</head>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+<div class="main">
+    </br><div>當前位置：系統管理    > 負面表列行業</div></br>
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <tr>
+                    <th colspan="8" class="title"><img src="../images/applyIncom/applyIncom.png" />負面表列行業
+                     <div style="position: relative;float:right">
+                        <div style="position: absolute;top:6px;left:10px;">
+                            <img src="../images/basic/u9177.png"/>
+                        </div>
+                        <!-- <input type="button" value="新增" class="button_blue" onclick="openNewWin();"> 新增按钮改成导入-->
+                        <input type="button" value="導入" class="button_blue" onclick="uploanTarget();">
+                    </div> 
+                    </th>
+                </tr>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="newWindow" style="display:none;">
+        <form id ="newItemData">
+            <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+                <tbody>
+                <tr>
+                    <th width= "30%"><a style ="color:#FF0000;">*</a>負面行業名稱</th>
+                        <td>
+                            <select id="newNegativeName">
+                                <option value="">-請選擇-</option>
+                                <span th:unless="${#lists.isEmpty(industryNameList)}">
+                                    <option th:each=" industryName : ${industryNameList}" th:value="${industryName.key}" th:text="${industryName.value}"></option>
+                                </span>
+                            </select>
+                        </td>
+                </tr>
+                <tr>
+                    <th width="40%"><a style ="color:#FF0000;">*</a>中華民國稅務行業標準分類(細類)</th><td><input maxlength="20" id = "newNegativeScore" type="text" value="" onkeyup="this.value=this.value.replace(/[^0-9~]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9~]/g,'')"/></td>
+                </tr>
+                <tr>
+                    <td colspan = '2'><input id = "saveItem" type="button" value="確認" onclick="window.parent.saveNewNegative()"/>
+                        <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closenew()"/></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    
+          <div id = "uploadfile"style="display:none" >
+          <form method="post" th:action="@{/negativeIndustry/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+              <table class="tb01">
+                  <tr>
+                      <th width="20%">選擇導入文件:</th>
+                      <td width="80%">
+            <span width="70%">
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" style="float:left;margin-left:5px;"/>
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+                          <input id="_upload" type="button" th:if="${userUtil.hasFunction('WEB_SYSTEM_HOLIDAY_IMPORT')}" value="導入" onclick="upload();" style="float:right;margin-right:15px;" disabled/>
+                      </td>
+                  </tr>
+              </table>
+          </form>
+          
+           <!-- 下载模板 -->
+          <!-- <a style="margin-top:20px;" href="../Excl/365.xlsx" download="365.xlsx">点击下载</a> -->
+	       <div class="ExcleTemplate" style="margin-top:20px;margin-left:15px;">
+	       <a th:href="@{/negativeIndustry/excleDownload}"><span style="color:blue;">點擊下載負面表列行業模板</span></a>
+	       </div>
+          
+      </div>
+    
+    <div id="dataListDiv">
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/negativeIndustry/negativeIndustry.js"></script>
+</body>
+</html>

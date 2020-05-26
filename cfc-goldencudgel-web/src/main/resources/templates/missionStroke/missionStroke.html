@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.missionStroke})">
+    
+</head>
+<link rel="stylesheet" th:href="@{../../css/missionStroke.css}" type="text/css" />
+<style>
+select::-ms-expand { display: none; }
+#addStrokeByZXY tbody tr:hover {
+    background: rgba(188, 235, 227, 1);
+    cursor: pointer;
+}
+
+#addStrokeByZXY table {
+    border: 1px solid gray;
+}
+
+#addStrokeByZXY table th {
+    border: 1px solid gray;
+}
+
+#addStrokeByZXY table td {
+    border: 1px solid gray;
+}
+
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+    <div class="main">
+        </br><div>當前位置：金箍棒 > <span th:text = "#{goldencudgel.menu.missionStroke}"/> </div></br>
+        <div class="div-inline" style="width:72%;float:left;margin-right:5px">
+        <form id="missionStroke">
+        <table class="tab01">
+            <thead>
+                <tr class="condition1">
+                    <th style="text-align:center;width:3%;">
+                        <img src="../../images/u607.png" style="width:20px;cursor:default;"/>
+                    </th>
+                    <th style="text-align:left;width:10%;">
+                        <span id="_select_date" style="cursor: pointer;" showType="day" onclick="showCalendar()"></span>
+                        <input id="appointmentDate" name="appointmentDate" style="display: none">
+                        <input id="searchType" name="searchType" type="text" style="display:none;">
+                    </th>
+                    <th style="text-align:center;width:3%;">
+                        <img src="../../images/u597.png" style="width:20px;" onclick="upMonth()"/>
+                    </th>
+                    <th style="text-align:center;width:3%;">
+                        <img src="../../images/u596.png" style="width:20px;" onclick="nextMonth()"/>
+                    </th>
+                    <th style="text-align:left;width:20%;">
+                        <span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">區中心：</span>
+                        <span th:if="${session.user.userType == 'M'}"  th:unless="${#lists.isEmpty(areaList)}">
+                        <select name="areaCode" id="areaCode" onchange="getGroupList()" class="select" style="width: 60%;">
+                            <option value="">全部</option>
+                            <option th:each=" area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                        </select>
+                        </span>
+                        <span th:if="${session.user.userType == 'A' || session.user.userType == 'C'}" th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                            <span th:text="${area.key == session.user.userArea} ? ${area.value}:''"></span>
+                        </span>
+                        <span th:if="${session.user.userType != 'M'}"><input name="areaCode" th:value="${session.user.userArea}" style="display: none"></span>
+                    </th>
+                    <th style="text-align:left;width:26%;">
+                        <span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 業務組別：</span>
+                        <span th:if="${session.user.userType == 'M' || session.user.userType == 'A'}">
+                            <select name="groupCode" id="groupCode" onchange="getUserList()" style="width:60%;" class="select" >
+                                <option value="">全部</option>
+                                <option th:unless="${#lists.isEmpty(groupList)}" th:each=" group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                            </select>
+                        </span>
+                        <span th:if="${session.user.userType} == 'C'" th:unless="${#lists.isEmpty(groupList)}" th:each="group:${groupList}">
+                            <span th:text="${group.key == session.user.userGroup} ? ${group.value}:''"></span>
+                        </span>
+                        <span th:if="${session.user.userType != 'M' && session.user.userType != 'A'}"><input name="groupCode" th:value="${session.user.userGroup}" style="display: none"></span>
+                    </th>
+                    <th style="text-align:left;width:24%;" >
+                        <span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 經辦人:</span>
+                        <span th:if="${session.user.userType == 'M' || session.user.userType == 'A' || session.user.userType == 'C'}">
+                        <select name="userCode" id="userCode" style="width:60%;" onchange="searchStroke()" class="select" >
+                            <option value="">全部</option>
+                            <option th:unless="${#lists.isEmpty(userList)}" th:each=" u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                        </select>
+                        </span>
+                        <span th:if="${session.user.userType == 'S' || session.user.userType == 'Z'}"><input name="userCode" th:value="${session.user.userCode}" style="display: none"></span>
+                    </th>
+                    <th style="text-align:center;border-style:none;">
+                        <img src="../../images/missionStroke/u319.png" onclick="showSearch()"/>
+                        <span th:if="${session.user.userType == 'S' || session.user.userType == 'Z'}">
+                            <img src="../../images/missionStroke/u2148.png" th:userType="${session.user.userType}" onclick="addStroke(this)"/>
+                        </span>
+                    </th>
+                </tr>
+                <tr class="condition2" style="display:none;">
+                    <th style="text-align:center;">
+                        <input type="text" id="comName" name="comName" class="input_search" placeholder="請輸入授信戶名稱或統編">
+                        <a style="cursor: pointer;" onclick="searchStroke()">查詢</a>
+                        <a style="cursor: pointer;" onclick="showSearch()">取消</a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        </form>
+        <div id="_calendar_day">
+        <table class="tab02" style="border-collapse:collapse;" id="calendar">
+            <thead>
+                <tr>
+                    <td width="5%">一</td>
+                    <td width="5%">二</td>
+                    <td width="5%">三</td>
+                    <td width="5%">四</td>
+                    <td width="5%">五</td>
+                    <td width="5%">六</td>
+                    <td width="5%">日</td>
+                    <td width="5%">一</td>
+                    <td width="5%">二</td>
+                    <td width="5%">三</td>
+                    <td width="5%">四</td>
+                    <td width="5%">五</td>
+                    <td width="5%">六</td>
+                    <td width="5%">日</td>
+                </tr>
+            </thead>
+            <tbody id="calendar_tb">
+            </tbody>
+        </table>
+        </div>
+        <div id="_calendar_month" style="display:none">
+            <table class="tab02" style="border-collapse:collapse;" >
+                <tbody id="_calendar_month_tb">
+                <tr>
+                    <td width="25%" month="1" onclick="changeMonth(this)">1月</td>
+                    <td width="25%" month="2" onclick="changeMonth(this)">2月</td>
+                    <td width="25%" month="3" onclick="changeMonth(this)">3月</td>
+                    <td width="25%" month="4" onclick="changeMonth(this)">4月</td>
+                </tr>
+                <tr>
+                    <td width="25%" month="5" onclick="changeMonth(this)">5月</td>
+                    <td width="25%" month="6" onclick="changeMonth(this)">6月</td>
+                    <td width="25%" month="7" onclick="changeMonth(this)">7月</td>
+                    <td width="25%" month="8" onclick="changeMonth(this)">8月</td>
+                </tr>
+                <tr>
+                    <td width="25%" month="9" onclick="changeMonth(this)">9月</td>
+                    <td width="25%" month="10" onclick="changeMonth(this)">10月</td>
+                    <td width="25%" month="11" onclick="changeMonth(this)">11月</td>
+                    <td width="25%" month="12" onclick="changeMonth(this)">12月</td>
+                </tr>
+                <tr>
+                    <td width="25%" month="1" onclick="javascript:void(0);" style="color: #aeaeae;">1月</td>
+                    <td width="25%" month="1" onclick="javascript:void(0);" style="color: #aeaeae;">2月</td>
+                    <td width="25%" month="1" onclick="javascript:void(0);" style="color: #aeaeae;">3月</td>
+                    <td width="25%" month="1" onclick="javascript:void(0);" style="color: #aeaeae;">4月</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="_calendar_year" style="display:none">
+            <table class="tab02">
+                <tbody id="_calendar_year_tb">
+                </tbody>
+            </table>
+        </div>
+        <!--任務行程詳情-->
+        <div id = "strokeDetialList" style="height:500px;background:#fff;"></div>
+        <!--任务行程详情-->
+        <div id="strokeDetial" style="display: none"></div>
+        </div>
+        <!-- 指標達成率 -->
+        <div sclass="div-inline" style="width:26%;height:200px;float:left;background:#fff;">
+            <input type="hidden" id="reachingRateInfoList" th:value="${reachingRateInfoList}"/>
+            <table class="tab04" style="border-collapse:collapse;">
+                <thead>
+                    <th style="text-align:center;width:6%;">
+                        <img src="../../images/missionStroke/u205.png" style="cursor:default;"/>
+                    </th>
+                    <th style="text-align:centerwidth:24%;">指標達成率</th>
+                    <th style="text-align:right;width:36%">
+                        <select style="width:90%;" id="reachingAreaCode" onchange="changeProdCode()" th:if="${session.user.userType == 'M'}">
+                            <option th:unless="${#lists.isEmpty(areaList)}" th:each="area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                        </select>
+                        <select style="width:90%;" id="reachingAreaCode" onchange="changeProdCode()" th:if="${session.user.userType == 'A'}">
+                            <option th:unless="${#lists.isEmpty(groupList)}" th:each="group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                        </select>
+                    </th>
+                    <th style="width:36%;">
+                        <select style="width:90%;" id="prodCode" onchange="changeProdCode()">
+                            <option th:unless="${#lists.isEmpty(productList)}" th:each=" product : ${productList}" th:value="${product.key}" th:text="${product.value}"></option>
+                        </select>
+                    </th>
+                </thead>
+                </table>
+                <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;"><span id="statisticsTime" th:text="${statisticsTime}"></span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td rowspan="3"  style="width:25%;">
+                            <canvas style="width:100%;" th:id="applyRate" th:rate="${applyRate}" width="100" height="100"></canvas>
+                        </td>
+                        <td rowspan="3"  style="width:25%;">
+                            <canvas style="width:100%;" id="achieveRate" th:rate="${achieveRate}" width="100"  height="100"></canvas>
+                        </td>
+                        <td rowspan="2"  style="width:25%;">進件</td>
+                        <td  style="width:25%;"><span id ="applyCount" th:text="${applyCount}"></span>件</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="width:25%;" ><span id="applyAmount" th:text="${applyAmount}" class="money"></span>仟元</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td rowspan="2" >撥款</td>
+                        <td><span id="achieveCount" th:text="${achieveCount}" ></span>件</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="width:25%;">進件達成率</td>
+                        <td style="width:25%;">撥款達成率</td>
+                        <td style="width:25%;"><span id="loanAmount" th:text="${loanAmount}"  class="money"></span>仟元</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 行程进度 -->
+        <div id="taskProgress" sclass="div-inline" style="width:26%;height:456px;float:left;background:#fff;overflow:hidden;margin-top:5px"></div>
+    </div>
+    
+    <!-- 征信員新增任務行程列表 -->
+    <div id="addStrokeByZXY" style="display: none">
+        <!-- <div>
+            <table class="tb03" style="border: none;">
+                <tbody>
+                    <tr style="border: none;">
+                        <td style="border: none;">授信戶統編</td>
+                        <td style="border: none;"><input type="text" class="input" id="compilationNo"></td>
+                        <td style="border: none;"><input onclick="searchCase()" type="submit" class="button_blue" value="查詢"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+        <div id="caseList">
+        
+        </div>
+    </div>
+    <!-- 记录任务行程页数 -->
+    <input id="taskProgressPage" type="text" style="display:none;"/>
+    <div th:replace="~{common/footer :: footer}"/>
+</body>
+<script type="text/javascript" src="../../js/missionStroke/echarts.common.min.js"></script>
+<script type="text/javascript" src="../../js/missionStroke/missionStroke.js"></script>
+</html>

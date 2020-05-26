@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+.step_green{
+    background: none;
+    border:none;
+    background-image:url(../images/message/u15076.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 0px;
+    width: 150px;
+    height: 30px;
+}
+.step_gray{
+    background: none;
+    border:none;
+    background-image:url(../images/message/u15077.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 0px;
+    width: 150px;
+    height: 30px;
+}
+.step_input{
+    background: none;
+    border:none;
+    background-image:url(../images/message/u15085.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 0px;
+    width: 190px;
+    height: 30px;
+}
+
+

@@ -1,0 +1,80 @@
+@charset "utf-8";
+._radio{
+ position: absolute; 
+ bottom: 2px;
+ left: 25px;
+}
+.show_dialog{
+    width:450px;height:360px;
+    background-image: url(../images/measureWord/u2344.png);
+    margin:0 auto;
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+}
+.show_dialog_body{
+   width:100%;
+   height:70%;
+   text-align:center;
+}
+.show_dialog_tile{
+ background-image:url(../images/measureWord/u5.png);
+ margin:0 auto;
+ background-repeat:no-repeat;
+ background-size:100% 100%;
+ -moz-background-size:100% 100%;
+ height:10%;width:100%;text-align:center;
+}
+.show_dialog_button{
+ width:100%;
+ height:10%;
+ margin-top:15px;
+}
+
+.reject{
+  background: none;
+  border:none;
+  background-image:url(../images/letterConsent/reject_1.png),url(../images/letterConsent/reject.png);
+  background-repeat:no-repeat,no-repeat;
+  background-size:100% 100% 60% 60%;
+  -moz-background-size:100% 100%;
+}
+.approve{
+  background: none;
+  border:none;
+  background-image:url(../images/letterConsent/approve.png);
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  -moz-background-size:100% 100%;
+}
+
+.letter_show_dialog{
+    width:350px;height:240px;
+    background-image: url(../images/measureWord/u2344.png);
+    margin:0 auto;
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+}
+.letter_dialog_body{
+   width:100%;
+   height:60%;
+   text-align:center;
+}
+.letter_dialog_tile{
+ background-image:url(../images/measureWord/u5.png);
+ margin:5 auto;
+ background-repeat:no-repeat;
+ background-size:100% 100%;
+ -moz-background-size:100% 100%;
+ height:20%;width:100%;text-align:center;
+ color:white;
+}
+.letter_dialog_button{
+ width:100%;
+ height:20%;
+ margin-top:15px;
+}
+
+
+

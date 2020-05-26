@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.productManagement})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+.auditState {display: none;}
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：產品管理  > 產品管理查詢</div></br>
+        <input id="backFlag" type="text" th:value="${backFlag}" style="display: none;" />
+        <div >
+            <table class="tb03">
+                <tbody>
+                <tr>
+                    <th colspan="8" class="title"><img src="../images/applyIncom/applyIncom.png" />產品管理查詢</th>
+                </tr>
+                <tr>
+                    <td style="width:8%;text-align: right;">產品名稱：</td>
+                    <td style="width:16%;">
+                    <select id="productName" class="select">
+                                <option value="">全部</option>
+                                <option value="P0001">智能貸</option>
+                                <option value="P0002">商户貸</option>
+                    </select>
+                    </td>
+                    <td style="width:8%;text-align: right;"><span th:if="${flag=='true'}">設定項目：</span></td>
+                    <td style="width:16%;" th:if="${flag=='true'}">
+                    <select id="setItem" class="select">
+                                <option value="">全部</option>
+                                <option value="測字館">測字館</option>
+                    </select>
+                    </td>
+                    <td style="width:8%;text-align: right;"><span th:if="${flag=='true'}">審核狀態：</span></td>
+                    <td style="width:16%;" th:if="${flag=='true'}">
+                    <select id="checkState" class="select">
+                                <option value="">全部</option>
+                                <option value="01">已審核</option>
+                                <option value="02">待審核</option>
+                    </select>
+                    </td>
+                    <td style="text-align: left ;width: 10%;"><input type="button" class="button_blue" value="查詢" onclick="javascript:queryProductManagement(1);"></td>
+               </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="productManagement_list">
+        </div>
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+    </div>
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/productManagement/productManagement.js"></script>
+</body>
+
+</html>

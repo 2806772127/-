@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="page(pageFunction)" th:if="${toalPage}!=0" style="text-align:right">
+    <div style="position: relative;display: inline;float:right;margin-right:280px;cursor:pointer" th:onclick="${page.number} <= 1 ? 'javascript:void(0)':'javascript:findPage('+(${page.number}-1)+')'">
+        <div style="position: absolute;width:28px;height:22px;top:2px;background:url('../../images/basic/u668.png')">
+            <img style="position: absolute;top:5px;left:12px" src="../../images/basic/u672.png"/>
+        </div>
+    </div>
+    <div style="position: relative;display: inline;cursor:pointer;top:2px" th:onclick="${page.number} >= ${toalPage} ? 'javascript:void(0)':'javascript:findPage('+(${page.number}+1)+')'">
+        <img style="position:absolute; left:40px; top:0; z-index:1" src="../../images/basic/u668.png">
+        <img style="position:absolute; left:52px; top:5px; z-index:2" src="../../images/basic/u669.png">
+    </div>
+    <div style="position: relative;display: inline;margin-left:80px;top:2px;">
+        <span th:text="#{index}"></span>
+        <select  id="page_select" onchange="findPage(this.value)">
+            <div>
+                <option th:each="i : ${#numbers.sequence(1, toalPage)}" th:selected="${i}== ${page.number}" th:text="${i}"></option>
+            </div>
+        </select>
+        <span th:text="#{page}"></span>
+        <span th:if="${page.number} >= 1" th:text="','" th:value="${page.number}"></span>
+
+        <input type="hidden" name="curPage" id="curPage" th:value="${page.number}"/>
+        <span th:text="#{totals}"></span><span th:text="${page.totalElements}"></span><span th:text="#{pages}"></span>
+        <span th:if="${page.number} > ${toalPage}" th:text="'/'"></span>
+        <span th:text="','"/>
+        <span th:text="#{total}"></span><span th:text="${toalPage}"></span><span th:text="#{page}"></span>
+    </div>
+</div>
+</body>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+</html>

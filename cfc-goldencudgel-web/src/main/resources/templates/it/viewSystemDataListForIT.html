@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="common/header :: commonHeader(#{golden.menu.systemData})">
+</head>
+
+<body class="body_bg">
+    <div th:replace="it/indexForIT :: #top"></div>
+    <div th:insert="~{it/indexForIT :: menu}"></div>
+    <br/>
+    <div style="margin-left:50px;margin-top:5px;">當前位置：<span>系統管理 > 報表日誌</span></div>
+    <br/>
+    <div class="main" id="mybg">
+        <table class="tb03" >
+            <tr>
+                <th colspan="6" class="title"><img src="../images/measureWord/u5251.png"><span>報表日誌</span></th>
+            </tr>
+            <tr style="height: 60px;">
+                <td style="width: 8%;text-align: right;">資料庫：</td>
+                <td style="text-align: left ;width: 22%;"><input class="input" type="text" name="schemaName" id="schemaName" /> </td>
+                <td style="width: 8%;text-align: right;">表名：</td>
+                <td style="text-align: left ;width: 22%;"><input class="input" type="text" name="tableName" id="tableName" /> </td>
+                <td  style="text-align: left ;width: 20%;"><input type="button" class="button_blue" value="新增" onclick="addSystemData();"></td>
+                <td  style="text-align: left ;width: 20%;"><input type="button" class="button_blue" value="查詢" onclick="querySystemDataList();"></td>
+            </tr>
+        </table>
+        <div id="systemData_list"></div>
+    </div>
+    
+    <div id="addSystemData" style="display: none;">
+        <form id="systemDataInfo">
+            <table class="tb02 mgt">
+                <tbody>
+                    <tr>
+                        <th><span style="color: red">*</span>資料庫：</th>
+                        <td>
+                            <input id="schemaName" type="text" name="schemaName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span style="color: red">*</span>表名：</th>
+                        <td>
+                            <input id="tableName" type="text" name= "tableName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>特殊欄位：</th>
+                        <td>
+                            <input id="maskColumn" type="text" name="maskColumn" />
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2" style="text-align:center;">
+                            <input type="button" class="button_blue" value="儲存" onclick="saveSystemData()"/>
+                            <input align="center" th:type="button" class="button_blue" onclick="closeWindow('addSystemData')" th:value="返回"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    
+    <div th:replace="~{common/footer :: footer}"></div>
+    <script type="text/javascript" src="../../js/systemData/systemData.js"></script>
+</body>
+</html>

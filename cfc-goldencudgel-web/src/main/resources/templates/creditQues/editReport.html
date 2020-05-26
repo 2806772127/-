@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.questionnaire.edit})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/questionniare.css}" type="text/css"/>
+<body class="body_bg">
+<div th:replace="index/index :: #top"></div>
+<div th:insert="~{index/index :: menu}"></div>
+<br/>
+<div style="margin-left:50px;margin-top:5px;">
+    <div>當前位置：徵信實訪 > 徵信報告問卷查詢 > 修改徵信報告問卷</div>
+</div>
+<br/>
+<div class="main">
+    <div id="d1">
+        <form id="viewReport">
+            <table class="tb01 mgt">
+                <tr>
+                    <th colspan="8" class="title">
+                        <img src="../images/measureWord/u8597.png">
+                        <span style="margin-left:5px;"/>修改徵信報告問卷</span>
+                        <input type="hidden" id="alertMsg" th:value="${alertMsg}">
+                    </th>
+                </tr>
+                <!--第一行-->
+                <tr>
+                    <td class=" tdback" style="width:12.5%;text-align:right;" height="40px">
+                        <span></span>授信戶統編：
+                    </td>
+                    <td style="width:12.5%;text-align:left;">
+                        <span th:text="${compilationNo}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        <span></span>授信戶名稱：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${compilationNanme}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        問卷類型：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="徵信"></span>
+                    </td>
+
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        問卷名稱：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${questionnaireName}"></span>
+                    </td>
+
+                </tr>
+                    <!--第二行-->
+                <tr>
+                    <td class="tdback" style="width:12.5%; text-align:right;" height="40px">
+                        <span></span>類別：
+                    </td>
+                    <td style="width:12.5%;text-align:left;">
+                        <span th:text="${questionnaireName}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        <span></span>答題時間：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${startDate}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        <span></span>修改時間：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${endDate}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                          <span></span>徵信員姓名：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${creditName}"></span>
+                    </td>
+
+                </tr>
+                    <!--第三行-->
+                <tr>
+                    <td class="tdback" style="width:12.5%;text-align:right;" height="40px">
+                        <span></span>問卷說明：
+                    </td>
+                    <td style="text-align:left;width:12.5%;" colspan="7">
+                        <span th:text="${questionnaireName}"></span>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="questionRecord">
+        <form id="questionForm">
+            <table th:each="type:${#numbers.sequence(1,5)}" class="tb01 mgt">
+            	<thead>
+            	<tr>
+            	    <th colspan="2" class="p1" onclick="showOrHide(this)" style="text-align: left; padding:0 10px;"
+                    th:text="${type==1?'企業沿革':(type==2?'營收及產銷貨狀況':(type==3?'資金調度及償債能力':(type==4?'保人資力':'綜合評估說明')))}"></th>
+            	</tr>
+            	</thead>
+            
+            	<tbody class="content" style="width:100%">
+                <tr th:each="question : ${questionnaireList}" th:id="${question.getId()}"
+                    th:if="${questionRecordMap.get(question.getId())} != null and
+                    ((${type}==1 and ${questionRecordMap.get(question.getId()).getQuestionType()}=='04')
+                    or (${type}==2 and ${questionRecordMap.get(question.getId()).getQuestionType()}==${questionnaireType})
+                    or (${type}==3 and ${questionRecordMap.get(question.getId()).getQuestionType()}=='05')
+                    or (${type}==4 and ${questionRecordMap.get(question.getId()).getQuestionType()}=='06')
+                    or (${type}==5 and ${questionRecordMap.get(question.getId()).getQuestionType()}=='13')
+                    ) "
+                    th:with="currRecord=${questionRecordMap.get(question.getId())}"
+                    style="margin-left:15px; height: 40px" th:listnamehead="records"
+                    th:hidden="${noNeedQuesIdMap.get(question.getId())}!=null"
+                    th:sortNo="${question.getSortNo()}"
+                    th:fatherQuestion="${question.getFatherQuestion()}"
+                    th:class="${noNeedQuesIdMap.get(question.getId())}!=null?'tr_answer remove':'tr_answer'"
+                >
+                    <td th:text="${question.name}" style="text-align: right; padding:0 10px;width:35%"></td>
+                    <input th:type="hidden" th:listName="questionName" th:value="${question.name}"/>
+                    <td style="text-align:left;width:65%;padding-left:10px;">
+                        <!-- type 01-问答题  02-单选题 03-日期（年月日） 04-多选题  05-日期（民國 XX 年 XX月）07-時間(年月)控件  06-日期(民國年)控件  -->
+                        <!-- 01-問答題(輸入框)-->
+                        <input class="answer answerInput" name="questionType01" th:type="text" style="width: 90%;height: 30px; padding:0 10px" maxlength='600' th:if="${currRecord.type} == '01'" th:value="${currRecord.questuibAnswer}" th:listName="questuibAnswer" th:nextQuestion="${question.getAnswers()[0].getNextQuestion()}"/>
+                        <!-- 08-問答題(文本框)-->
+                        <textarea class="answer answerInput" rows="5" style="width: 90%;padding:0 10px" maxlength="600" th:if="${currRecord.type} == '08'" th:text="${currRecord.questuibAnswer}" th:listName="questuibAnswer" th:nextQuestion="${question.getAnswers()[0].getNextQuestion()}"></textarea>
+                        <!-- 02-单选题 -->
+                        <select class="answer answerInput" name="questionType02" style=" padding:0 10px" th:if="${currRecord.type} == '02'" th:listName="questuibAnswer" onchange="changeAnswer(this);"
+                            th:questionId="${question.getId()}" th:questionnaireId="${question.getQuestionnaire().getId()}"
+                            th:cusCode="${currRecord.cusCode}" th:measureId="${currRecord.measureId}"
+                            th:oldAnswer="${currRecord.questuibAnswer}"
+                        >
+                            <option th:if="${currRecord.questuibAnswer}==null or ${currRecord.questuibAnswer}==''" style="display: none"></option>
+                            <option th:each="answer:${question.getAnswers()}" th:selected="${answer.getAnswer()}==${currRecord.questuibAnswer} and ${noNeedQuesIdMap.get(question.getId())}==null" th:value="${answer.getAnswer()}" th:text="${answer.getAnswer()}" th:nextQuestion="${answer.getNextQuestion()}"></option>
+                        </select>
+                        <!-- 03-日期 -->
+                        <input class="answer input answerInput" th:if="${currRecord.type} == '03'" type="text" name ="selectDate" th:value="${currRecord.questuibAnswer}" th:listName="questuibAnswer" readonly  style="padding:0 10px" th:nextQuestion="${question.getAnswers()[0].getNextQuestion()}"/>
+                        <img th:if="${currRecord.type} == '03'" name="selectDateImg" src="../images/measureWord/u22.png" onclick="clickImgFocus(this); " style="padding:0 10px" />
+                        <!-- 04-多选题 -->
+                        <input class="answer answerInput" type ="checkbox" name="selectAnswers" th:listName="questuibAnswer"
+                               th:if="${currRecord.type} == '04'"
+                               th:each ="answer:${question.getAnswers()}"
+                               th:value="${answer.getAnswer()}"
+                               th:text ="${answer.getAnswer()}"
+                               th:attr ="checked=${currRecord.questuibAnswer.contains(answer.getAnswer())?true:false}" style="padding:0 10px" />
+                        <!-- 05-日期(民國 XX 年 XX月) -->
+                        <span class="answer" th:if="${currRecord.type} == '05'" th:nextQuestion="${question.getAnswers()[0].getNextQuestion()}">
+                            民國
+                            <!--<input th:if="${currRecord.type} == '05'" type="text" name ="republicYear" th:value="${currRecord.republicYear}" th:listName="republicYear" style="text-align:center;width: 30px;" maxlength="3"/>&nbsp;年
+                            <input th:if="${currRecord.type} == '05'" class="monthClass" type="text" name ="republicMonth" th:value="${currRecord.republicMonth}" th:listName="republicMonth" style="text-align:center;width: 30px;" maxlength="2"/>&nbsp;月-->
+                            <select class="answerInput" name="questionType051" th:value="${currRecord.republicYear}" th:listName="republicYear" th:oldAnswer="${currRecord.republicYear}">
+                                <option th:if="${currRecord.republicYear} == null or ${currRecord.republicYear} == '' " style="display: none"></option>
+                                <option th:each="i:${#numbers.sequence(#dates.year(#dates.createNow())-1911,1)}" th:value="${i}" th:text="${i}" th:selected="${i}==${currRecord.republicYear}"></option>
+                            </select>
+                            年
+                            <select class="answerInput" name="questionType052" th:value="${currRecord.republicMonth}" th:listName="republicMonth" th:oldAnswer="${currRecord.republicMonth}">
+                                <option th:if="${currRecord.republicMonth} == null or ${currRecord.republicMonth} == '' "  style="display: none"></option>
+                                <option th:each="i:${#numbers.sequence(1,12)}" th:value="${i>9?i:('0'+i)}" th:text="${i>9?i:('0'+i)}" th:selected="${i}==${currRecord.republicMonth}"></option>
+                            </select>
+                            月
+                        </span>
+                        <!-- 07-時間(年月)控件 -->
+                        <span class="answer" th:if="${currRecord.type} == '07'" th:nextQuestion="${question.getAnswers()[0].getNextQuestion()}">
+                             <select class="answerInput" name="questionType071" th:value="${currRecord.republicYear}" th:listName="republicYear" th:oldAnswer="${currRecord.republicYear}">
+                                <option th:if="${currRecord.republicYear} == null or ${currRecord.republicYear} == '' " style="display: none"></option>
+                                <option th:each="i:${#numbers.sequence(0,#dates.year(#dates.createNow())-1919)}" th:value="${i}" th:text="${i}" th:selected="${i}==${currRecord.republicYear}"></option>
+                            </select>
+                            年
+                            <select class="answerInput" name="questionType072" th:value="${currRecord.republicMonth}" th:listName="republicMonth" th:oldAnswer="${currRecord.republicMonth}">
+                                <option th:if="${currRecord.republicMonth} == null or ${currRecord.republicMonth} == '' "  style="display: none"></option>
+                                <option th:each="i:${#numbers.sequence(0,11)}" th:value="${i}" th:text="${i}" th:selected="${i}==${currRecord.republicMonth}"></option>
+                            </select>                                          
+                            月
+                        </span>
+                        <!-- 06-日期(民國年)控件 -->
+                        <span class="answer" th:if="${currRecord.type} == '06'" th:nextQuestion="${question.getAnswers()[0].getNextQuestion()}">
+                         民國
+                             <select class="answerInput" name="questionType061" th:value="${currRecord.questuibAnswer}" th:listName="questuibAnswer" th:oldAnswer="${currRecord.questuibAnswer}">
+                                <option th:if="${currRecord.questuibAnswer} == null or ${currRecord.questuibAnswer} == '' " style="display: none"></option>
+                                <option th:each="i:${#numbers.sequence(#dates.year(#dates.createNow())-1911,1)}" th:value="${i}" th:text="${i}" th:selected="${i}==${currRecord.questuibAnswer}"></option>
+                            </select>
+                            年
+                        </span>
+                         <!-- 其他答题记录表字段 -->
+                        <input th:type="hidden" th:value="${currRecord.type}" th:listName="type"/>
+                        <input th:type="hidden" th:value="${currRecord.id}" th:listName="id"/>
+                        <input th:type="hidden" th:value="${currRecord.cusCode}" th:listName="cusCode"/>
+                        <input th:type="hidden" th:value="${currRecord.questionType}" th:listName="questionType"/>
+                        <input th:type="hidden" th:value="${currRecord.questionId}" th:listName="questionId"/>
+                        <input th:type="hidden" th:value="${currRecord.measureId}" th:listName="measureId"/>
+                        <!--<input th:type="hidden" th:value="${currRecord.createTime}" th:listName="createTime" th:listType="date"/>-->
+                        <input th:type="hidden" th:value="${currRecord.ruleItem}" th:listName="ruleItem"/>
+                        <input th:type="hidden" th:value="${currRecord.applyItem}" th:listName="applyItem"/>
+                        <input th:type="hidden" th:value="${currRecord.questionLevel}" th:listName="questionLevel"/>
+                        <input th:type="hidden" th:value="${currRecord.fatherQuertion}" th:listName="fatherQuertion"/>
+                    </td>
+                </tr>
+            	</tbody>
+            </table>
+           <input id="detailId" type="hidden" value="${detailId}"/>
+        </form>
+        <div style="text-align:center;margin-top:20px;">
+            <input type="button" class="button_blue" value="暫存" onclick="javascript:temporaryStorage();"/>
+            <input type="button" class="button_blue" value="儲存" onclick="javascript:updateQuestionRecord();"/>
+            <input type="button" class="button_blue" value="返回" onclick="javascript:gotoPages();"/>
+        </div>
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+<script type="text/javascript" src="../../js/creditQues/creditQues.js"></script>
+</body>
+</html>

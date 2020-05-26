@@ -1,0 +1,61 @@
+<table class="tb02">
+    <tbody>
+        <tr>
+            <th style="width: 20%">授信戶統編：</th><td style="width: 30%" th:text="${custCaseInfo.compCode}"></td>
+            <th style="width: 20%">授信戶名稱：</th><td style="width: 30%" th:text="${custCaseInfo.compName}"></td>
+        </tr>
+        <tr>
+            <th>公司設立日期：</th><td th:text="${#dates.format(custCaseInfo.comEstabdate, 'yyyyMMdd')}"></td>
+            <th>負責人姓名：</th><td th:text="${custCaseInfo.principalName}"></td>
+        </tr>
+        <tr>
+            <th>組織形態：</th>
+            <td>
+                <span th:unless="${#lists.isEmpty(organizationList)}" th:each="organization:${organizationList}">
+                    <span th:text="${organization.itemCode == custCaseInfo.comOrganization} ? ${organization.itemName}:''"></span>
+                </span>
+            </td>
+            <th>實收資本額(仟元)：</th><td th:text="${custCaseInfo.comActualCapital}" class="money"></td>
+        </tr>
+        <tr>
+            <th>公司登記地址：</th><td th:text="${custCaseInfo.compRegCityName == null ? '':custCaseInfo.compRegCityName}+${custCaseInfo.compRegAreaName == null ? '':custCaseInfo.compRegAreaName}+${custCaseInfo.compRegAddress}"></td>
+            <th>實際營業地址：</th><td th:text="${custCaseInfo.comAddress}"></td>
+        </tr>
+        <tr>
+            <th>最近一年營收(仟元)：</th><td th:text="${custCaseInfo.comRecyearRevenueInterval}" class="money"></td>
+            <th>聯絡人姓名：</th><td th:text="${custCaseInfo.contactName}"></td>
+        </tr>
+        <tr>
+            <th>稱謂：</th>
+            <td>
+                <span th:unless="${#lists.isEmpty(positionList)}" th:each="position:${positionList}">
+                    <span th:text="${position.itemCode == custCaseInfo.contactPosition} ? ${position.itemName}:''"></span>
+                </span>
+                <span th:if="${custCaseInfo.contactPosition == '99'}" th:text="${'(' + custCaseInfo.contactPositionOther}+')'"></span>
+            </td>
+            <th>聯絡電話：</th><td th:text="${custCaseInfo.contactPhone}"></td>
+        </tr>
+        <tr>
+            <th>行動電話：</th><td th:text="${custCaseInfo.contactMobile}"></td>
+            <th>電子郵件信箱：</th><td th:text="${custCaseInfo.contactEmail}"></td>
+        </tr>
+        <tr>
+            <th>申請產品：</th><td th:text="${custCaseInfo.prodTypeName}"></td>
+            <th>推薦方式：</th>
+            <td>
+                <span th:unless="${#lists.isEmpty(enterSourceList)}" th:each="sourceList:${enterSourceList}">
+                    <span th:text="${sourceList.itemCode == custCaseInfo.sourceType} ? ${sourceList.itemName}:''"></span>
+                </span>
+                <span th:if="${custCaseInfo.sourceType == 'ZJ_01' || custCaseInfo.sourceType == 'ZJ_02'}" th:text="${'推薦人身份證字號：' + custCaseInfo.otherIntroduceId} "/>
+                <span th:if="${custCaseInfo.sourceType == 'ZJ_03'}" th:text="${'中文姓名：' + custCaseInfo.otherIntroduceName
+                + '  員工編號：' + custCaseInfo.otherIntroduceId} "/>
+            </td>
+        </tr>
+        <tr>
+            <th>留言或備註：</th><td colspan="3" th:text="${custCaseInfo.remark}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center;" colspan="4"><input type="button" value="返回" class="button_blue" onclick="clsoeCaseDetail()"/></th>
+        </tr>
+    </tbody>
+</table>

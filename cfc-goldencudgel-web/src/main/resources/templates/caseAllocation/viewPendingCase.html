@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.pendingCase})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<link rel="stylesheet" th:href="@{../../css/missionStroke.css}" type="text/css" />
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：案件分配  >  <span style="font-size:16px" th:text="${handleFlag == '1' ? '待辦清單' : '案件查詢'}"/></div></br>
+        <div>
+            <table class="tb03">
+                <thead>
+                    <tr>
+                        <th colspan="12" class="title"><img src="../images/caseAllocation/caseAllocation.png" /><span style="font-size:16px" th:text="${handleFlag == '1' ? '待辦清單' : '案件查詢'}"/></th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" th:if="${session.user.userType!='C'}">分配類型：</td>
+                        <td th:if="${session.user.userType!='C'}">
+                            <select name="allocationType" id="allocationType" class="select1" >
+                                <option value="2">人工</option>
+                                <option value="1">自動</option>
+                            </select>
+                        </td>
+                        <td style="text-align: right;">縣市別：</td>
+                        <td>
+                            <select name="cityCode" id="cityCode" class="select1" onchange="choseCity()">
+                                <option value="">全部</option>
+                                <span th:unless="${#lists.isEmpty(cityList)}">
+                                    <option th:each=" city : ${cityList}" th:value="${city.key}" th:text="${city.value}"></option>
+                                </span>
+                            </select>
+                        </td>
+                        <td style="text-align: right;">區域：</td>
+                        <td>
+                            <select name="areaCode" id="areaCode" class="select1" >
+                                <option value="">全部</option>
+                            </select>
+                        </td>
+                        <td style="text-align: right;">授信戶統編：</td>
+                        <td><input type="text" id="compCode" class="input1"/></td>
+                        <td style="text-align: right;">授信戶名稱：</td>
+                        <td colspan="2"><input type="text" id="compName" class="input1"/></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><span>分配時間：</span></td>
+                        <td colspan="3">
+                            <input type="text" name="allocationStartDate" readOnly class="input1"/>
+                            &nbsp;<img id="allocationStartImg" src="../images/u22.png"/>&nbsp;~&nbsp;
+                            <input type="text" name="allocationEndDate" readOnly class="input1"/>
+                            &nbsp;<img id="allocationEndImg" src="../images/u22.png"/>
+                        </td>
+                        <td style="text-align: right;"><span>進件時間：</span></td>
+                        <td colspan="5">
+                            <input type="text" name="applyStartDate" readOnly class="input1"/>
+                            &nbsp;<img id="applyStartImg" src="../images/u22.png"/>&nbsp;~&nbsp;
+                            <input type="text" name="applyEndDate" readOnly class="input1"/>
+                            &nbsp;<img id="applyEndImg" src="../images/u22.png"/>
+                        </td>
+                        <td>
+                            <div style="position: relative;" onclick="queryPendingCase(1);">
+                                <div style="position: absolute;top:6px;left:10px;">
+                                    <img src="../images/u5255.png"/>
+                                </div>
+                                <input type="button"th:if="${userUtil.hasFunction('WEB_PENDING_CASE_QUERY')}" value="查詢" class="button_blue" onclick="queryPendingCase()">
+                            </div>
+                            <input id="handleFlag" style="display: none" th:value="${handleFlag}">
+                        </td>
+                    </tr>
+                    <tr th:if="${(session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1'}">
+                        <td style="text-align: right;"><span>標註時間：</span></td>
+                        <td colspan="7">
+                            <input type="text" name="handleStartDate" readOnly class="input1"/>
+                            &nbsp;<img id="handleStartImg" src="../images/u22.png"/>&nbsp;~&nbsp;
+                            <input type="text" name="handleEndDate" readOnly class="input1"/>
+                            &nbsp;<img id="handleEndImg" src="../images/u22.png"/>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            <div id="queryResult"></div>
+            <div style="text-align: center">
+                <input type="button" value="回收" class="button_blue" onclick="wholeRecycling()" th:if="${userUtil.hasFunction('WEB_WHOLE_RECYCLING')}">
+                <input type="button" value="匯出" class="button_blue" onclick="exportCase()" th:if="${userUtil.hasFunction('WEB_EXPORT_CASE')}">
+            </div>
+        </div>
+    </div>
+    <!--  案件详情  -->
+    <div id="caseDetail" style="display: none"></div>
+    <!-- 已排程案件的統編 -->
+    <div id="inProcessCaseDiv" style="display: none;text-align: center">
+        <span style="text-align: center">所選案件包含已排程案件，</br>無法回收！</span>
+        <table class="tb02">
+            <tr>
+                <th style="text-align: center">已排程案件的統編</th>
+            </tr>
+            <tr>
+                <td style="height: 100px;vertical-align:top;" id="inProcessCase"></td>
+            </tr>
+        </table>
+        <input type="button" value="返回" class="button_gray" onclick="clsoeInProcessCase()"/>
+    </div>
+
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/caseAllocation/pendingCase.js"></script>
+    <script type="text/javascript" defer=true src="../../js/caseAllocation/caseAllocation.js"></script>
+</body>
+</html>

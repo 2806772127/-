@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- <head th:replace="common/header :: commonHeader(#{goldencudgel.menu.apply})"> -->
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.auth})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<style>
+    .functions{
+        text-align: center;
+    }
+</style>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理  > 角色權限管理  > 新增權限</div></br>
+
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <th colspan="6" class="title"><img src="../images/role/u14262.png" />新增權限</th>
+            </tr>
+            <tr>
+                <th style="text-align:center" > <span style="color: red;">*</span>角色名稱：</th><td>
+                <select th:class="roleSelect" th:id="roleId" style="width: 165px;">
+                    <option th:value="null">-- 請選擇 --</option>
+                    <span th:unless="${#lists.isEmpty(roleList)}" th:each="role:${roleList}">
+                            <option th:value="${role[0]}" th:text="${role[1]}"></option>
+                        </span>
+                </select>
+                </td>
+                <th style="text-align:center"><span style="color: red;">*</span> 類型：</th>
+                <td>
+                    <input th:type="hidden" th:id="hi_type" th:value="${authType}" >
+                    <input th:type="button" style="width: 60px;"  th:id="app" th:value="APP" th:class="vsb" th:onclick="changeType(1)" >
+                    <input th:type="button" style="width: 60px;" th:id="web" th:value="WEB" th:class="vsw" th:onclick="changeType(2)" >
+
+                </td>
+
+                <th style="text-align:center"><span style="color: red;">*</span> 啟用/禁用：</th>
+                <td>
+
+                    <input th:type="hidden" th:id="roleEnable" th:value="1" >
+                    <input th:type="button" style="width: 60px;"  th:id="qiyong" th:value="啟用" th:class="vsb" th:onclick="changeEnable(1)" >
+                    <input th:type="button" style="width: 60px;" th:id="jingyong" th:value="禁用" th:class="vsw" th:onclick="changeEnable(0)" >
+                </td>
+            </tr>
+            <!--通过后台传过来的参数作隐藏域给js使用  -->
+           <input th:type="hidden" th:id="webType" th:value="${webVal}" >
+           </tbody>
+        </table>
+    </div>
+    <div th:id="func_list"></div>
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/role/addFuntion.js"></script>
+</body>
+
+</html>

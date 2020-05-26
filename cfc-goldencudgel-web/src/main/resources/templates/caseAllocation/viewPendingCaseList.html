@@ -1,0 +1,53 @@
+<table class="tb01 mgt">
+    <thead>
+        <th th:if="${userUtil.hasFunction('WEB_WHOLE_RECYCLING')}"><input type="checkbox" onclick="checkAllCase(this)">全選</th>
+        <th style="text-align: center;width: 15%;cursor: pointer;" orderType="desc" onclick="showOrder(this,'allocationTime','caseList')">
+            分配時間<img src="../images/caseAllocation/desc.jpg" />
+        </th>
+        <th style="text-align: center;width: 15%;cursor: pointer;" orderType="desc" onclick="showOrder(this,'applyTime','caseList')">
+            進件時間<img src="../images/caseAllocation/desc.jpg" />
+        </th>
+        <th th:style="'text-align: center;' + ${(session.user.userType=='S' || session.user.userType=='Z' || session.user.userType=='C') ? 'display:none' : ''}">組別</th>
+        <th th:style="'text-align: center;'+ ${(session.user.userType=='S' || session.user.userType=='Z'  ? 'display:none' : '')}">經辦人</th>
+        <th style="text-align: center;">授信戶統編</th>
+        <th style="text-align: center;">授信戶名稱</th>
+        <th th:style="'text-align: center;cursor: pointer;'+ ${(((session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1') ? 'display:none' : '')}" >操作</th>
+        <th th:style="'text-align: center;'+ ${(session.user.userType=='S' || session.user.userType=='Z'  ? '' : 'display:none')}">標註狀態</th>
+        <th th:style="'text-align: center;cursor: pointer;'+ ${(((session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1') ? '' : 'display:none')}" orderType="desc" onclick="showOrder(this,'handleTime','caseList')">
+            標註時間<img src="../images/caseAllocation/desc.jpg" />
+        </th>
+        <th th:style="'text-align: center;cursor: pointer;'+ ${(((session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1') ? '' : 'display:none')}">操作</th>
+    </thead>
+    <tbody id="caseList">
+        <span th:unless="${#lists.isEmpty(caseList)}" th:each=" case : ${caseList}">
+        <tr th:caseNum="${case[6]}">
+            <td th:if="${userUtil.hasFunction('WEB_WHOLE_RECYCLING')}"><input type="checkbox" class="caseCheckbox" onclick="checkedCase(this)"></td>
+            <td style="text-align: center" class="allocationTime" th:text="${case[0]}"></td>
+            <td style="text-align: center" class="applyTime" th:text="${case[1]}"></td>
+            <td th:style="'text-align: center;' + ${((session.user.userType=='S' || session.user.userType=='Z' || session.user.userType=='C') ? 'display:none' : '')}" th:text="${case[9]}"></td>
+            <td th:style="'text-align: center;'+ ${((session.user.userType=='S' || session.user.userType=='Z')  ? 'display:none' : '')}" th:text="${case[10]}"></td>
+            <td style="text-align: center" th:text="${case[2]}"></td>
+            <td style="text-align: center" th:text="${case[3]}"></td>
+            <td th:style="'text-align: center;cursor: pointer;'+ ${(((session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1') ? 'display:none' : '')}">
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_CASE_SHOW_DETIAL')}" onclick="javascript:caseDetail(this)">案件詳情</a>
+            </td>
+            <td th:style="'text-align: center;'+ ${(session.user.userType=='S' || session.user.userType=='Z' ? '' : 'display:none')}">
+                <span th:if =${handleFlag=='1'}><input type="button" value="已處理" class="button_blue" onclick="handleCase(this)"></span>
+                <span th:if =${handleFlag!='1'}>已處理</span>
+            </td>
+            <td th:if="${(session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1'}" class="handleTime" style="text-align: center" th:text="${case[8]}"></td>
+            <td th:style="'text-align: center;cursor: pointer;'+ ${(((session.user.userType=='S' || session.user.userType=='Z') && handleFlag != '1') ? '' : 'display:none')}">
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_CASE_SHOW_DETIAL')}" onclick="javascript:caseDetail(this)">案件詳情</a>
+            </td>
+        </tr>
+        </span>
+        <tr th:if="${#lists.isEmpty(caseList)}" style="text-align: center">
+            <td style="text-align: center;height:220px;border:none;" colspan="10">
+                查無數據！
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('queryPendingCase')}" style="text-align: right"/>
+</p>

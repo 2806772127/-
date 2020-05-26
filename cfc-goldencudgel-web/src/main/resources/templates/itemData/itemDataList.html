@@ -1,0 +1,48 @@
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+            <th width="25%">序號</th>
+            <th width="25%">編號</th>
+            <th width="25%">名稱</th>
+            <th width="25%">操作</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(datas)}">
+             <tr  th:each="connection,connectionStart : ${datas}">
+               <!--  <td th:text="${connectionStart.count}"></td> -->
+                <td th:text="${connectionStart.count + (curPage-1)*20}"></td>
+                <td th:text="${connection[0]}"></td>
+                <td th:text="${connection[1]}"></td>
+                <td ><a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_SYSTEM_IMFORMATION_UPDATE')}" th:viewCode ="${connection[0]}" th:viewName ="${connection[1]}" th:mainCode ="${connection[2]}" th:mainName ="${connection[3]}" th:onclick="javascript:openQueryWin(this);" >修改</a>
+                <a style="cursor: pointer;" th:if="${userUtil.hasFunction('WEB_SYSTEM_IMFORMATION_DELETE')}" th:viewCode ="${connection[0]}" th:viewName ="${connection[1]}" th:mainCode ="${connection[2]}" th:mainName ="${connection[3]}" th:onclick="javascript:deleteWin(this);" >删除</a></td>
+             </tr>
+            </span>
+        </tbody>
+</table>
+
+    <div id="changeWindow" style="display:none;">
+        <form id ="changeItemData">
+         <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+            <tbody>
+            <tr>
+                <input id = "mainItemCode" type="hidden" name = "dictId" value=""/>
+                <th width="25%"><a style ="color:#FF0000;">*</a>數據名稱</th><td><input id = "mainItemName" type="text" value="" disabled="disabled" /></td>
+            </tr>
+            <tr>
+                <input id = "oldCode" type="hidden" name = "olditemCode" value=""/>
+                <th width= "25%"><a style ="color:#FF0000;">*</a>細項編號</th><td><input id = "viewCode" type="text" name = "itemCode" value="" disabled="disabled" /></td>
+            </tr>
+            <tr>
+                <th width="25%"><a style ="color:#FF0000;">*</a>名稱</th><td><input id = "viewName" type="text" name = "itemName" value=""/></td>
+            </tr>
+            <tr>
+                <td colspan = '2'><input id = "saveItem" type="button" value="儲存" onclick="window.parent.saveItem()"/>
+                    <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closeChange()"/></td>
+            </tr>
+
+            </tbody>
+         </table>
+        </form>
+    </div>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

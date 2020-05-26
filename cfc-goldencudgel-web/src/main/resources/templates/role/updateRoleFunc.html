@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.auth})">
+
+</head>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<style>
+    .functions{
+        text-align: center;
+    }
+</style>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+
+<div class="main">
+    </br><div>當前位置：系統管理  > 角色權限管理  > 修改權限</div></br>
+
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <th colspan="6" class="title"><img src="../images/role/u14262.png" />修改權限</th>
+            </tr>
+            <tr>
+                <input type="hidden" id="roleId" th:value="${roleId}">
+                <th style="text-align:center" > <span style="color: red;">*</span>角色名稱：</th><td th:text="${roleName}"> </td>
+                <input type="hidden" id="authType" th:value="${authType}"/>
+                <th style="text-align:center"><span style="color: red;">*</span> 類型：</th> <td th:text="${authType=='1'}?'APP':'WEB'"></td>
+                <th style="text-align:center"><span style="color: red;">*</span> 啟用/禁用：</th>
+                <td>
+                    <input th:type="hidden" th:id="roleEnable" th:value="${enabled}" >
+                    <input th:type="button" style="width: 60px;"  th:id="qiyong" th:value="啟用" th:class="${enabled=='1'}?'vsb':'vsw'" th:onclick="changeEnable(1)" >
+                    <input th:type="button" style="width: 60px;" th:id="jingyong" th:value="禁用" th:class="${enabled=='0'}?'vsb':'vsw'" th:onclick="changeEnable(0)" >
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:id="func_list">
+        <table class="tb01 mgt" style="text-align: left;">
+            <tr>
+                <th style="width: 15%" ><span style="color: red">*</span>選擇權限：</th>
+                <td colspan="15">
+                    <ul class="li02">
+                        <span th:replace="~{role/addRoleFunctions :: showFunc(${topFunctions})}"></span>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="6" style="text-align: center;">
+                    <input type="button" value="儲存設置"   class="button_blue" th:onclick="javacript:saveUpdateRF()" style="width: 112px;height: 36px;">
+                    <input type="button" value="返回" class="button_blue" th:onclick="javacript:rebackRFsearch()"  style="width: 112px;height: 36px;">
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+<div>
+    <input type="hidden" id="rfList" th:value="${rfList}">
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+<script type="text/javascript" defer=true src="../../js/role/updateRoleFunc.js"></script>
+</body>
+
+</html>

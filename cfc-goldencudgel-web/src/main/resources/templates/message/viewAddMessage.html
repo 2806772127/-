@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.message.add})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/message.css}" type="text/css" />
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：
+   <span th:text="#{goldencudgel.menu.systemManager}"/></span> >
+   <span th:text="#{goldencudgel.menu.message.add}"/></span> >
+  </div>
+  <br/>
+  <div class="main">
+  <table class="tb03">
+     <tr>
+      <th width=100% class="title">
+       <img src="../images/message/u13716.png">
+       <span th:text="#{goldencudgel.menu.message.add}" style="margin-left:5px;"></span>
+      </th>
+     </tr>
+   </table>
+  <form id="messageForm">
+     <div style="display:inline;margin-top:5px;">
+       <input type="button" value="Step 1 輸入短信訊息"  class="step_green" id="one"></input>
+       <input type="button" value="Step 2 確認發送"  class="step_gray" id="two"></input>
+     </div>
+     <div id="step1" style="margin-top:5px;">
+     <table class="tb03" style="width:100%;border:2px">
+     <tr>
+       <th colspan="4" class="tdback" style="text-align:left">接收者資訊</th>
+     </tr>
+     <tr>
+       <td class="tdback" rowspan="2"  style="text-align:right;width:20%"><span style="color:red">*</span>選擇接收者：</td>
+       <td><span style="margin-left:10px;">請選擇區別：</span></td>
+       <td><span>請選擇組別：</span></td>
+       <td><span>請選經辦人：</span></td>
+     </tr>
+     <tr>
+       <td  style="witdh:26%">
+        <div style="border:2px solid #F2F2F2;width:250px;height:240px;" id="pAreaDiv">
+         <table>
+           <tr>
+             <td class="tdback" style="width:240px;"><span style="margin-left:10px;">
+		        <input type="radio" name="area" value="1" th:text="全選" th:onclick="selectAll(this)"/>&nbsp;&nbsp;&nbsp;&nbsp;
+		        <input type="radio" name="area" value="0" th:text="反選" th:onclick="selectAll(this)"/></span>
+		     </td>
+           </tr>
+           <tr>
+            <td>
+             <div style="margin-left:10px;height:200px;overflow:auto" id="areaDiv">
+              <span th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                 <input type="checkbox" name="area" class="checkbox" th:value="${area.key}" th:text="${area.value}" th:onclick="checkChange(this)"></input><br/>
+              </span>
+             </div>
+           </td>
+           </tr>
+        </table>
+       </div>
+       </td>
+       <td style="witdh:27%">
+        <div style="border:2px solid #F2F2F2;width:250px;height:240px;" id="pGroupDiv"></div>
+       </td>
+       <td style="witdh:27%">
+       <div style="border:2px solid #F2F2F2;width:250px;height:240px;" id="pUserDiv"></div>
+       </td>
+     </tr>
+    </table>
+    <br/>
+    <table class="tb01" style="width:100%;border:2px">
+       <tr>
+          <th th:colspan="2" class="tdback" style="text-align:left">傳送資訊</th>
+       </tr>
+       <tr style="height:50px;">
+          <td class="tdback" style="text-align:right;width:20%"><span style="color:red">*</span>訊息類型：</td>
+          <td style="text-align:left">
+            <select name="messageType" class="input">
+               <option value="">--請選擇--</option>
+               <option  th:unless="${#lists.isEmpty(messageTypes)}" th:each="msgType:${messageTypes}" 
+               th:value="${msgType.itemCode}" th:text="${msgType.itemName}"></option>
+            </select>
+          </td>
+       </tr>
+       <tr style="height:50px;">
+          <td class="tdback" style="text-align:right;width:20%"><span style="color:red">*</span>訊息主旨：</td>
+          <td style="text-align:left">
+            <input type="text" name="messageKeyNote" style="width:73%;" class="step_input" maxlength="20"/>
+          </td>
+       </tr>
+       <tr>
+          <td class="tdback" style="text-align:right;width:20%"><span style="color:red">*</span>輸入訊息內容：</td>
+          <td style="text-align:left">
+            <textarea id="_textarea" rows="4" cols="102"  name="messageContext" maxlength="500"></textarea>
+            <input type="button" class="button_blue" style="" th:value="重新輸入" onclick="clearText();"/>
+          </td>
+       </tr>
+      </table>
+      <div style="text-align:center;margin-top:15px;">
+	    <input type="button" class="button_blue" value="下一頁" onclick="javascript:next();" />
+	    <input type="button" class="button_blue" value="取消" onclick="javascript:cancel()" />
+      </div>
+     </div>
+     <div id="step2" style="display:none">
+       <table class="tb01" style="width:100%">
+	     <tr>
+	       <th class="tdback" colspan="4" style="text-align:left">確認發送</th>
+	     </tr>
+	     <tr>
+	       <th class="tdback" style="text-align:center">接收者</th>
+	       <th class="tdback" style="text-align:center">訊息類型</th>
+	       <th class="tdback" style="text-align:center">訊息內容</th>
+	       <th class="tdback" style="text-align:center">發送時間</th>
+	     </tr>
+	     <tr>
+	       <td style="width:40%"><span id="sends"></span></td>
+	       <td style="width:10%"><span id="sendType"></span></td>
+	       <td style="width:35%"><span id="sendContext"></span></td>
+	       <td style="width:15%"><span id="sendTime"></span></td>
+	     </tr>
+       </table>
+        <div style="text-align:center;margin-top:15px;">
+	    <input type="button" class="button_blue" value="確認發送" onclick="javascript:confirmSend();" />
+	    <input type="button" class="button_blue" value="回上頁" onclick="javascript:goBack()" />
+	    <input type="button" class="button_blue" value="取消" onclick="javascript:cancel()" />
+      </div>
+     </div>
+    </form>
+  </div>
+  <div id ="show_dialog" style="display:none">
+    <div style="text-algin:cener;height:40%;margin-top:15px;">
+       <p style="margin-left:40%">發送成功！</p>
+    </div>
+    <div style="text-align:center">
+       <input type="button" style="font-size:13.5px;"  value="返回訊息管理" class="button_gray" onclick="toSearchPage();">
+    </div>
+  </div>
+ <div th:replace="~{common/footer :: footer}"></div>
+ <script type="text/javascript" src="../../js/message/message.js"></script> 
+ </body>
+</html>

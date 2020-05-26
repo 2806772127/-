@@ -1,0 +1,80 @@
+.div-inline{ display:inline}
+.span_bule{ border:1px solid #0084CE;color:#0084CE;border-radius: 5px;border-radius: 5px;padding-left:5px; padding-right:5px;cursor: pointer;}
+.span_blick{ border:1px solid #797979;color:#797979;border-radius: 5px;border-radius: 5px;padding-left:5px; padding-right:5px;}
+.input_search{
+    background-image: url(../images/missionStroke/u125.png); /*引入图片图片*/
+    background-repeat: no-repeat; /*设置图片不重复*/
+    background-position: 3px 3px; /*图片显示的位置*/
+    width: 150px; /*设置图片显示的宽*/
+    height: 20px; /*图片显示的高*/
+    padding-left:20px;
+}
+.input_none {
+    border:none;
+    background-color:#FFF;
+}
+.input_radius {
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #EEEEEE;
+    width:100px;
+    height:30px;
+    color: #0A0A0D;
+    padding-left:10px;
+}
+
+.tab01{ width:100%; background:#fff; border-top:none;border-bottom:1.5px solid #B9CAC7;}
+.tab01 tr{height:35px}
+.tab01 th{text-align:center;}
+
+.tab02{ width:100%; background:#fff; }
+.tab02 td{height:30px;border:1px solid #F2F2F2;text-align:center;cursor: pointer;}
+
+.tab03{ width:100%; background:#fff; }
+.tab03 th{height:30px;background:#F2F2F2;border:1.5px solid #E4E4E4;text-align:center;height:30px}
+.tab03 td{height:30px;border:1.5px solid #E4E4E4;text-align:center;height:35px}
+
+.tab04{ width:100%; background:#fff; }
+.tab04 th{height:30px;background:#F7F7F7;border-bottom:2px solid #EDEDED;height:35px}
+.tab04 td{height:30px;border:none;text-align:center;}
+
+.tab05{ width:100%; background:#fff; }
+.tab05 th{height:30px;background:#F7F7F7;border-bottom:2px solid #DBDBDB;height:30px}
+.tab05 td{height:30px;border:none;border-bottom:1px solid #E4E4E4;text-align:center;height:65px}
+
+.chose {
+    border:1px;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    color:#FFFFFF;
+    background-color:#9F9F9F;
+}
+
+.select1 {
+    border:1px solid rgba(230, 230, 230, 1);
+    border-radius: 8px;
+    width: 120px;
+    height: 26px;
+    outline:none;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    -ms-appearance:none;
+    background: url(../images/arrow.png) no-repeat scroll right center transparent;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.input1{
+    background: none;
+    border:none;
+    background-image:url(../images/u3810.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 0px;
+    width: 120px;
+    height: 26px;
+    outline:none;
+}

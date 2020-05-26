@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.letterConsent})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/measureWord.css}" type="text/css" />
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{goldencudgel.menu.wordShop}"/></span>><span th:text="#{goldencudgel.menu.letterConsent}"/></span></div>
+   <br/>
+  <div class="main" id="mybg">
+     <input id="backFlag" type="text" th:value="${backFlag}" style="display: none;" />
+     <table class="tb03">
+     <tr>
+      <!-- <th colspan="4" class="title"><img src="../images/letterConsent/u7831.png">&nbsp;<span th:text="#{goldencudgel.menu.letterConsent}"/></span></th>
+     -->
+      <th colspan="12" class="title"><img src="../images/measureWord/u8597.png">&nbsp;<span th:text="#{goldencudgel.menu.letterConsent}"/></span></th>
+     
+      </tr>
+        
+         <tr style="height:40px;"  th:unless="${session.user.userType == 'S' || session.user.userType == 'Z'}">
+             <td style="width:6%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">區中心：</span></td>
+                 
+             <td style="width:15%;">
+                 <span th:if="${session.user.userType == 'M'}"  th:unless="${#lists.isEmpty(areaList)}">
+                        <select name="areaCode" id="areaCode" onchange="getGroupList()"  class="select" >
+                            <option value="">全部</option>
+                            <option th:each=" area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                        </select>
+                        </span>
+                 <span th:if="${session.user.userType == 'A' || session.user.userType == 'C'}" th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                            <span th:text="${area.key == session.user.userArea} ? ${area.value}:''"></span>
+                        </span>
+                 <span th:if="${session.user.userType != 'M'}"><input name="areaCode" th:value="${session.user.userArea}" style="display: none"></span>
+             </td>
+                 
+             <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 業務組別：</span></td>
+             <td style="width:15%;">
+                 <span th:if="${session.user.userType == 'M' || session.user.userType == 'A'}">
+                            <select name="groupCode" id="groupCode" onchange="getUserList()"  class="select" >
+                                <option value="">全部</option>
+                                <option th:unless="${#lists.isEmpty(groupList)}" th:each=" group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                            </select>
+                        </span>
+                 <span th:if="${session.user.userType} == 'C'" th:unless="${#lists.isEmpty(groupList)}" th:each="group:${groupList}">
+                            <span th:text="${group.key == session.user.userGroup} ? ${group.value}:''"></span>
+                        </span>
+                 <span th:if="${session.user.userType != 'M' && session.user.userType != 'A'}"><input name="groupCode" th:value="${session.user.userGroup}" style="display: none"></span>
+             </td>
+             <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 經辦人：</span></td>
+             <td style="width:15%;">
+                 <span th:if="${session.user.userType == 'M' || session.user.userType == 'A' || session.user.userType == 'C'}">
+                        <select name="userCode" id="userCode"  class="select" >
+                            <option value="">全部</option>
+                            <option th:unless="${#lists.isEmpty(userList)}" th:each=" u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                        </select>
+                        </span>
+                 <span th:if="${session.user.userType == 'S' || session.user.userType == 'Z'}"><input name="userCode" th:value="${session.user.userCode}" style="display: none"></span>
+             </td>
+             <td></td>
+         </tr>
+     <tr>
+       <td style="width:6%;text-align:right;">授信戶統編：</td>
+       <td style="width:12%;"><input type="text" class="input" name="compilationNo" id="compilationNo"/></td>
+       <td style="width:6%;text-align:right;">授信戶名稱：</td>
+       <td style="width:12%;"><input type="text" class="input" name="customerName" id="customerName"/></td>
+
+
+       <td style="width: 6%!important;text-align:right;">審核狀態：</td>
+       <td style="width:24%;">
+          <input type="button" class="gpic" th:searchType="0" style="width:65px;height:25px" value="全部" th:onclick="changeSearchType(this,'')" />&nbsp;
+          <input type="button" class="pic" th:searchType="1"  style="width:65px;height:25px" value="待審核" th:onclick="changeSearchType(this,1)" />&nbsp;
+          <input type="button" class="pic" th:searchType="2" style="width:65px;height:25px" value="通過" th:onclick="changeSearchType(this,2)" />&nbsp;
+          <input type="button" class="pic" th:searchType="3" style="width:65px;height:25px" value="退回" th:onclick="changeSearchType(this,3)" />&nbsp;
+          <input type="hidden" id="searchType" value=""/>
+       </td>
+       <td style="width: 10%!important;">
+          <div style="position: relative;" onclick="queryLetterConsent();"> 
+		     <div style="position: absolute;top:6px;left:10px;">
+		        <img src="../images/u5255.png"/>
+		     </div>  
+		     <input type="button" value="查詢" class="button_blue">
+	       </div> 
+        </td>
+     </tr>
+         <!--
+         <tr>
+             <td style="width:8%;text-align:right;">查詢理由：</td>
+             <td style="width:15%;">
+                 <select name="account" id="account" class="select" >
+                     <option value="">全部</option>
+                     <option value="B4A">原業務往來</option>
+                     <option value="A4A">新業務申請</option>
+                 </select>
+             </span>
+             </td>
+         </tr>
+         -->
+  </table> 
+  <div id="letterConsent_list"></div>
+  </div>
+  <div th:replace="~{common/footer :: footer}"/>
+  <script type="text/javascript" src="../../js/letterConsent/letterConsent.js"></script>
+</body>
+</html>

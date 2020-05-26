@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:insert="common/header :: commonHeader(#{goldencudgel.menu.auditCOnfiguration})">
+
+</head>
+<style type="text/css">
+select::-ms-expand {
+	display: none;
+}
+</style>
+<link rel="stylesheet" th:href="@{../../css/missionStroke.css}" type="text/css" />
+<body class="body_bg">
+	<div th:replace="index/index :: #top"></div>
+	<div th:insert="~{index/index :: menu}"></div>
+	<div class="main">
+		<br />
+		<div>當前位置：系統管理 > 審核配置管理</div>
+		<br />
+		<table class="tb03">
+			<tr>
+				<th colspan="10" class="title">
+					<img src="../images/measureWord/u5251.png"><span th:text="#{goldencudgel.menu.auditCOnfiguration}" /></span>
+				</th>
+			</tr>
+			<tr>
+				<td style="width: 6%; text-align: right;">功能：</td>
+				<td style="width: 12%;">
+					<select id="productFunction" class="select1" th:unless="${#lists.isEmpty(functionList)}">
+						<option value="">全部</option>
+						<!-- <option value="C0001">產品管理</option> -->
+						<option th:each=" function : ${functionList}" th:value="${function.key}" th:text="${function.value}"></option>
+					</select>
+				</td>
+				<td style="width: 8%; text-align: right;">經辦人員編：</td>
+				<td style="width: 12%;">
+					<input class="input1" type="text" name="agentUserCode" id="agentUserCode" th:maxlength="20" />
+				</td>
+				<td style="width: 6%; text-align: right;">經辦人：</td>
+				<td style="width: 12%;"><input class="input1" type="text" name="agentUserNameCondition" id="agentUserNameCondition" th:maxlength="20" />
+				</td>
+				<td style="width: 8%; text-align: right;">審核人員編：</td>
+				<td style="width: 12%;">
+					<input class="input1" type="text" name="approveUserCode" id="approveUserCode" th:maxlength="20" />
+				</td>
+				<td style="width: 6%; text-align: right;">審核人：</td>
+				<td style="width: 12%;">
+					<input class="input1" type="text" name="approveUserNameCondition" id="approveUserNameCondition" th:maxlength="20" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="8"></td>
+				<td>
+					<div style="float: right; position: relative;">
+						<div style="position: absolute; top: 6px; left: 10px;">
+							<img src="../images/u5255.png" />
+						</div>
+						<input type="button" value="查詢" class="button_blue" onclick="queryAuditConfiguration(1);">
+					</div>
+				</td>
+				<td>
+					<div style="position: relative;">
+						<div style="position: absolute; top: 6px; left: 10px;">
+							<img src="../images/u5350.png" />
+						</div>
+						<input type="button" value="新增" class="button_blue" onclick="openNewWin();">
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div id="auditConfiguration_list"></div>
+	</div>
+	<div id="newWindow" style="display: none;">
+		<form id="newItemData">
+
+			<table class="tb01" style="width: 100%; border: 2px">
+				<tr style="height: 50px;">
+					<td class="tdback" style="text-align: right; width: 20%"><span style="color: red">*</span>功能：</td>
+					<td style="text-align: left">
+						<select id="newProductFunction" class="select" th:unless="${#lists.isEmpty(functionList)}">
+							<option value="">請選擇</option>
+							<!-- <option value="C0001">產品管理</option> -->
+							<option th:each=" function : ${functionList}" th:value="${function.key}" th:text="${function.value}"></option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<table class="tb03" style="width: 100%; border: 2px">
+				<tr>
+					<td class="tdback" rowspan="2" style="text-align: right; width: 20%"><span style="color: red">*</span>選擇經辦人：</td>
+					<td><span style="margin-left: 10px;">區中心：</span></td>
+					<td><span>業務組別：</span></td>
+					<td><span>經辦人：</span></td>
+				</tr>
+				<tr>
+					<td style="witdh: 20%">
+						<div style="border: 2px solid #F2F2F2; width: 250px; height: 240px;" id="pAreaDiv">
+							<table>
+								<tr>
+									<td>
+										<div style="margin-left: 10px; height: 200px; overflow: auto" id="areaDiv">
+											<span th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+												<input type="radio" name="area" class="radio" th:value="${area.key}" th:text="${area.value}" th:onclick="checkChange(this)"/><br />
+											</span>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td style="witdh: 20%">
+						<div style="border: 2px solid #F2F2F2; width: 250px; height: 240px;" id="pGroupDiv"></div>
+					</td>
+					<td style="witdh: 20%">
+						<div style="border: 2px solid #F2F2F2; width: 250px; height: 240px;" id="pUserDiv"></div>
+					</td>
+				</tr>
+			</table>
+			<table class="tb01" style="width: 100%; border: 2px">
+				<tr style="height: 50px;">
+					<td class="tdback" style="text-align: right; width: 20%"><span style="color: red">*</span>經辦人員編：</td>
+					<td style="text-align: left">
+						<input id="chargeCode" type="text" name="messageKeyNote" style="width: 20%;" class="input" maxlength="20" disabled />
+					</td>
+				</tr>
+			</table>
+			<table class="tb03" style="width: 100%; border: 2px">
+				<tr>
+					<td class="tdback" rowspan="2" style="text-align: right; width: 20%"><span style="color: red">*</span>選擇審核人：</td>
+					<td><span style="margin-left: 10px;">區中心：</span></td>
+					<td><span>業務組別：</span></td>
+					<td><span>經辦人：</span></td>
+				</tr>
+				<tr>
+					<td style="witdh: 20%">
+						<div style="border: 2px solid #F2F2F2; width: 250px; height: 240px;" id="pAreaDivShenHe">
+							<table>
+								<tr>
+									<td>
+										<div style="margin-left: 10px; height: 200px; overflow: auto" id="areaDivShenHe">
+											<span th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+												<input type="radio" name="areaShenHe" class="radio" th:value="${area.key}" th:text="${area.value}" th:onclick="checkChangeShenHe(this)"/><br />
+											</span>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td style="witdh: 20%">
+						<div style="border: 2px solid #F2F2F2; width: 250px; height: 240px;" id="pGroupDivShenHe"></div>
+					</td>
+					<td style="witdh: 20%">
+						<div style="border: 2px solid #F2F2F2; width: 250px; height: 240px;" id="pUserDivShenHe"></div>
+					</td>
+				</tr>
+			</table>
+
+			<table class="tb01" style="width: 100%; border: 2px">
+				<tr style="height: 50px;">
+					<td class="tdback" style="text-align: right; width: 20%"><span style="color: red">*</span>審核人員編：</td>
+					<td style="text-align: left"><input id="auditorCode" type="text" name="messageKeyNote" style="width: 20%;" class="input" maxlength="20" disabled /></td>
+				</tr>
+			</table>
+			<div style="text-align: center; margin-top: 15px;">
+				<input style="text-align: center; margin-top: 15px;" id="saveItem" type="button" value="確認" class="button_blue" onclick="window.parent.saveNewAuditConfiguration()" />
+				<input style="text-align: center; margin-top: 15px;" id="deleteItem" type="button" value="關閉" class="button_gray" onclick="window.parent.closenew()" />
+			</div>
+		</form>
+	</div>
+
+	<input type="hidden" id="agentUserName" value="" />
+	<input type="hidden" id="approveUserName" value="" />
+	<input type="hidden" id="editPageApproveId" value="" />
+	<div th:replace="~{common/footer :: footer}"></div>
+	<script type="text/javascript" src="../../js/auditConfiguration/auditConfiguration.js"></script>
+</body>
+</html>

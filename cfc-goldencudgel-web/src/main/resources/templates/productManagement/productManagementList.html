@@ -1,0 +1,80 @@
+
+<table class="tb01 mgt">
+     <tr>
+        <th>產品名稱</th>
+        <th>任務行程</th>
+        <th>拜訪筆記</th>
+        <th>聯徵同意書</th>
+        <th>測字館</th>
+        <th>進件申請</th>
+        <th>徵信實訪</th>
+       <!--  <th>預計上線時間</th> -->
+        <!-- <th>審核結果</th> -->
+        <!-- <th>操作</th> -->
+    </tr>
+    
+    <span th:unless="${#lists.isEmpty(productManagementList)}">
+    <tr th:each="productManagement : ${productManagementList}">
+                <td th:text="${productManagement[0]}"></td>
+                <td th:text="${productManagement[1]}"></td>
+                <td th:text="${productManagement[2]}"></td>
+                <td th:text="${productManagement[3]}"></td>
+                <td>
+                <span>
+                        <a style="cursor: pointer;"th:onclick="javascript:viewProductDetail(this);" th:productVersion="${productManagement[8]}" 
+                        th:prodName="${productManagement[0]}" th:questionnaireType="${productManagement[9]}" th:estimatedLaunchTime="${productManagement[7]}" th:prodId="${productManagement[10]}" >查看配置</a>
+                </span>
+                <!-- <span >
+                        <a class="auditStateFlag" style="cursor: pointer;"th:onclick="javascript:EditProductDetail(this);" th:productVersion="${productManagement[8]}" 
+                        th:prodName="${productManagement[0]}" th:questionnaireType="${productManagement[9]}" th:estimatedLaunchTime="${productManagement[7]}" th:prodId="${productManagement[10]}" th:auditState="${productManagement[13]}" th:editFlag="editFlag" th:class="${productManagement[13]!='01'}? 'auditState':''">修改配置</a>
+                </span> -->
+                <!-- <span >
+                        <a class="auditStateFlag" style="cursor: pointer;"th:onclick="javascript:EditProductDetail(this);" th:productVersion="${productManagement[8]}" 
+                        th:prodName="${productManagement[0]}" th:questionnaireType="${productManagement[9]}" th:estimatedLaunchTime="${productManagement[7]}" th:prodId="${productManagement[10]}" th:auditState="${productManagement[13]}" th:editFlag="editFlag" >修改配置</a>
+                </span> -->
+                </td>
+                <td th:text="${productManagement[5]}"></td>
+                <td th:text="${productManagement[6]}"></td>
+                <!-- <td th:text="${productManagement[7]}"></td> -->
+                <!-- <td>
+                <a class="checkResultA" style="cursor: pointer;" th:text="${productManagement[11]==null?'待審核':(productManagement[11]=='01'?'通過':'拒絕')}" th:checkResult="${productManagement[11]}" th:auditRemark="${productManagement[12]}" th:onclick="javascript:checkResultFlag(this)"></a>
+                </td> 
+                <td >
+                <a style="cursor: pointer;"th:onclick="javascript:updateOnlineTime(this);" th:prodName="${productManagement[0]}" th:prodId="${productManagement[10]}" th:class="${productManagement[13]!='01'}? 'auditState':''">更新上線時間</a>
+                </td>-->
+              </tr>
+    </span>
+</table>
+
+<!-- 更新上线时间弹框提示 -->
+<input type="hidden" th:value="${productId}" id="productId"/>
+       <div id="updateOnlineTimeId" style="display:none;">
+       <div>
+       <td style="text-align: center;"><span class="condition">預計上線時間：</span></td>
+                        <td>
+                            <span class="condition">
+                            <input type="text" name="ExpectedTime" readOnly class="input1"/>
+                            &nbsp;<img id="startImg" src="../images/u22.png"/>
+                            </span>
+                        </td>
+       </div>
+       <input type="hidden" id="product_id" />
+       <div style="text-align: center;padding-top:40px;">
+            <input id="confirmButton" type="button" value="確認" class="button_blue" onclick="javascript:comfirmm(this)"/>
+            <input id="cancelButton" type="button" value="取消" class="button_blue" onclick="javascript:cancell()"/>
+       </div>
+       </div>
+       
+    <div id ="show_dialog" style="display:none;overflow: hidden;padding:0;">
+    <div style="text-algin:cener;height:90%;width:100%;overflow: auto;">
+     <p style="margin:20px;word-break:break-all;" class="show_info"></p> 
+    </div>
+    <div style="text-align:center;margin: 5px 0;">
+       <input type="button" value="返回" class="button_gray" onclick="closeDialog();">
+    </div>
+  </div>
+
+
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

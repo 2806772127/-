@@ -1,0 +1,52 @@
+.sidebar-root {
+position : relative;
+overflow : hidden;
+}
+.sidebar-root div.sidebar-container {
+position: absolute;
+}
+div.sidebar-container {
+width : 100px;
+height : 100%;
+position: fixed;
+background-color: rgba(255,255,255,0.9);
+}
+div.sidebar-container.right {
+top: 0;
+right: 0;
+}
+div.sidebar-inject {
+position: absolute;
+}
+div.sidebar-inject.right {
+top: 0px;
+left: 0px;
+width :1px;
+}
+div.sidebar-body {
+margin: 20px;
+position: absolute;
+top: 80px;
+left: 0px;
+color: #FFFFFF;
+}
+ul.sidebar-menu {
+font-size: 12pt;
+font-weight: bold;
+list-style: none;
+text-decoration: none;
+color: white;
+}
+ul.sidebar-menu li {
+line-height: 1.5em;
+margin-bottom:5px;
+}
+ul.sidebar-menu li img {
+width:40px;
+opacity:0.7;
+}
+ul.sidebar-menu li a {
+color:#555;
+font-size:12px;
+font-weight:normal;
+}

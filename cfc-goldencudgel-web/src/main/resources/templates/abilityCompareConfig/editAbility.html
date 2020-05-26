@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{golden.menu.CompareConfigDetail})">
+</head>
+
+<script type="text/javascript" defer=true src="../../js/abilityCompareConfig/editabilityCompareConfig.js"></script>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<script type="text/javascript" src="../../js/common/jquery.min.js"></script>
+<!--<script type="text/javascript" defer=true src="../../js/applyIncom/jquery.min.js"></script>-->
+<style>
+.u11098 {
+font-size: 16px;
+color: #23799E;
+}
+td input {
+    border: none;
+    background: white;
+} 
+.tb02 td, .tb02 th {
+    line-height: 30px;
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+}
+</style>
+<body class="body_bg">
+ <div th:replace="index/index :: #top"/>
+ <div th:insert="~{index/index :: menu}"/>
+ <div class="main">
+     </br><div>當前位置：企業經營報告書  > 企業能力對比配置  > 企業能力對比配置詳情</div></br>
+     <div >
+         <table class="tb03">
+             <tbody>
+             <tr>
+                 <th colspan="6" class="title"><img src="../images/applyIncom/applyIncom.png" />企業能力對比配置詳情</th>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <div id ="companyInfo">
+         <table class="tb02 mgt">
+             <tbody>
+               <tr>
+                   <th style="text-align:right;">類型：</th><td><input type="text" disabled="disabled" id="types"  th:value="${viewAbilityList[0][1]}"  /></td>
+                   <th style="text-align:right;">能力類型：</th><td><input type="text"disabled="disabled" id="abilityType"  th:value="${viewAbilityList[0][6]}"  /></td>
+                 </tr>
+               <tr>
+                   <th style="text-align:right;">開始範圍：</th><td><input style="border: 1px solid #A9A9A9;width: 50%;height: 90%;"  id="START_RANGE" type="text"   th:value="${viewAbilityList[0][2]}"  /></td>
+                   <th>是否包含</th><td><select id="starts" style="    width: 50%; height: 25px;">
+
+                       <option value="1">是</option>
+                       <option value="0">否</option>
+                   </select>
+               </td>
+               </tr>
+               <tr>
+                   <th style="text-align:right;">結束範圍：</th><td><input style="border: 1px solid #A9A9A9;width: 50%;height: 90%;" type="text"  id="END_RANGE" th:value="${viewAbilityList[0][4]}"  /></td>
+                   <th>是否包含</th><td><select id="ends" style="  width: 50% ;height:25px;">
+                   <option value="1">是</option>
+                   <option value="0">否</option>
+               </select>
+               </td>
+               </tr>
+               <tr >
+                   <th >描述：</th>
+                   <td th:colspan="3">
+                       <textarea id="ABILITY_DESCRIBE" rows="5" cols="120" class="required" name="conferencecontext" maxlength="200"></textarea>
+                       <!--<input type="textarea"  th:value="${viewAbilityList[0][7]}"  id="ABILITY_DESCRIBE"  style="width: 100%; height: 100%;" th:maxlength="200"/>-->
+                   </td>
+               </tr>
+
+
+             </tbody>
+         </table>
+     </div>
+
+     <br>
+     <div style="text-align: center;">
+         <input th:type="button"   th:class="bpic" style="width:100px;height: 36px;" th:value="儲存" onclick="saves()">
+         <input th:type="button"
+                class="button_blue" th:value="返回" onclick="retrunPage();">
+     </div>
+
+ </div>
+ <div hidden>
+     <input type="hidden" id="start" th:value="${viewAbilityList[0][3]}"/>
+     <input type="hidden" id="end" th:value="${viewAbilityList[0][5]}"/>
+     <input type="hidden" id="id" th:value="${viewAbilityList[0][0]}"/>
+     <input type="hidden" id="creatTime" th:value="${viewAbilityList[0][8]}"/>
+     <input type="hidden" id="ratings" th:value="${viewAbilityList[0][7]}"/>
+     <input type="hidden" id="typess" th:value="${type}"/>
+     <input type="hidden" id="abilityTypes" th:value="${abilityType}"/>
+     <input type="hidden" id="sDate" th:value="${startDate}"/>
+     <input type="hidden" id="sDates" th:value="${startDates}"/>
+     <input type="hidden" id="EDate" th:value="${endDate}"/>
+     <input type="hidden" id="EDates" th:value="${endDates}"/>
+     <input type="hidden" id="curPage" th:value="${curPage}"/>
+ </div>
+
+ <div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

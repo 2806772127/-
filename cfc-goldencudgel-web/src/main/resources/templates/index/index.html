@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="common/header :: commonHeader('首页')">
+    <meta charset="UTF-8">
+</head>
+<body class="body_bg">
+	<div class="top" id="top">
+		<div class="logo">
+			<img src="../../images/u731.png" style="width:150px;margin:10px;" onclick="gotoIndex()">
+			<img src="../../images/u222.png" style="width:150px;margin:5px;" onclick="gotoIndex()">
+			<!--<img src="../../images/shenpi.png" style="width:100px; margin:10px 0 0 0">-->
+			<p class="user" th:inline="text">
+				<img src="../images/profile.png">用戶：<span th:text="${session.user.userName}"></span> │  <span id="time"></span>
+                <input id="lastRequestTime" th:value="${session.lastRequestTime}" type="hidden" />
+				<script th:inline="javascript">
+					/*<![CDATA[*/
+					function setTime(){
+						var dt=new Date();
+						var arr_week=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+						var strWeek=arr_week[dt.getDay()];
+						var strHour=dt.getHours();
+						var strMinutes=dt.getMinutes();
+						var strSeconds=dt.getSeconds();
+						if (strMinutes<10) strMinutes="0"+strMinutes;
+						if (strSeconds<10) strSeconds="0"+strSeconds;
+						var strYear=dt.getFullYear()+"年";
+						var strMonth=(dt.getMonth()+1)+"月";
+						var strDay=dt.getDate()+"日";
+						<!--var strTime=strHour+":"+strMinutes+":"+strSeconds;-->
+						strTime=strHour+":"+strMinutes;
+						time.innerHTML=strYear+strMonth+strDay+" "+strTime;
+					}
+					setInterval("setTime()",1000);
+					/*]]>*/
+					
+					function showMessage(){
+						window.location.href = context_path + "/message/viewMessage";
+					}
+                    
+                    function checkSession() {
+                        var now = new Date();
+                        var lastRequestTime = $("#lastRequestTime").val();
+                        var past = now - lastRequestTime; 
+                        if (past > 7200000) {
+                            console.log("lastRequestTime:" + $("#lastRequestTime").val());
+                            console.log("lastModified:" + document.lastModified);
+                            window.location.href = context_path + "/login";
+                        }
+                    }
+                    /* setInterval("checkSession()", 5000); */
+				</script>
+				<input type="submit" onclick="logout()" value="登出"/>
+			</p>
+			<div class="splitHeight"></div>
+			<div class="line30"></div>
+		</div>
+	</div>
+
+	<div class="menu" th:fragment="menu">
+		<ul class="nav" style="float:left;margin: 0px 0px 0px 20px">
+			<!--任务行程-->
+			<li class="li01" style="border-left: 1px solid #fff;width: 80px;" th:if="${userUtil.hasFunction('WEB_TRAVEL_PLAY')}">
+				<a th:href="@{/missionStroke/viewMissionStroke}" style="width: 80px;"><span th:text="#{goldencudgel.menu.missionStroke}"></span></a>
+			</li>
+		
+			<!--拜访笔记-->
+			<li class="li01" th:if="${userUtil.hasFunction('WEB_VISIT_NOTES')}" style="width: 80px;">
+				<!-- <a th:href="@{/collectionQuery/queryCollectionRecords}"><span th:text="#{goldencudgel.menu.visitingNotes}"/></a>
+				 -->
+               <a th:href="@{/collectionQuery/queryCollectionRecords}" style="width: 80px;"><span th:text="#{goldencudgel.menu.visitingNotes}"></span></a>
+			</li>
+
+			<!--測字館-->
+			<li class="li01"  th:if="${userUtil.hasFunction('WEB_QUESTION_ANSWER')}" onmouseover="show('over','sub_li03')" onmouseout="show('out','sub_li03')" style="width: 90px;">
+				<a href="javascript:void(0)" style="width: 100px;"><span th:text="#{goldencudgel.menu.wordShop}"></span><img src="../images/m_down.png" /></a>
+				<ul id="sub_li03" class="sub_menu">
+					<!--聯徵同意書-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_CONCREDIT')}" style="width: 90px;">
+						<a th:href="@{/letterConsent/viewLetterConsents}" style="width: 90px;"><span th:text="#{goldencudgel.menu.letterConsent}"></span></a>
+					</li>
+					<!--測字館查詢-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_QUESTION_SEARCH_PAGE')}" style="width: 90px;">
+						<a th:href="@{/measureWord/viewMeasureWords}" style="width: 90px;"><span th:text="#{goldencudgel.menu.measureWord}"></span></a>
+					</li>
+				</ul>
+			</li>
+
+			<!--进件申请-->
+			<li class="li01" th:if="${userUtil.hasFunction('WEB_ENTER_CASE')}" style="width: 80px;">
+				<a th:href="@{/ApplyIncom/viewApplyIncom}" style="width: 80px;"><span th:text="#{goldencudgel.menu.apply}"></span></a>
+			</li>
+
+			<!--征信实访-->
+			<li class="li01" th:if="${userUtil.hasFunction('WEB_INTRODUCE_PAGE')}" style="width: 120px" >
+				<a href="javascript:void(0)" style="width: 120px" ><span th:text="#{goldencudgel.menu.wxInterview}"></span><img src="../images/m_down.png" /></a>
+				<ul id="sub_li05" class="sub_menu" style="width: 120px" >
+					<!--征信实访查询-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_INTRODUCE_QUERY')}" style="width: 120px" >
+					<a th:href="@{/CreditReport/viewCreditReport}" style="width: 120px" ><span th:text="#{goldencudgel.menu.wxInterviewSearch}"></span></a>
+					</li>
+					<!--征信问卷报告查询-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_INTRODUCE_QUESTION')}" style="width: 120px" >
+						<a th:href="@{/CreditQues/viewCreditQues}" style="width: 120px" ><span th:text="#{goldencudgel.menu.CRQRSearch}"></span></a>
+					</li>
+				</ul>
+			</li>
+
+			<!--企業經營報告書-->
+			<li class="li01" style="width: 140px;" th:if="${userUtil.hasFunction('WEB_BUSINESS_REPORT')}" onmouseover="show('over','sub_li04')" onmouseout="show('out','sub_li04')">
+				<a href="javascript:void(0)" style="width: 140px;"><span th:text="#{goldencudgel.menu.company}"></span><img src="../images/m_down.png" /></a>
+				<ul id="sub_li04" class="sub_menu" style="width: 140px;">
+					<!--企業能力配置-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('COMPANY_ABILITY_CONFIG')}" style="width: 140px;">
+						<a th:href="@{/abilityConfig/viewAbilityConfig}"style="width: 140px;"><span th:text="#{golden.menu.abilityConfig}"></span></a>
+					</li>
+					<li class="sub_li01" th:if="${userUtil.hasFunction('COMPANY_RATING_CONFIG')}" style="width: 140px;">
+						<a th:href="@{/ratingConfig/viewRatingConfig}"style="width: 140px;"><span th:text="#{golden.menu.ratingConfig}"></span></a>
+					</li>
+					<li class="sub_li01" th:if="${userUtil.hasFunction('COMPANY_ABILITY_COMPARE_CONFIG')}" style="width: 140px;">
+						<a th:href="@{/abilityCompareConfig/viewAbilityCompareConfig}"style="width: 140px;"><span th:text="#{golden.menu.abilityCompareConfig}"></span></a>
+					</li>
+					<!--企業指標配置 -->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('COMPANY_INDICATORS_CONFIG')}" style="width: 140px;">
+						<a th:href="@{/indicatorsConfig/viewIndicatorsConfig}"style="width: 140px;"><span th:text="#{golden.menu.indicatorsConfig}"></span></a>
+					</li>
+				</ul>
+			</li>
+
+			<!-- 案件分配-->
+			<li class="li01"  style="width: 90px;" th:if="${userUtil.hasFunction('WEB_CASE_ALLOCATION')}" onmouseover="show('over','sub_li08')" onmouseout="show('out','sub_li08')">
+				<a href="javascript:void(0)" style="width: 90px;"><span th:text="#{golden.menu.caseAllocation}"></span><img src="../images/m_down.png"/></a>
+				<ul id="sub_li08" class="sub_menu" style="width: 90px;">
+					<!--待辦清單-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_CASE_ALLOCATION_SUB')}" style="width: 90px;">
+						<a th:href="@{/caseAllocation/viewCaseAllocation}" style="width: 90px;"><span th:text="#{golden.menu.toDoList}"></span></a>
+					</li>
+					<!--案件查詢-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_PENDING_CASE')}" style="width: 90px;">
+						<a th:href="@{/caseAllocation/viewPendingCase}" style="width: 90px;"><span th:text="#{golden.menu.pendingCase}"></span></a>
+					</li>
+				</ul>
+			</li>
+
+			<!-- 产品管理-->
+			<li class="li01" th:if="${userUtil.hasFunction('WEB_PRODUCT_MANAGEMENT')}" onmouseover="show('over','sub_li10')" onmouseout="show('out','sub_li10')" style="width: 90px;" >
+				<a href="javascript:void(0)" style="width: 90px;"><span th:text="#{golden.menu.productManagement}"></span><img src="../images/m_down.png"/></a>
+				<ul id="sub_li10" class="sub_menu">
+					<!--产品管理-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_PRODUCT_MANAGEMENT_SUB')}" style="width: 90px;" >
+						<a th:href="@{/product/productManagement}" style="width: 90px;"><span th:text="#{golden.menu.productManagement}"></span></a>
+					</li>
+					<!--問卷題庫-->
+					<li class="sub_li01" th:if="${userUtil.hasFunction('Z_WORD_SHOP')} or ${userUtil.hasFunction('Z_CREDIT_REPORTING')}" onmouseover="show('over','sub_li11')" onmouseout="show('out','sub_li11')">
+						<a href="javascript:void(0)" style="width: 90px;"><span th:text="#{goldencudgel.menu.questionnaire}"style="width: 120px;"/><img src="../images/m_right.png" /></a>
+						<ul id="sub_li11" class="right_sub_menu2">
+							<li class="sub_li01" th:if="${userUtil.hasFunction('Z_WORD_SHOP')}" style="width: 90px;">
+								<a th:href="@{/questionnaire/viewQuestionnaires}" style="width: 90px;"><span th:text="#{goldencudgel.menu.wordShop}"></span></a>
+							</li>
+							<li class="sub_li01" th:if="${userUtil.hasFunction('Z_CREDIT_REPORTING')}" style="width: 90px;">
+								<a th:href="@{/questionnaire/viewIntroduces}" style="width: 90px;"><span th:text="#{goldencudgel.menu.wxInterview}"></span></a>
+							</li>
+							
+						</ul>
+					</li>
+					<li class="sub_li01" th:if="${userUtil.hasFunction('Z_AUDIT')} OR ${session.user.userType=='CA'}" style="width: 90px;">
+						<a th:href="@{/questionnaire/viewAuditQuestionaires}" style="width: 90px;"><span th:text="問卷審核"/></a>
+					</li>
+				</ul>
+			</li>
+
+			<!-- 報表-->
+			<li class="li01" th:if="${userUtil.hasFunction('WEB_ACOUNT_REPORT')}" style="width: 60px;">
+				<a th:href="@{/report/reportIndex}" style="width: 60px;"><span>報表</span></a>
+			</li>
+
+			<!--系统管理-->
+			<li class="li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_SYSTEM_CONFIG')}" onmouseover="show('over','sub_li07')" onmouseout="show('out','sub_li07')">
+				<a href="javascript:void(0)" style="width: 110px;"><span th:text="#{goldencudgel.menu.systemManager}"></span><img src="../images/m_down.png" /></a>
+				<ul id="sub_li07" class="sub_menu" >
+					<li class="sub_li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_SYSTEM_AUTHS')}" onmouseover="show('over','sub_li12')" onmouseout="show('out','sub_li12')">
+						<a href="javascript:void(0)" style="width: 110px;"><span th:text="#{goldencudgel.menu.auth}"></span><img src="../images/m_right.png" /></a>
+						<ul id="sub_li12" class="right_sub_menu">
+							<!-- 权限管理-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_AUTHS_SUB')}" style="width: 110px;">
+								<a th:href="@{/auths/viewAuths}" style="width: 110px;" ><span th:text="#{goldencudgel.menu.auth}"></span></a>
+							</li>
+							<!--角色管理-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_ROLE')}" style="width: 110px;">
+								<a th:href="@{/role/viewAllRoles}" style="width: 110px;" ><span th:text="#{goldencudgel.menu.role}"></span></a>
+							</li>
+							<!--审核配置-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_AUDIT_CONFIGURATION')}" style="width: 110px;">
+								<a th:href="@{/auditCOnfiguration/viewAuditCOnfiguration}" style="width: 110px;" ><span th:text="#{goldencudgel.menu.auditCOnfiguration}"></span></a>
+							</li>
+						</ul>
+					</li>
+					<!--用户管理-->
+					<!-- <li class="sub_li01" >
+						<a th:href="@{/seater/viewAllUsers}"><span th:text="#{goldencudgel.menu.systemManager}"/></a>
+					</li> -->
+					<!--附件管理-->
+					<li class="sub_li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_SYSTEM_ATTACHMENT')}" onmouseover="show('over','sub_li15')" onmouseout="show('out','sub_li15')">
+						<a href="javascript:void(0)" style="width: 110px;"><span th:text="#{goldencudgel.menu.attachment}"></span><img src="../images/m_right.png" /></a>
+						<ul id="sub_li15" class="right_sub_menu">
+							<!-- 附件管理-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_ATTACHMENT_SUB')}" style="width: 110px;">
+								<a th:href="@{/attachment/viewAttachment}" style="width: 110px;" ><span th:text="#{goldencudgel.menu.attachment}"></span></a>
+							</li>
+							<!--選項資料-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_IMFORMATION')}" style="width: 110px;">
+								<a th:href="@{/itemData/viewItemData}" style="width: 110px;" ><span th:text="#{goldencudgel.menu.itemData}"></span></a>
+							</li>
+						</ul>
+					</li>
+					<!--模板導入-->
+					<li class="sub_li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_SYSTEM_TEMPLATE_IMPORT')}" onmouseover="show('over','sub_li13')" onmouseout="show('out','sub_li13')">
+						<a href="javascript:void(0)" style="width: 110px;"><span th:text="#{goldencudgel.menu.templateImport}"></span><img src="../images/m_right.png" /></a>
+						<ul id="sub_li13" class="right_sub_menu">
+							<!--利率報價配置-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_RATE_OFFER_CONFIG')}" style="width: 110px;">
+								<a th:href="@{/rateOfferConfig/viewRateOfferConfig}" style="width: 110px;"><span th:text="#{goldencudgel.menu.rateOfferCOnfig}"></span></a>
+							</li>
+							<!-- 假日管理 -->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_HOLIDAY')}" style="width: 110px;">
+								<a th:href="@{/holiday/viewHoliday}" style="width: 110px;"><span th:text="#{golden.system.holiday}"></span></a>
+							</li>
+							<!--指標目標數上傳-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_GOAL')}" style="width: 110px;">
+								<a th:href="@{/indexTarget/viewIndexTarget}" style="width: 110px;"><span th:text="#{golden.system.goal}"></span></a>
+							</li>
+							<!--365天達成率-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_ACHIRATE')}" style="width: 110px;">
+								<a th:href="@{/achiRate/viewAchiRate}" style="width: 110px;"><span th:text="#{golden.menu.achiRate}"></span></a>
+							</li>
+							<!--負面表列行業-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_NEGATIVE_INDUSTRY')}" style="width: 110px;">
+								<a th:href="@{/negativeIndustry/viewNegativeIndustry}" style="width: 110px;"><span th:text="#{goldencudgel.menu.negativeIndustry}"></span></a>
+							</li>
+						</ul>
+					</li>
+					<!--日誌查詢-->
+					<li class="sub_li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_SYSTEM_LOG')}" onmouseover="show('over','sub_li14')" onmouseout="show('out','sub_li14')">
+						<a href="javascript:void(0)" style="width: 110px;"><span th:text="#{golden.system.log}"></span><img src="../images/m_right.png" /></a>
+						<ul id="sub_li14" class="right_sub_menu">
+							<!--日誌查詢-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_LOG')}" style="width: 110px;">
+								<a th:href="@{/systemLog/viewSystemLog}" style="width: 110px;"><span th:text="#{golden.system.log}"></span></a>
+							</li>
+							<!--報表日誌-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_DATA')}" style="width: 110px;">
+								<a th:href="@{/systemData/viewSystemDataList}" style="width: 110px;"><span th:text="#{golden.menu.systemData}"></span></a>
+							</li>
+							<!--系統日誌-->
+							<li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_LOGS')}" style="width: 110px;">
+								<a th:href="@{/systemLogs/SystemLogs}" style="width: 110px;"><span th:text="#{golden.system.logs}"></span></a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+
+			<!--视讯会议-->
+			<li class="li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_VIDEO_MEETING')}" onmouseover="show('over','sub_li09')" onmouseout="show('out','sub_li09')">
+				<a href="javascript:void(0)" style="width: 110px;"><span th:text="#{goldencudgel.menu.videoConference}"/><img src="../images/m_down.png" /></a>
+			    <ul id="sub_li09" class="sub_menu" style="width: 110px;">
+					<!---->
+					<li class="sub_li01" style="width: 110px;" th:if="${userUtil.hasFunction('WEB_VIDEO_MEETING')}">
+						<a style="width: 110px;" th:href="@{/videoConference/viewVideoConference}"><span th:text="#{goldencudgel.menu.videoConference}"/></a>
+					</li>
+					<li class="sub_li01" style="width: 110px;" >
+                        <a style="width: 110px;" th:href="@{/videoConference/joinVideoConference}" target="_blank"><span th:text="#{goldencudgel.menu.videoConference.attend}"/></a>
+					</li>
+				</ul>
+			</li>
+            <li class="li01" style="margin-left:20px;" onclick="javascript:showMessage();" th:if="${userUtil.hasFunction('WEB_USER_NEWS')}">
+              <div style="position: relative;">
+		             <div style="position: absolute;" title="查看訊息" >
+		                <img style="width:80%;height:80%" src="../images/u717.png"/>
+		            </div> 
+		            
+		            <!-- 是根据未读数来判断是否已全部读完 -->
+		            <!--  <div th:if="${session.messageCount} gt '0' " style="position: absolute;top:0px;left:31px;" title="查看訊息" > -->
+		            <!-- 根据结果数据是否都有了readTime值判断是否已全部已读 -->
+		             <div th:if="${session.contentCount} ne 0 " style="position: absolute;top:0px;left:31px;" title="查看訊息" >
+		                <img style="width:80%;hieght:80%" src="../images/u718.png"/>
+		                <div  style="position: absolute;top:0px;left:9px;">
+		                    <!-- <p>
+		                     <span id="messageCount" th:text="${session.messageCount}"></span>
+		                    </p> -->
+		                </div>
+		            </div> 
+
+		            <div style="position: absolute;top:4px;left:8px;" title="查看訊息" >
+		                <img style="width:80%;height:80%" src="../images/u719.png"/>
+		            </div>
+		            <!--  <div style="position: absolute;top:4px;left:8px;" title="查看訊息" th:if="${session.messageCount} gt '0' ">
+		                <img style="width:80%;height:80%" src="../images/u719.png"/>
+		            </div> -->
+		        </div>
+            </li>
+		</ul>
+        <!--消息
+        <div class="ax_u5301" style="position: relative;">
+            <div class="ax_u5302" title="查看訊息">
+                <img class="ax_u5302_img" src="../images/u717.png"/>
+            </div>
+            <div class="ax_u5303" title="查看訊息">
+                <img class="ax_u5303_img" src="../images/u718.png"/>
+                <div class="ax_u5303_text">
+                    <p><span style="">2</span></p>
+                </div>
+            </div>
+            <div class="ax_u5304" title="查看訊息">
+                <img class="ax_u5304_img" src="../images/u719.png"/>
+            </div>-->
+        </div>
+	</div>
+	<div class="main">
+		<div style="background:url(../../images/welcome_bg.jpg) no-repeat right 0; height:540px; width:1000px; text-align:center;line-height:65px; color:#327B9C;font-weight:bold; margin:0 auto;">
+			<p style="font-size:25px;color:#327B9C;"><font style="color:red">欢迎登入</font>&nbsp; 
+			</p>
+		</div>
+	</div>
+
+	<div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

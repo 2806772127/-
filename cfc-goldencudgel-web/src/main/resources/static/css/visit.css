@@ -1,0 +1,124 @@
+.visitreback  {
+    background: none;
+    border:none;
+    background-image:url(../images/visit/u7.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    width:100px;
+    height:30px;
+    color: black;
+    text-align:center;
+}
+
+.vsb{
+    background: none;
+    border:none;
+    background-image:url(../images/visit/u944.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    width:100px;
+    height:25px;
+    color: black;
+    text-align:center;
+    font-size: 12px;
+}
+.vsw{
+    background: none;
+    border:none;
+    background-image:url(../images/visit/u3588.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    width:100px;
+    height:25px;
+    color: black;
+    text-align:center;
+    font-size: 12px;
+}
+.tianjia{
+    background: none;
+    border:none;
+    background-image:url(../images/visit/u3809.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    width:20px;
+    height:20px;
+    color: black;
+    text-align:center;
+    font-size: 12px;
+}
+.shangchu{
+    background: none;
+    border:none;
+    background-image:url(../images/visit/u3808.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    width:20px;
+    height:20px;
+    color: black;
+    text-align:center;
+    font-size: 12px;
+}
+.roleSelect{
+    background: none;
+    border:none;
+    background-image:url(../images/role/u9333.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    border-width: 0px;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 23px;
+}
+.roleCancelSelect{
+    background: none;border:none;
+    background-image:url(../images/role/u3903.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    width:100px;height:36px;
+    color:black;
+}
+
+#u4025_state0_content {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1px;
+    height: 1px;
+}
+#u4026_img {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 586px;
+    height: 194px;
+}
+
+.u4229_img {
+    background: none;
+    border: none;
+    background-image: url(../images/visit/u4178.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    width: 100px;
+    height: 30px;
+    color: #fffef6;
+    font-size: 16px;
+    position:relative;
+    bottom:-10px;
+    padding:0px;
+    margin:0px
+}
+
+
+

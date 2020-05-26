@@ -1,0 +1,44 @@
+<table class="tb01 mgt" xmlns:th="http://www.w3.org/1999/xhtml">
+    <tr>
+        <th>授信戶統編</th>
+        <th>授信戶名稱</th>
+        <th>問卷名稱</th>
+        <th>徵信員姓名</th>
+        <th>答題時間</th>
+        <th>修改時間</th>
+        <th>操作</th>
+    </tr>
+    <span th:unless="${#lists.isEmpty(creditQuesList)}">
+    <tr th:each="applyIncom : ${creditQuesList}">
+                <td th:text="${applyIncom[1]}"></td>
+                <td th:text="${applyIncom[2]}"></td>
+                <td th:text="${applyIncom[3]}"></td>
+                <td th:text="${applyIncom[6]}"></td>
+                <td th:text="${applyIncom[4]}"></td>
+                <td th:text="${applyIncom[5]}"></td>
+
+                <td>
+                    <a style="cursor: pointer;" th:if="${applyIncom[10]}!=1" th:measureId="${applyIncom[0]}" th:compilationNo="${applyIncom[1]}" th:compilationNanme="${applyIncom[2]}"
+                       th:onclick="javascript:viewReport(this);">查看</a>
+
+                        <span th:if="${session.user.userType == 'A' || session.user.userType == 'C'}"  th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                                <span th:text="${area.key == session.user.userArea} ? ${area.value}:''"></span>
+                            </span>
+
+             <span th:if="${(applyIncom[11]==curUserCode || applyIncom[12]=='1') && applyIncom[7]=='1'} "  >
+                    <a style="cursor: pointer;" th:measureId="${applyIncom[0]}" th:compilationNo="${applyIncom[1]}" th:compilationNanme="${applyIncom[2]}" th:questionnaireName="${applyIncom[3]}" th:creditName="${applyIncom[6]}" th:startDate="${applyIncom[4]}" th:endDate="${applyIncom[5]}"
+                       th:questionType="${applyIncom[8]}" th:description="${applyIncom[9]}"
+                       th:onclick="javascript:editReport(this);">修改</a>
+                    </span>
+                    <span th:if="${userUtil.hasFunction('WEB_INTRODUCE_QUESTION_DOWNLOAD')}">
+                    <a style="cursor: pointer;" th:if="${applyIncom[10]}!=1" th:measureId="${applyIncom[0]}" th:onclick="javascript:downloadPdf(this);">下載</a>
+                    </span>
+                </td>
+              </tr>
+    </span>
+</table>
+
+<p class="page">
+
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

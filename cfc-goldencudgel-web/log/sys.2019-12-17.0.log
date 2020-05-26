@@ -1,0 +1,8 @@
+2019-12-17 15:33:56,483 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 7212 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-17 15:33:56,486 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-17 15:33:56,488 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-17 15:34:11,237 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 15.225 seconds (JVM running for 16.532)
+2019-12-17 15:34:43,717 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 8348 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-17 15:34:45,549 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-17 15:34:45,553 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-17 15:34:55,306 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 12.021 seconds (JVM running for 12.751)

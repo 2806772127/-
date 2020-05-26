@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.missionStroke})">
+
+</head>
+<body class="body_bg">
+<div th:replace="index/index :: #top">
+</div>
+<div th:insert="~{index/index :: menu}">
+</div>
+<div class="main">
+    </br><div>當前位置：金箍棒 > 修改任務行程 </div></br>
+    <form id="missionStroke">
+    <input type="hidden" id="appointmentId" name="appointmentId" th:value="${missionStrokeMap.appointmentId}" />
+    <table class="tb02 mgt">
+        <thead>
+            <tr><th style="text-align: left" colspan="6">新增任務行程</th> </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th style="text-align: right;width: 16%"><span style="color:red;">*</span>客戶屬性：</th>
+                <td style="text-align: left;width: 16%" th:if="${missionStrokeMap.comCustomerType} eq '01'">
+                    <input type="button" id="newCus" class="gpic" value="新戶" style="width:65px;height:25px" onclick="changeType('01');"/> &nbsp;
+                    <input type="button" id="oldCus" class="pic" value="舊戶" style="width:65px;height:25px" onclick="changeType('02');"/>
+                    <input type="hidden" id="comCustomerType" name="comCustomerType" value="01"/>
+                </td>
+                <td style="text-align: left;width: 16%" th:if="${missionStrokeMap.comCustomerType} eq '02'">
+                    <input type="button" id="newCus" class="pic" value="新戶" style="width:65px;height:25px" onclick="changeType('01');"/> &nbsp;
+                    <input type="button" id="oldCus" class="gpic" value="舊戶" style="width:65px;height:25px" onclick="changeType('02');"/>
+                    <input type="hidden" id="comCustomerType" name="comCustomerType" value="02"/>
+                </td>
+
+                <th style="text-align: right;width: 12%"><span style="color:red;">*</span>授信戶統編：</th>
+                <td style="text-align: left;width: 16%"><input readonly="readonly" id="compilationNo" th:value="${missionStrokeMap.compilationNo}" name="compilationNo" maxLength="8" class="input_radius" /></td>
+                <th style="text-align: right;width: 10%"><span style="color:red;">*</span>授信戶名稱：</th>
+                <td style="text-align: left;width: 30%"><input id="compilationName" th:value="${missionStrokeMap.compilationName}" class="input_radius" name="compilationName"/></td>
+            </tr>
+            <tr th:if="${session.user.userType == 'S'}">
+                <input type="hidden" id="userType" th:value="${session.user.userType}"/>
+                <th><span style="color:red;">*</span>負責人：</th>
+                <td style="text-align: left">
+                    <input id="princilpalName" th:value="${missionStrokeMap.princilpalName}" class="input_radius" name="princilpalName" maxLength="30"/>
+                </td>
+                <th><span style="color:red;">*</span>案件來源：</th>
+                <input type="text" th:value="${missionStrokeMap.enterSource}" id="enterSourceHidden" style="display: none" />
+                <td style="text-align: left" colspan="3">
+                    <select id="enterSource" name="enterSource"  onchange="changeEnterSource()" style="width:105px;">
+                        <option value="">-請選擇-</option>
+                        <option th:each=" enterSource : ${enterSourceList}" th:selected="${enterSource[1] eq missionStrokeMap.enterSource}" th:value="${enterSource[1]}" th:text="${enterSource[2]}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr th:if="${session.user.userType == 'Z'}">
+                <th><span style="color:red;">*</span>負責人：</th>
+                <td style="text-align: left" colspan="5">
+                    <input id="princilpalName" th:value="${missionStrokeMap.princilpalName}" class="input_radius" name="princilpalName" maxLength="30"/>
+                </td>
+            </tr>
+            <span th:if="${missionStrokeMap.enterSource} != null and ${#strings.contains(missionStrokeMap.enterSource, 'ZJ')}">
+                <tr class="introduce" >
+                    <th><span style="color:red;">*</span>案源轉介人姓名：</th>
+                    <td style="text-align: left">
+                        <input th:value="${missionStrokeMap.introduceName}" id="introduceNameHidden" style="display: none"  />
+                        <input name="introduceName" th:value="${missionStrokeMap.introduceName}" id="introduceName" class="input_radius" maxLength="30"/>
+                    </td>
+                    <th><span style="color:red;">*</span>案源轉介人員编/ID：</th>
+                    <td style="text-align: left">
+                        <input th:value="${missionStrokeMap.introduceId}" id="introduceIdHidden" style="display: none"  />
+                        <input name="introduceId" th:value="${missionStrokeMap.introduceId}" id="introduceId" class="input_radius" maxLength="10"/>
+                    </td>
+                    <th >案源轉介人電話：</th>
+                    <td style="text-align: left">
+                        <input th:value="${missionStrokeMap.introducePhoneExt}" id="introducePhoneExtHidden" style="display: none" />
+                        <input th:value="${missionStrokeMap.introducePhone}" id="introducePhoneHidden" style="display: none"  />
+                        <input id="introducePhoneExt" th:value="${missionStrokeMap.introducePhoneExt}" class="input_radius" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxLength="4"/>
+                        <input id="introducePhone" th:value="${missionStrokeMap.introducePhone}" class="input_radius" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxLength="8"/>
+                    </td>
+                </tr>
+            
+                <tr class="introduce">
+                    <th>案源轉介人單位：</th>
+                    <td style="text-align: left" colspan="5">
+                        <input th:value="${missionStrokeMap.introduceAddress}" id="introduceAddressHidden" style="display: none"  />
+                        <input name="introduceAddress" th:value="${missionStrokeMap.introduceAddress}" id="introduceAddress" class="input_radius" maxLength="20"/>
+                    </td>
+                </tr>
+            </span>
+            
+            <span th:unless="${missionStrokeMap.enterSource} != null and ${#strings.contains(missionStrokeMap.enterSource, 'ZJ')}">
+                <tr class="introduce" style="display: none">
+                    <th><span style="color:red;">*</span>案源轉介人姓名：</th>
+                    <td style="text-align: left">
+                        <input name="introduceName" id="introduceName" class="input_radius" maxLength="30"/>
+                    </td>
+                    <th><span style="color:red;">*</span>案源轉介人員编/ID：</th>
+                    <td style="text-align: left">
+                        <input name="introduceId" id="introduceId" class="input_radius" maxLength="10"/>
+                    </td>
+                    <th >案源轉介人電話：</th>
+                    <td style="text-align: left">
+                        <input id="introducePhoneExt" class="input_radius" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxLength="4"/>
+                        <input id="introducePhone" class="input_radius" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxLength="8"/>
+                    </td>
+                </tr>
+                <tr class="introduce" style="display: none">
+                    <th>案源轉介人單位：</th>
+                    <td style="text-align: left" colspan="5">
+                        <input name="introduceAddress" id="introduceAddress" class="input_radius" maxLength="20"/>
+                    </td>
+                </tr>
+            </span>
+            <tr>
+                <th style="text-align: right"><span style="color:red;">*</span>公司設立日期：</th>
+                <td style="text-align: left" ><input readonly="readonly" th:value="${missionStrokeMap.comEstabdate}" id="comEstabdate" name="comEstabdate" class="input_radius"/></td>
+                <th style="text-align: right"><span style="color:red;">*</span>組織型態：</th>
+                <td style="text-align: left">
+                    <select name="comOrganization" id="comOrganization" onchange="selectOrganization()" style="width:105px;">
+                        <option value="">-請選擇-</option>
+                        <option th:each=" organization : ${organizationList}" th:selected="${organization[1] eq missionStrokeMap.comOrganization}" th:value="${organization[1]}" th:text="${organization[2]}"></option>
+                    </select>
+                    <input id="comOrganizationName" name="comOrganizationName" class="input_none" style="display: none"/>
+                </td>
+                <th style="text-align: right"><span style="color:red;">*</span>資本額(仟元)：</th>
+                <td style="text-align: left"><input th:value="${missionStrokeMap.comActualCapital}" onkeyup="capitalToThousandth(this)" id="comActualCapital" name="comActualCapital" class="input_radius" maxLength="14"/></td>
+            </tr>
+            <tr>
+                <th><span style="color:red;">*</span>公司登記地址：</th>
+                <td style="text-align: left" colspan="5">
+                    <input name="compRegAddress" id="compRegAddress" th:value="${missionStrokeMap.compRegAddress}" class="input_radius" maxLength="50" style="width:56%;"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span style="color:red;">*</span>實際營業地址：</th>
+                <td style="text-align: left" colspan="5">
+                    <input name="comAddress" th:value="${missionStrokeMap.comAddress}" id="comAddress" class="input_radius" maxLength="50" style="width:56%;"/>
+                </td>
+                <!-- <td style="text-align: left" colspan="5">
+                    <span style="color:#0084CE ">⊙</span>請選擇縣市：
+                    <select name="comRealCityCode" id="comRealCityCode" onchange="selectCity()">
+                        <option value="">-請選擇-</option>
+                        <option th:each="city : ${viewCityList}" th:selected="${city[1] eq missionStrokeMap.comRealCityCode}" th:value="${city[1]}" th:text="${city[2]}"></option>
+                    </select>
+                    <input style="display: none" id="comRealCityName"/>
+                    <span style="color:#0084CE ">⊙</span>請選擇鄉鎮市區：
+                    <select name="comRealDistrictCode" id="comRealDistrictCode" onchange="selectDistrict()">
+                        <option value="">-請選擇-</option>
+                        <option th:unless="${#lists.isEmpty(viewDistrictList)}" th:each="district : ${viewDistrictList}" th:selected="${district[1] eq missionStrokeMap.comRealDistrictCode}" th:value="${district[1]}" th:text="${district[2]}"></option>
+                    </select>
+                    <input style="display: none" id="comRealDistrictName"/>
+                    </br>
+                    <span style="color:#0084CE ">⊙</span>道路或街名或村里名稱：
+                    <select name="comRealStreetCode" id="comRealStreetCode" onchange="selectStreet()">
+                        <option value="">-請選擇-</option>
+                        <option th:unless="${#lists.isEmpty(viewStreetList)}" th:each="street : ${viewStreetList}" th:selected="${street[1] eq missionStrokeMap.comRealStreetCode}" th:value="${street[1]}" th:text="${street[2]}"></option>
+                    </select>
+                    <input style="display: none" id="comRealStreetName"/>
+                    <a style="color:#0084CE " title="使用說明：
+1.地址之【XX市...XX弄A之B號】，若【B】欄位無資料，門號請填在【A】欄位。
+2.【段】、【巷】、【弄】、【號】、【樓】、【室】等欄位
+如為數字者，輸入阿拉伯數字，例如：2段、11巷...等" onclick="showUseDescription()">使用說明</a></br>
+                    <div id="useDescription" style="display: none">使用說明：
+                        1.地址之【XX市...XX弄A之B號】，若【B】欄位無資料，門號請填在【A】欄位。
+                        2.【段】、【巷】、【弄】、【號】、【樓】、【室】等欄位
+                        如為數字者，輸入阿拉伯數字，例如：2段、11巷...等" </div>
+                    <input name="comRealTunnel" th:value="${missionStrokeMap.comRealTunnel}" id="comRealTunnel" class="input_radius" maxLength="10"/>巷
+                    <input name="comRealLane" th:value="${missionStrokeMap.comRealLane}" id="comRealLane" class="input_radius" maxLength="10"/>弄
+                    <input name="comRealAddnumber" th:value="${missionStrokeMap.comRealAddnumber}" id="comRealAddnumber" class="input_radius" maxLength="10"/>號之
+                    <input name="comRealSpace1" th:value="${missionStrokeMap.comRealSpace1}" id="comRealSpace1" class="input_radius" maxLength="10"/>
+                    <input name="comRealFloor" id="comRealFloor" class="input_radius" maxLength="10"/>樓之
+                    <input name="comRealSpace2" th:value="${missionStrokeMap.comRealSpace2}" id="comRealSpace2" class="input_radius" maxLength="10"/>
+                    <input name="comRealRoom" id="comRealRoom" class="input_radius" maxLength="10"/>室
+                </td> -->
+            </tr>
+            </tbody>
+        </table>
+        <table class="tb02 mgt">
+            <tbody>
+            <tr>
+                <th style="text-align: right;width:16.1%"><span style="color:red;">*</span>拜訪對象：</th>
+                <td style="text-align: left;width:16.1%"><input th:value="${missionStrokeMap.appointmentUser}" name="appointmentUser" id="appointmentUser" class="input_radius" maxLength="30"/></td>
+                <th style="text-align: right;width:8%"><span style="color:red;">*</span>職稱：</th>
+                <td style="text-align: center;width:9%">
+                    <select id="appointmentPosition" name="appointmentPosition" onchange="changePosition()">
+                        <option th:each=" position : ${positionList}" th:selected="${position[1] eq missionStrokeMap.appointmentPosition}" th:value="${position[1]}" th:text="${position[2]}"></option>
+                    </select>
+                    <input name="appoipositionOther" id="appoipositionOther" class="input_radius" style="display: none" maxLength="10"/>
+                </td>
+                <th style="text-align: right;width:15%"><span style="color:red;">*</span>公司聯絡電話：</th>
+                <td style="text-align: left">
+                    <input class="input_radius" maxLength="4" th:value="${missionStrokeMap.comPhoneAreaCode}" name="comPhoneAreaCode" id="comPhoneAreaCode" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                    <input class="input_radius" maxLength="8" th:value="${missionStrokeMap.comPhoneNum}" name="comPhoneNum" id="comPhoneNum" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/> 分機
+                    <input class="input_radius" maxLength="5" th:value="${missionStrokeMap.comPhoneExten}" name="comPhoneExten" id="comPhoneExten" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="tb02 mgt">
+            <tbody>
+            <tr>
+                <th style="text-align: right;width: 16.1%">行動電話：</th>
+                <td style="text-align: left;width: 16.1%">
+                    <input class="input_radius" maxLength="10" th:value="${missionStrokeMap.mobile}" id="mobile" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                 </td>
+                <th style="text-align: right;width:15%">電子郵件信箱：</th>
+                <td style="text-align: left;">
+               <input class="input_radius" maxLength="30" th:value="${missionStrokeMap.email}" id="email" style="width:42.5%"/>
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: right;width: 16.1%"><span style="color:red;">*</span>預定拜訪日期：</th>
+                <td style="text-align: left;width: 33%">
+                    <input class="input_radius" th:value="${missionStrokeMap.appointmentDate}" name="appointmentDate" id="appointmentDate" readonly/>
+                    <img id="appointmentImg" src="../images/measureWord/u22.png" />
+                </td>
+                <th style="text-align: right;width:8%"><span style="color:red;">*</span>預定拜訪時間：</th>
+                <td style="text-align: left;">
+                     <select id="appointment_H" name="appointmentTimeH">
+                        <option value="">- 請選擇 -</option>
+                        <option th:each="h : ${#numbers.sequence(0,23)}" th:selected="${h eq missionStrokeMap.appointmentTimeH}" th:value="${#strings.length(h) ==1 ? #strings.prepend(h,'0') : h}" th:text="${h}"/>
+                    </select>
+                    <select id="appointment_M" name="appointmentTimeM">
+                        <option value="">- 請選擇 -</option>
+                        <option th:selected="${'00' eq missionStrokeMap.appointmentTimeM}" value="00">00</option>
+                        <option th:selected="${'30' eq missionStrokeMap.appointmentTimeM}" value="30">30</option>
+                    </select>
+                </td>
+               
+            </tr>
+
+            <tr>
+                <th>備註：</th>
+                <td colspan="3">
+                    <textarea th:text="${missionStrokeMap.remark}" rows="3" cols="120" name="remark" id="remark" maxLength="300"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: center;margin-top:15px;" colspan="4">
+                    <div id="updateData" style="display: none;"></div>
+                    <input type="button" class="button_blue" value="確認" onclick="javascript:updateStroke()" />
+                    <input type="button" class="button_blue" value="返回" onclick="editbBackPage(1)" />
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+</body>
+<script type="text/javascript" src="../../js/missionStroke/addStroke.js"></script>
+<link rel="stylesheet" th:href="@{../../css/missionStroke.css}" type="text/css" />
+</html>

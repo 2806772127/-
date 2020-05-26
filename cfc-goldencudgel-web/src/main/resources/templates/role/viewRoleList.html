@@ -1,0 +1,27 @@
+<div>
+<table class="tb01 mgt">
+    <tr>
+        <th>角色名稱</th>
+        <th>角色代號</th>
+        <th>序號</th>
+        <th>是否啟用</th>
+        <th>操作</th>
+    </tr>
+    <span th:unless="${#lists.isEmpty(results)}">
+    <tr th:each="role : ${results}">
+                <td th:text="${role[1]}"></td>
+                <td th:text="${role[0]}"></td>
+                <td th:text="${role[3]}"></td>
+                <td th:text="${role[2]== 1} ? '啟用':'禁用' "></td>
+                <td >
+                    <img src="../images/role/u5317.png"  onclick="javascript:openEditRole(this)" th:if="${userUtil.hasFunction('WEB_SYSTEM_ROLE_UPDATE')}"
+                         th:roleId="${role[0]}" th:roleName="${role[1]}" th:status="${role[2]}" th:orderNum="${role[3]}">
+                    &nbsp;&nbsp;
+                    <img src="../images/role/u5316.png" th:if="${userUtil.hasFunction('WEB_SYSTEM_ROLE_DELETE')}"  onclick="javascript:deleteRole(this)" th:roleId="${role[0]}" >
+                </td>
+              </tr>
+    </span>
+</table>
+<p class="page">
+    <div th:replace="~{common/page :: page('queryRoles')}" style="text-align: right"/>
+</p>

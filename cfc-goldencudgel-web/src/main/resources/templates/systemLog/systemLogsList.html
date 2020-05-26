@@ -1,0 +1,30 @@
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+            <th>日誌文件類型</th>
+            <th>日誌文件名稱</th>
+            <!-- <th>創建時間</th> -->
+            <th>更新時間</th>
+            <th>操作</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(page)}">
+             <tr  th:each="connection : ${page}">
+                <td th:text="${connection[0]}"></td>
+                <td th:text="${connection[1]}"></td>
+                <!-- <td th:text="${connection[2]}"></td> -->
+                <td th:text="${connection[3]}"></td>
+                <td>
+                 <span>
+                    <!-- <a style="cursor: pointer;"  th:onclick="javascript:downloadPdf(this);">下載</a> -->
+                    <!-- <a th:href="@{/systemLogs/logDownload}"><span style="cursor: pointer;">下載</span></a> -->
+                    <a style="cursor: pointer;" th:logName="${connection[1]}" th:logType="${connection[0]}" th:logFileDir="${connection[4]}"  th:onclick="javascript:logDownload(this);">下載</a>
+                 </span>
+                </td>
+             </tr>
+            </span>
+        </tbody>
+</table>
+
+<p class="page">
+<div th:replace="~{systemLog/page2 :: page('findLog')}" style="text-align: right"/>
+</p>

@@ -1,0 +1,34 @@
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+    <tbody>
+    <tr>
+        <th style="width: 6%">類型</th>
+        <th style="width: 6%">經營能力</th>
+        <th style="width: 6%">償債能力</th>
+        <th  style="width: 6%">財務能力</th>
+        <th style="width: 6%">成立年數</th>
+        <th style="width: 46%">描述</th>
+        <th style="width: 9%">創建時間</th>
+        <th style="width: 9%">更新時間</th>
+        <th style="width: 6%">操作</th>
+    </tr>
+    <span th:unless="${#lists.isEmpty(abilityConfigList)}">
+             <tr th:each="ability:${abilityConfigList}">
+                 <td th:text="${ability[1]}"></td>
+                 <td th:text="${ability[4]}"></td>
+                 <td th:text="${ability[3]}"></td>
+                 <td th:text="${ability[2]}"></td>
+                 <td th:text="${ability[5]}"></td>
+                 <td th:text="${ability[6]}" style="text-align: left"></td>
+                 <td th:text="${ability[7]}"></td>
+                 <td th:text="${ability[8]}"></td>
+                 <td>
+                     <a style="cursor: pointer;" th:configId="${ability[0]}" th:operate="1" th:onclick="javascript:showAbilityConfig(this);">查看</a>
+                     <a style="cursor: pointer;" th:configId="${ability[0]}" th:operate="2" th:onclick="javascript:editAbilityConfig(this);">修改</a>       
+                 </td>
+             </tr>
+        </span>
+    </tbody>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

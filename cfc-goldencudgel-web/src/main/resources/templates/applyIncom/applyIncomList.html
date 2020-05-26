@@ -1,0 +1,42 @@
+
+<table class="tb01 mgt">
+   <!--  <tr>
+        <th>統一編號</th>
+        <th>客戶名稱</th>
+        <th>產業別</th>
+        <th>進件時間</th>
+        <th>操作</th>
+    </tr> -->
+    
+     <tr>
+        <th>授信戶統編</th>
+        <th>授信戶名稱</th>
+        <th>行業別</th>
+        <th>進件時間</th>
+        <th th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">經辦人</th>
+        <th>操作</th>
+    </tr>
+    
+    <span th:unless="${#lists.isEmpty(applyIncomList)}">
+    <tr th:each="applyIncom : ${applyIncomList}">
+                <td th:text="${applyIncom[0]}"></td>
+                <td th:text="${applyIncom[2]}"></td>
+                <td th:text="${applyIncom[3]}"></td>
+                <td th:text="${applyIncom[4]}"></td>
+                <!-- <td th:text="${applyIncom[6]}"></td> -->
+                <td th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}" th:text="${applyIncom[6]}"></td>
+                <td >
+                    <span th:if="${userUtil.hasFunction('WEB_ENTER_CASE_QUERY')}">
+                        <a style="cursor: pointer;" th:compilationNo="${applyIncom[0]}" th:trandId ="${applyIncom[1]}" th:comIndustryCode ="${applyIncom[5]}" th:onclick="javascript:viewIncomDetail(this);" >查看</a>
+                    </span>
+                    
+                    <span th:if="${userUtil.hasFunction('WEB_ENTER_CASE_UPDATE')}">
+                        <a style="cursor: pointer;" th:compilationNo="${applyIncom[0]}" th:trandId ="${applyIncom[1]}" th:comIndustryCode ="${applyIncom[5]}" th:applyNumber ="${applyIncom[7]}" th:curPage="${curPage}" th:onclick="javascript:editApplyIncom(this);" >修改</a>
+                    </span>
+                </td>
+              </tr>
+    </span>
+</table>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

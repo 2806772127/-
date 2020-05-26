@@ -1,0 +1,96 @@
+<!-- <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+            <th width="25%">負面行業類型</th>
+            <th width="25%">負面行業名稱</th>
+            <th width="25%">負面行業標準分類</th>
+            <th width="25%">操作</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(datas)}">
+             <tr  th:each="connection,connectionStart : ${datas}">
+                <td th:text="${connectionStart.count + (curPage-1)*20}"></td>
+                <td th:text="${connection[1]}"></td>
+                <td th:text="${connection[2]}"></td>
+                 <td th:text="${connection[3]}"></td>
+                <td ><a style="cursor: pointer;" th:negativeId ="${connection[0]}" th:negativeType ="${connection[1]}" th:negativeName ="${connection[2]}" th:negativeScore ="${connection[3]}" th:onclick="javascript:openQueryWin(this);" >修改</a>
+                <a style="cursor: pointer;" th:negativeId ="${connection[0]}" th:onclick="javascript:deleteWin(this);" >删除</a></td>
+             </tr>
+            </span>
+        </tbody>
+</table>
+
+    <div id="changeWindow" style="display:none;">
+        <form id ="changeItemData">
+         <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+            <tbody>
+            <tr>
+                <input id = "negativeIdList" type="hidden" name = "negativeId" value=""/>
+                <th width="25%"><a style ="color:#FF0000;">*</a>負面行業類型</th><td><input id = "negativeTypeList" type="text" value=""  /></td>
+            </tr>
+            <tr>
+                <input id = "oldCode" type="hidden" name = "olditemCode" value=""/>
+                <th width= "25%"><a style ="color:#FF0000;">*</a>負面行業名稱</th><td><input id = "negativeNameList" type="text" name = "negativeNameList" value=""  /></td>
+            </tr>
+            <tr>
+                <th width="25%"><a style ="color:#FF0000;">*</a>負面行業標準分類</th><td><input id = "negativeScoreList" type="text" name = "negativeScoreList" value=""/></td>
+            </tr>
+            <tr>
+                <td colspan = '2'><input id = "saveItem" type="button" value="儲存" onclick="window.parent.saveNegative()"/>
+                    <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closeChange()"/></td>
+            </tr>
+
+            </tbody>
+         </table>
+        </form>
+    </div>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p> -->
+
+
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+            <th width="25%">行業別名稱</th>
+            <th width="25%">中華民國稅務行業標準分類(細類)</th>
+            <th width="25%">創建時間</th>
+            <th width="25%">操作</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(datas)}">
+             <tr  th:each="connection,connectionStart : ${datas}">
+                <td th:text="${connection[2]}"></td>
+                 <td th:text="${connection[3]}"></td>
+                 <td th:text="${#dates.format(connection[4], 'yyyy-MM-dd')}"></td>
+                <td><a style="cursor: pointer;" th:negativeId ="${connection[0]}" th:onclick="javascript:deleteWin(this);" >删除</a></td>
+             </tr>
+            </span>
+        </tbody>
+</table>
+
+    <div id="changeWindow" style="display:none;">
+        <form id ="changeItemData">
+         <table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+            <tbody>
+            <tr>
+                <input id = "negativeIdList" type="hidden" name = "negativeId" value=""/>
+                <th width="25%"><a style ="color:#FF0000;">*</a>負面行業類型</th><td><input id = "negativeTypeList" type="text" value=""  /></td>
+            </tr>
+            <tr>
+                <input id = "oldCode" type="hidden" name = "olditemCode" value=""/>
+                <th width= "25%"><a style ="color:#FF0000;">*</a>負面行業名稱</th><td><input id = "negativeNameList" type="text" name = "negativeNameList" value=""  /></td>
+            </tr>
+            <tr>
+                <th width="25%"><a style ="color:#FF0000;">*</a>負面行業標準分類</th><td><input id = "negativeScoreList" type="text" name = "negativeScoreList" value=""/></td>
+            </tr>
+            <tr>
+                <td colspan = '2'><input id = "saveItem" type="button" value="儲存" onclick="window.parent.saveNegative()"/>
+                    <input id = "deleteItem" type="button" value="關閉" onclick="window.parent.closeChange()"/></td>
+            </tr>
+
+            </tbody>
+         </table>
+        </form>
+    </div>
+<p class="page">
+<div th:replace="~{common/page :: page('findRole')}" style="text-align: right"/>
+</p>

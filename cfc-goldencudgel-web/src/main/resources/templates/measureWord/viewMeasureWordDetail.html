@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.measureWord})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/measureWord.css}" type="text/css" />
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{goldencudgel.menu.wordShop}"/></span>><span th:text="#{goldencudgel.menu.measureWord.Detail}"/></span></div>
+  <br/>
+  <div class="main">
+		<table class="tb01 mgt">
+			<tr>
+				<th colspan="6" class="title">
+					<img src="../images/measureWord/u8597.png"> <span th:text="#{goldencudgel.menu.measureWord.Detail}" style="margin-left: 5px;" /></span>
+				</th>
+			</tr>
+			<tr>
+				<td class="tdback" style="width: 25%;">授信戶統編：</td>
+				<td style="width: 25%; text-align: left;" th:text="${detail.compilationNo}"></td>
+				<td class="tdback" style="width: 25%; text-align: right;">授信戶名稱：</td>
+				<td style="width: 25%; text-align: left;" th:text="${detail.customerName}"></td>
+			</tr>
+			<tr th:each="letter : ${baseInfos}" th:unless="${#lists.isEmpty(baseInfos)}">
+				<td class="tdback" style="text-align: right" th:if="${letter.letterType}!=1" th:switch="${letter.letterType}">
+					<span th:case="2">負責人ID：</span>
+					<span th:case="3">負責人配偶ID：</span>
+					<span th:case="4">保證人/關係戶ID：</span>
+				</td>
+				<td style="text-align: left;width: 150px;" th:if="${letter.letterType}!=1">
+					<span th:text="${letter.customerId}"></span>
+				</td>
+				<td class="tdback" style="text-align: right" th:if="${letter.letterType}!=1" th:switch="${letter.letterType}">
+					<span th:case="2">負責人姓名：</span>
+					<span th:case="3">負責人配偶姓名：</span>
+					<span th:case="4">保證人/關係戶姓名：</span>
+				</td>
+				<td style="text-align: left;width: 150px;" th:if="${letter.letterType}!=1">
+					<span th:text="${letter.customerName}"></span>
+				</td>
+			</tr>
+		</table>
+		<table class="tb01 mgt" style="margin-top: 5px;" th:each="questionType:${questionTypes}"  th:if="${questionType} eq '01' AND ${produceName} eq 'P0001' ">
+     <tr>
+       <th colspan="4" style="text-align:center;font-size: 16px;color: rgba(35, 121, 158, 1);height: 32px;">初篩問卷1</th>
+     </tr>
+     <tr th:each="li,liStat : ${list}" th:if="${(liStat.index) % 2 eq 0}" th:with="first=${list[liStat.index]},second=${liStat.index+1 < liStat.size}?${list[liStat.index+1]}:''">
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:text="${first[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+         <span th:text="${first[1]}"></span>
+       </td>
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:if="${second}!=''" th:text="${second[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+          <span th:if="${second}!=''" th:text="${second[1]}"></span>
+       </td>
+     </tr>
+   </table>
+   
+   <table class="tb01 mgt" style="margin-top: 5px;" th:each="questionType:${questionTypes}"  th:if="${questionType} eq '03' AND ${produceName} eq 'P0001' ">
+     <tr>
+       <th colspan="4" style="text-align:center;font-size: 16px;color: rgba(35, 121, 158, 1);height: 32px;">初篩問卷2</th>
+     </tr>
+     <tr th:each="li,liStat : ${list2}" th:if="${(liStat.index) % 2 eq 0}" th:with="first=${list2[liStat.index]},second=${liStat.index+1 < liStat.size}?${list2[liStat.index+1]}:''">
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:text="${first[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+         <span th:text="${first[1]}"></span>
+       </td>
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:if="${second}!=''" th:text="${second[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+          <span th:if="${second}!=''" th:text="${second[1]}"></span>
+       </td>
+     </tr>
+   </table>
+   
+      <table class="tb01 mgt" style="margin-top: 5px;" th:each="questionType:${questionTypes}"  th:if="${questionType} eq '14' AND ${produceName} eq 'P0002' ">
+     <tr>
+       <th colspan="4" style="text-align:center;font-size: 16px;color: rgba(35, 121, 158, 1);height: 32px;">初篩問卷3</th>
+     </tr>
+     <tr th:each="li,liStat : ${list3}" th:if="${(liStat.index) % 2 eq 0}" th:with="first=${list3[liStat.index]},second=${liStat.index+1 < liStat.size}?${list3[liStat.index+1]}:''">
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:text="${first[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+         <span th:text="${first[1]}"></span>
+       </td>
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:if="${second}!=''" th:text="${second[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+          <span th:if="${second}!=''" th:text="${second[1]}"></span>
+       </td>
+     </tr>
+   </table>
+   
+   
+     
+   
+   <table class="tb01 mgt">
+      <tr><th colspan="2" style="text-align:center;font-size: 16px;color: rgba(35, 121, 158, 1);height: 32px;">信用評級結果</th></tr>
+      <tr>
+        <td class="tdback" style="text-align:right;width:25%;">信用評級結果：</td>
+        <td style="text-align:left;">
+           <span th:text="${detail.measureResult}"></span>
+        </td>
+      </tr>
+   </table>
+   <table class="tb01 mgt" style="margin-top: 5px;" th:if="${produceName} eq 'P0001' ">
+     <tr>
+       <th colspan="4" style="text-align:center;font-size: 16px;color: rgba(35, 121, 158, 1);height: 32px;">測字問卷</th>  
+     </tr>
+     <tr th:each="li,liStat : ${measureList}" th:if="${(liStat.index) % 2 eq 0}" th:with="first=${measureList[liStat.index]},second=${liStat.index+1 < liStat.size}?${measureList[liStat.index+1]}:''">
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:text="${first[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+         <span th:text="${first[1]}"></span>
+       </td>
+       <td class="tdback" style="text-align:right;width:25%;">
+         <span th:if="${second}!=''" th:text="${second[0]}"></span>
+       </td>
+       <td style="text-align:left;width:25%">
+          <span th:if="${second}!=''" th:text="${second[1]}"></span>
+       </td>
+     </tr>
+   </table>
+   <table class="tb01 mgt">
+     <tr>
+       <th style="text-align:center;font-size: 16px;color: rgba(35, 121, 158, 1);height: 32px;">測字結果</th>  
+     </tr>
+     <tr>
+       <td style="text-align:left;">
+         <p th:text="${detail.solutionExplain}"></p>
+       </td>
+     </tr>
+   </table>
+  <div style="text-align:center;margin-top:25px;">
+	      <!-- <input type="button" value="返回" class="button_gray_deep" th:onclick="javascript:gotoSearchList();" /> -->
+  <input type="button" value="返回" class="button_blue" th:onclick="javascript:backPage();" />
+  </div>
+  </div>
+  <div th:replace="~{common/footer :: footer}"/>
+  <script type="text/javascript" src="../../js/measureWord/measureWord.js"></script>
+</body>
+</html>

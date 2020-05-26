@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{golden.menu.CompareConfigDetail})">
+</head>
+
+<script type="text/javascript" defer=true src="../../js/abilityCompareConfig/editabilityCompareConfig.js"></script>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<script type="text/javascript" src="../../js/common/jquery.min.js"></script>
+<!--<script type="text/javascript" defer=true src="../../js/applyIncom/jquery.min.js"></script>-->
+<style>
+.u11098 {
+font-size: 16px;
+color: #23799E;
+}
+td input {
+    border: none;
+    background: white;
+}
+</style>
+<body class="body_bg">
+ <div th:replace="index/index :: #top"/>
+ <div th:insert="~{index/index :: menu}"/>
+ <div class="main">
+     </br><div>當前位置：企業經營報告書  > 企業能力對比配置  > 企業能力對比配置詳情</div></br>
+     <div >
+         <table class="tb03">
+             <tbody>
+             <tr>
+                 <th colspan="6" class="title"><img src="../images/applyIncom/applyIncom.png" />企業能力對比配置詳情</th>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <div id ="companyInfo">
+         <table class="tb02 mgt">
+             <tbody>
+               <tr>
+                   <th style="text-align:right;">類型：</th><td><input type="text"   th:value="${viewAbilityList[0][1]}"  disabled="disabled"/></td>
+                   <th style="text-align:right;">能力類型：</th><td><input type="text"  th:value="${viewAbilityList[0][6]}"   disabled="disabled"/></td>
+                 </tr>
+               <tr>
+                   <th style="text-align:right;">開始範圍：</th><td><input type="text"   th:value="${viewAbilityList[0][2]}"  disabled="disabled"/></td>
+                   <th style="text-align:right;">結束範圍：</th><td><input type="text"  th:value="${viewAbilityList[0][4]}"   disabled="disabled"/></td>
+               </tr>
+               <tr>
+                <!--   <th >描述：</th>
+                   <td th:colspan="3" ><input type="text"  th:value="${viewAbilityList[0][7]}"   disabled="disabled"/></td>
+               </tr>-->
+                   <th >描述：</th>
+                   <td th:colspan="3">
+                       <textarea id="ABILITY_DESCRIBE" rows="5" cols="120" class="required" name="conferencecontext"   disabled="disabled" maxlength="200" style="background-color: white;"></textarea>
+                       <!--<input type="textarea"  th:value="${viewAbilityList[0][7]}"  id="ABILITY_DESCRIBE"  style="width: 100%; height: 100%;" th:maxlength="200"/>-->
+                   </td>
+             </tbody>
+         </table>
+     </div>
+     <br>
+
+
+     <div style="text-align: center;">
+         <input th:type="button"
+                class="button_blue" th:value="返回" onclick="javascript:retrunPage();">
+     </div>
+     <div hidden>
+         <input type="hidden" id="curPage" th:value="${curPage}"/>
+         <input type="hidden" id="typess" th:value="${type}"/>
+         <input type="hidden" id="abilityTypes" th:value="${abilityType}"/>
+         <input type="hidden" id="sDate" th:value="${startDate}"/>
+         <input type="hidden" id="sDates" th:value="${startDates}"/>
+         <input type="hidden" id="EDate" th:value="${endDate}"/>
+         <input type="hidden" id="EDates" th:value="${endDates}"/>
+         <input type="hidden" id="ratings" th:value="${viewAbilityList[0][7]}"/>
+     </div>
+ </div>
+ <div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{golden.menu.indicatorsConfig})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：企業經營報告書 > 企業指標配置</div></br>
+
+        <div >
+            <form id="searchForm">
+            <table class="tb03">
+                <tbody>
+                <tr>
+                 <input type="hidden" id="searchData" th:value="${searchData}">
+                    <th colspan="8" class="title"><img src="../images/applyIncom/applyIncom.png" />企業指標配置查詢</th>
+                </tr>
+                <tr >
+                    <td style="width:7%;text-align: right"> 類型：</td>
+                    <td style="width:24%;">  <select name="type" id="TYPE" class="select"  th:value="${type}" >
+                        <option value="">全部</option>
+                        <option value="01" th:selected="${type} == 01">營收成長率</option>
+                        <option value="02" th:selected="${type} == 02">存積營收比</option>
+                        <option value="03" th:selected="${type} == 03">營授比</option>
+                    </select>
+                    <td style="width:7%;text-align: right"> 行業別：</td>
+                    <td style="width:24%;">  <select name="industryType" id="INDUSTRY_TYPE" class="select" >
+                        <option value="">全部</option>
+                        <option value="01" th:selected="${industryType} == 01">批發業</option>
+                        <option value="02" th:selected="${industryType} == 02">零售業</option>
+                        <option value="03" th:selected="${industryType} == 03">營造業</option>
+                        <option value="04" th:selected="${industryType} == 04">服務業</option>
+                        <option value="05" th:selected="${industryType} == 05">製造業</option>
+                        <option value="06" th:selected="${industryType} == 06">旅遊業</option>
+                        <option value="99" th:selected="${industryType} == 99">其他</option>
+                       </select></td>
+                       <td style="width:6%;text-align: right"> 成立年數：</td>
+                        <td style="width:15%;">  <select name="establishYear" id="ESTABLISH_YEAR" class="select" >
+                        <option value="">全部</option>
+                        <option value="01" th:selected="${establishYear} == 01">1-5年</option>
+                        <option value="02" th:selected="${establishYear} == 02">6-10年</option>
+                        <option value="03" th:selected="${establishYear} == 03">10年以上</option>
+                       </select>
+                    </tr>
+                <tr>
+                    <td style="width: 7%!important;text-align:right;"> 創建時間：</td>
+                    <td style="width:24%;"><input  class="input" type="text" th:value="${startDate}" style="     width: 120px;" id="startDate" name ="startDate" readonly="readonly" />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input" th:value="${endDate}" type="text" style="  width: 120px;"  id="endDate" name ="endDate" readonly="readonly"/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+
+                    <td style="width: 7%!important;text-align:right;"> 更新時間：</td>
+                    <td style="width:24%;"><input  class="input" th:value="${startDates}" style="    width: 120px;"  type="text" id="startDates" name ="startDates" readonly="readonly" />&nbsp;<img id="startImgs" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input" th:value="${endDates}" style="    width: 120px;" type="text" id="endDates" name ="endDates" readonly="readonly"/>&nbsp;<img id="endImgs" src="../images/measureWord/u22.png" /></td>
+                    <td style="width: 6%"> </td>
+                    <td style="width: 15%!important;"><input type="button" class="button_blue" value="查詢" onclick="javascript:queryRatingconfig(1);"></td>
+                </tr>
+                       
+                </tbody>
+            </table>
+            </form>
+        </div>
+         <div id="indicators_list">
+        </div>
+        
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+    </div>
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/indicatorsConfig/indicatorsConfig.js"></script>
+</body>
+
+</html>

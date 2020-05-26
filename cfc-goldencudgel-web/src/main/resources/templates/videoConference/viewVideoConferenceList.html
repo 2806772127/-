@@ -1,0 +1,38 @@
+<div>
+<table class="tb01 mgt">
+   <tr style="    height: 40px">
+     <th style="width: 3%">序號</th>
+     <th style="width:10%;text-align: left">會議主旨</th>
+     <th style="width: 42%">會議內容</th>
+       <th style="width: 7%">webex賬號</th>
+     <th style="width: 10%">會議開始時間</th>
+     <!-- <th>會議開始時間</th> -->
+           <th style="width: 10%">會議结束時間</th>
+     <th style="width:10%;">與會人員</th>
+     <th style="width: 5%">操作</th>
+   </tr>
+   <span th:unless="${#lists.isEmpty(videoList)}"> 
+    <tr th:each="video,videoStat : ${videoList}" style=" height: 40px" class="videoList">
+                <td th:text="${videoStat.index+1+(curPage-1)*15}"></td>
+                <td th:text="${video.conferenceKeyNote}" style="text-align: left"></td>
+                <td  style="text-align: left;padding:5px 7px "><span th:text="${video.conferencecontext}" ></span> </td>
+        <td  style="text-align: left;padding:5px 7px "><span th:text="${video.webexAccount}" ></span> </td>
+                <td th:text="${#dates.format(video.startDate, 'yyyy-MM-dd')}+'&nbsp;&nbsp;&nbsp;'+${video.startTime}">${#dates.format(video.startDate, 'yyyy-MM-dd')}${video.startTime}</td>
+                <!-- <td th:text="${video.startTime}"></td>    -->
+
+                     <td th:text="${#dates.format(video.startDate, 'yyyy-MM-dd')}+'&nbsp;&nbsp;&nbsp;'+${video.endTime}">${#dates.format(video.startDate, 'yyyy-MM-dd')}${video.endTime}</td>
+        <!-- <td th:text="${video.startTime}"></td>    -->
+                <td>
+                   <span th:text="${#strings.abbreviate(video.participants,30)}" th:title="${video.participants}"></span>
+                </td>  
+                <td>
+                   <a style="cursor: pointer;"th:onclick="javascript:deleteVideoConference(this);"  th:if="${userUtil.hasFunction('WEB_VIDEO_MEETING_DELETE')}"
+                      th:createUser="${video.createUser}"   th:conferenceId="${video.conferenceId}"
+                      th:dataIndex="${videoStat.index+1+(curPage-1)*15}">
+                     <img src="../images/questionnaire/del.png"></a>
+                </td>
+    </span>
+</table>
+
+<p class="page" th:insert="~{common/page :: page('queryConference')}"></p>
+</div>

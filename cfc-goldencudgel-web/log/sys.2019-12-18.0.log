@@ -1,0 +1,40 @@
+2019-12-18 10:32:09,641 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 7508 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 10:32:09,644 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 10:32:09,646 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 10:33:50,715 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 101.48 seconds (JVM running for 102.213)
+2019-12-18 10:34:19,800 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 12424 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 10:34:21,065 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 10:34:21,067 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 10:35:57,385 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 97.98 seconds (JVM running for 98.665)
+2019-12-18 12:13:26,675 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 10036 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 12:13:27,745 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 12:13:27,745 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 12:15:11,445 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 105.22 seconds (JVM running for 105.996)
+2019-12-18 12:15:46,765 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 380 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 12:15:46,765 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 12:15:46,765 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 12:17:27,010 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 100.67 seconds (JVM running for 101.464)
+2019-12-18 12:56:12,636 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 1004 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 12:56:12,636 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 12:56:12,636 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 12:57:53,238 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 102.164 seconds (JVM running for 105.145)
+2019-12-18 12:58:27,781 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 12660 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 12:58:27,781 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 12:58:27,781 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 13:00:04,177 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 96.755 seconds (JVM running for 97.39)
+2019-12-18 15:56:41,526 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 12636 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 15:56:41,541 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 15:56:41,541 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 15:58:28,539 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 108.06 seconds (JVM running for 113.709)
+2019-12-18 15:59:10,803 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 14976 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 15:59:10,803 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 15:59:10,803 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 16:00:47,307 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 96.817 seconds (JVM running for 97.449)
+2019-12-18 16:02:19,441 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 11212 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 16:02:19,443 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 16:02:19,445 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 16:03:57,087 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 99.595 seconds (JVM running for 103.625)
+2019-12-18 16:04:11,446 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 14280 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-18 16:04:11,446 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-18 16:04:11,446 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-18 16:05:47,708 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 96.606 seconds (JVM running for 97.231)

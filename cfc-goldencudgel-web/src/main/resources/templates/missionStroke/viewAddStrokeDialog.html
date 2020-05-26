@@ -1,0 +1,18 @@
+<table class="tab04" style="border-collapse: collapse;" xmlns:th="http://www.thymeleaf.org">
+    <thead>
+        <tr>
+            <th>序號</th>
+            <th>公司名稱</th>
+            <th>案件編號</th>
+            <th>公司統一編號</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:unless="${#lists.isEmpty(caseInfoList)}" th:each="caseInfo, caseInfoStat:${caseInfoList}">
+            <td th:text="${caseInfoStat.index} + 1"></td>
+            <td th:text="${caseInfo.compName}"></td>
+            <td th:text="${caseInfo.caseNo}"></td>
+            <td th:text="${caseInfo.compCode}"></td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,22 @@
+<table class="tb01 mgt">
+    <tr>
+        <th>角色名稱</th>
+        <th>是否啟用</th>
+        <th>操作</th>
+    </tr>
+    <span th:unless="${#lists.isEmpty(content)}">
+    <tr th:each="roleFunc : ${content}">
+                <td th:text="${roleFunc[1]}"></td>
+                <td th:text="${roleFunc[2]=='1'}? '啟用':'禁用' "></td>
+                <td >
+                    <img src="../images/role/u5317.png" th:if="${userUtil.hasFunction('WEB_SYSTEM_AUTHS_UPDATE')}"
+                         th:roleId="${roleFunc[0]}" th:roleName="${roleFunc[1]}" th:enabled="${roleFunc[2]}"  th:authType="${roleFunc[3]}" th:onclick="javascript:updateRoleFunc(this)">
+                    &nbsp;&nbsp;
+                    <img src="../images/role/u5316.png"  th:if="${userUtil.hasFunction('WEB_SYSTEM_AUTHS_DELETE')}" th:roleId="${roleFunc[0]}"  th:authType="${roleFunc[3]}" th:onclick="javascript:deleteRoleFunc(this)" >
+                </td>
+              </tr>
+    </span>
+</table>
+<p class="page">
+    <div th:replace="~{common/page :: page('queryFunctions')}" style="text-align: right;"></div>
+</p>

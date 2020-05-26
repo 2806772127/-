@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{golden.system.holiday})">
+</head>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">
+               當前位置：<span th:text="#{golden.menu.system}"></span>
+               ><span th:text="#{golden.system.holiday}"/></span>
+  </div>
+   <br/>
+  <div class="main"  >
+<!--
+  <form method="post" th:action="@{/holiday/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+   <table class="tb01">
+       <tr>
+          <th width="20%">選擇導入文件:</th>
+          <td width="80%">
+            <span width="70%">
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" style="float:left;margin-left:5px;"/>
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+            <input id="_upload" type="button" th:if="${userUtil.hasFunction('WEB_SYSTEM_HOLIDAY_IMPORT')}" value="導入" onclick="upload();" style="float:right;margin-right:15px;" disabled/>
+          </td>
+       </tr>
+   </table> 
+   </form>
+-->
+
+      <div >
+          <table class="tb03">
+              <tbody>
+              <tr>
+                  <th colspan="4" class="title"><img src="../images/applyIncom/applyIncom.png" />假日管理查詢</th>
+              </tr>
+              <tr>
+                  <!--   <td style="text-align:center" > 統一編號: <input class="input" type="text" id="compilationNo"/></td>
+                    <td style="text-align:center"> 客戶名稱：<input class="input" type="text" id="companyName"/></td>
+                    <td style="text-align:center"> 進件時間：<input class="input" type="text" id="startDate" name ="startDate"  /> &nbsp;~&nbsp;<input class="input"  type="text" id="endDate"   name ="endDate" /></td>
+                    <td> -->
+
+
+                  <td style="text-align:center" > 年份: <input class="input" type="text" id="years"/></td>
+                  <td style="text-align:center"> 日期：<input class="input" type="text" id="holiday"/></td>
+
+                  <td>
+
+
+                      <div style="position: relative;">
+                          <div style="position: absolute;top:6px;left:10px;">
+                              <img src="../images/u5255.png"/>
+                          </div>
+                          <input type="button" value="查詢" class="button_blue" onclick="queryhoilday(1);">
+
+
+                      </div>
+                  </td>
+                  <td style="float:left">
+                      <div style="position: relative;">
+                          <input th:if="${userUtil.hasFunction('WEB_SYSTEM_GOAL_IMPORT')}" type="button" value="導入" class="button_blue" onclick="uploanTarget();">
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+
+
+
+      <div id = "uploadfile"style="display:none" >
+          <form method="post" th:action="@{/holiday/saveUpload}" id="form_upload" name="form_upload" enctype="multipart/form-data">
+              <table class="tb01">
+                  <tr>
+                      <th width="20%">選擇導入文件:</th>
+                      <td width="80%">
+            <span width="70%">
+              <input id="documentUpload" type="file" name="file"  th:onChange="getFileName(this.value);" style="float:left;margin-left:5px;"/>
+              <span id="showMessage" style="margin-align:0px"></span>
+            </span>
+                          <input id="_upload" type="button" th:if="${userUtil.hasFunction('WEB_SYSTEM_HOLIDAY_IMPORT')}" value="導入" onclick="upload();" style="float:right;margin-right:15px;" disabled/>
+                      </td>
+                  </tr>
+              </table>
+          </form>
+          
+           <!-- 下载模板 -->
+          <!-- <a style="margin-top:20px;" href="../Excl/365.xlsx" download="365.xlsx">点击下载</a> -->
+	       <div class="ExcleTemplate" style="margin-top:20px;margin-left:15px;">
+	       <a th:href="@{/holiday/excleDownload}"><span style="color:blue;">點擊下載假日管理模板</span></a>
+	       </div>
+          
+      </div>
+      <div id="holiday_list">
+
+      </div>
+
+
+  </div>
+
+
+  <div id="alertMessage" style="display:none">
+    <p id="message" style="text-align:center"></p>
+  </div>
+  <div th:replace="~{common/footer :: footer}"></div>
+  <script type="text/javascript" src="../../js/holiday/holiday.js"></script>
+</body>
+</html>

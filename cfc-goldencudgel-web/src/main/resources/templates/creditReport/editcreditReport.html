@@ -1,0 +1,436 @@
+<!DOCTYPE html >
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{introduce.detail})">
+</head>
+<style>
+    .u11098 {
+        font-size: 16px;
+        color: #23799E;
+    }
+    
+   td input {
+        border:none;
+        background:white;
+    }
+
+</style>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<script type="text/javascript" src="../../js/common/jquery.min.js"></script>
+<script type="text/javascript" defer=true src="../../js/creditRepor/creditRepor.js"></script>
+<body class="body_bg">
+<div th:replace="index/index :: #top"/>
+<div th:insert="~{index/index :: menu}"/>
+<div class="main">
+    <input type="hidden" id="updateFlag" th:value="0"/>
+    </br><div>當前位置：徵信實訪  > 徵信實訪查詢  > 徵信實訪詳情</div></br>
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <input  id ="creditFlag"  value="" type ="hidden" />
+                <th colspan="6" class="title"><img src="../images/applyIncom/applyIncom.png" />徵信實訪詳情</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id ="companyInfo">
+        <table class="tb02 mgt">
+            <tbody>
+            <tr>
+                <!-- <th colspan="6" class="title"><span th:text="訪談內容"/> -->
+                <th colspan="6" class="title">
+                    <input th:type="button" style="float: right" th:class="bpic" th:value="打卡歷史" th:onclick="javascript:openPunchCardRecords('punchCardWindow');" >
+                    <input th:type="button" style="float: right" th:class="bpic" th:value="任務行程" th:onclick="javascript:openTaskDetail('taskDetailWindow');" >
+                </th>
+            </tr>
+            <tr>
+                <input  id ="trandId"  th:value="${trandId}" type ="hidden" />
+                <th style="text-align:right">授信戶統編：</th><td><input type="text" id ="compilationNo" th:value="${company.compilationNo}" th:disabled="disabled" />
+                <th style="text-align:right">授信戶名稱：</th><td><input type="text" id ="comName" th:value="${company.comName}"  th:disabled="disabled"/>
+                <th style="text-align:right">行業別：</th><td><input type="text" id ="principalName" th:value="${fbAppointment[3]}" th:disabled="disabled"/></td>
+            </tr>
+            <!-- <tr>
+                <th style="text-align:right">負責人ID：</th><td><input type="text" id ="principalId" th:value="${company.principalId}" th:disabled="disabled"/></td>
+                <th style="text-align:right">負責人配偶姓名：</th><td><input type="text" id ="principalSpouseName" th:value="${company.principalSpouseName}" th:disabled="disabled"></td>
+                <th style="text-align:right">負責人配偶ID：</th><td><input type="text" id ="principalSpouseId" th:value="${company.principalSpouseId}" th:disabled="disabled"/></td>
+            </tr> -->
+            <tr th:if="${flag}==2">
+                <td  colspan="6"> <input  style="float:right;" type="button" value="新增附件" th:class="button_blue" onclick="showUpL(this);"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div >
+        <table class="tb02 mgt" style="border-collapse: collapse;">
+            <tbody>
+            <tr style="border-bottom:3px solid #00ABB7;">
+                <th colspan="6" class="title">
+                    <input th:type="text" th:value="'拍照'+'/'+'錄音文件'" th:class="u4229_img"
+                           style="width: 135px; position:relative;bottom:-2px;text-align: center;font-size: 16px;" readonly/>
+                 </th>
+            </tr>
+            <tr>
+                <th style="text-align:center" colspan="6"  > <a class ="u11098">拍照文件</a></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id ="attachmentInfo">
+        <table class="tb02 mgt" id="attach_photo_list">
+            <tbody>
+            <tr th:each="imgs : ${imglist}">
+                <th width="16%" th:id="${imgs.key}">
+                    <span th:unless="${#lists.isEmpty(attachNameList)}" th:each="item : ${attachNameList}">
+                         <span th:if="${imgs.key == item.key}" th:text="${item.value}"></span>
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+                <span th:unless="${#lists.isEmpty(imgs.value)}">
+                       <td  th:id="${imgs.key}+'_1'">
+                           <span th:each="li,liStat : ${imgs.value}">
+                                <a style="cursor: pointer;" th:onclick="showImg(this)"
+                                   th:imgName="${li[0]}" th:imgDate="${li[1]}" th:imgId="${li[2]}" th:imgType ="2" th:id="${li[2]}+'_1'">&nbsp&nbsp&nbsp&nbsp
+                                   <span th:text="${li[0]}"></span>
+                                </a>
+                                <img  th:if="${flag}==2" src="../images/common/delete.png"  th:imgName="${li[0]}"  th:id="${li[2]}+'_2'"  th:imgId="${li[2]}"  type="button" style="width:10px;height:10px;cursor:hand;" onclick="deleteFile(this);" />
+                                <span th:if="${(liStat.index+1) % 3 eq 0}"></br></span>
+
+                           </span>
+                           </a>
+                       </td>
+              </span>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div >
+        <table class="tb03">
+            <tbody>
+            <tr>
+                <th style="text-align:center" colspan="6"  > <a class ="u11098">錄音文件</a></th>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+        <input type="hidden" th:id="voiceLength" th:value="${voiceLenth}"/>
+        <table class="tb02 mgt" id="attach_voice_list" style="text-align: center">
+            <tbody>
+            <span th:unless="${#lists.isEmpty(muslist)}">
+                   <td style="text-align: center" id="voice_td_list">
+
+                           <span th:each="mus,musStat : ${muslist}" >
+                                     &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a style="cursor: pointer;" th:onclick="showImg(this)" th:id="${mus[2]}+'_1'" 
+                               th:imgName="${mus[0]}" th:imgDate="${mus[1]}" th:imgId="${mus[2]}" th:imgType ="1">
+                                <span th:text="${mus[0]}"></span>
+	                        </a>
+                               <img th:if="${flag}==2" src="../images/common/delete.png" th:id="${mus[2]}+'_2'"  th:imgName="${mus[0]}" th:imgId="${mus[2]}" type="button" onclick="deleteFile(this);">
+
+                               <span th:if="${(musStat.index+1) % 3 eq 0}"></br></span>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                           </span>
+                       </a>
+                   </td>
+               </span>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mask-layer" id="musicorimg"  style="max-width: 660px;max-height: 400px;overflow:hidden"  hidden>
+        <div class="mask-layer-black">
+        </div>
+        <div class="mask-layer-container" >
+            <div class="mask-layer-container-operate" style="text-align: right;max-width: 650px;" >
+                <img src="../images/common/u4063.png" class="mask-out btn-default-styles" style="background-color: white;border: none">
+                <img src="../images/common/u4064.png" class="mask-in btn-default-styles" style="background-color: white;border: none">
+            </div>
+            <div class="mask-layer-imgbox auto-img-center" th:id="photo_center" >
+                <p style="text-align: center;"><img style="margin-right: 1cm;" th:id="photo_index" src="" alt=""></p>
+            </div>
+            <div>
+                <table class="tb02 mgt" >
+                    <tbody>
+                    <tr >
+                        <th th:id="showname">圖片名稱：</th><td><input type="text" id="phName" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+                    </tr>
+                    <tr >
+                        <th>上傳日期：</th><td><input type="text" id="phDate" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div style="text-align:center;">
+                    <input align="center" th:type="button" th:class="visitreback" onclick="closeImg('musicorimg')" th:value="返回"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id ="musicorvideo"  hidden>
+        <div style="text-align:center;max-height: 100px;" class ="mask-layer-imgbox auto-img-center">
+            <audio   controls="controls" id="audioBox">
+                <source th:id="vedioCon" type="audio/mpeg">
+            </audio>
+        </div>
+        <table class="tb02 mgt" >
+            <tbody>
+            <tr >
+                <th th:id="showname">音頻名稱：</th><td><input type="text" id="videoName" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+            </tr>
+            <tr >
+                <th>上傳日期：</th><td><input type="text" id="videoDate" th:value="check" style="width: 265px;border: hidden" readonly/></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align:center;"><input align="center" th:class="visitreback" th:type="button" onclick="window.parent.closeImg('musicorvideo')" th:value="返回"/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <input type="hidden" id ="imgIds" value="" >
+    <input type="hidden" id ="deleteimgIds" value="" >
+    <input type="hidden" id ="compilationNote" th:value="${compilationNo}" >
+
+    <div id ="uploanFile" hidden>
+        <form id = "fileUploanForm" enctype="multipart/form-data" >
+            <script >document.domain = "localhost";</script>
+            <table class="tb02 mgt">
+                <tbody>
+                <tr>
+                    <input type="hidden" id ="industryType_" th:value="${industryType}" >
+                    <input type="hidden" name ="fileType" value="2" id ="fileType">
+                    <th>上傳類別：</th><td><input id="photoAttach" type="button" th:class="vsb"th:value="拍照" onclick="window.parent.changClass(2);"/>
+                    <input type="button" id="voiceAttach" th:class="vsw" th:value="錄音" onclick="window.parent.changClass(1);"/></td>
+                </tr>
+                <tr id="fCode">
+                    <th><span style="color: red">*</span>附件類型：</th><td><select id="checkItemCode"  class="roleSelect" onchange="changeName()">
+                                                <option th:text="--請選擇--" value=""></option>
+                                                <span th:unless="${#lists.isEmpty(checkItems)}">
+                                                 <option th:each="checkItem : ${checkItems}" th:value="${checkItem[0]}" th:text="${checkItem[1]}"></option>
+                                           <!--    <span th:unless="${#lists.isEmpty(industryTypeList)}">
+                                                 <option th:each="fcode : ${industryTypeList}" th:value="${fcode[0]}" th:text="${fcode[1]}"></option>-->
+                                               </span>
+                                          </select>
+                    <!--<input id="fileFaCode" name="fileCode" th:value="下拉框"/>-->
+                   </td>
+                </tr>
+     <!--           <tr id ="fName">
+                    <th>附件名稱:</th><td><select id="fileFaName">
+                       <option th:text="&#45;&#45;請選擇&#45;&#45;"></option>
+                   </select>
+                    &lt;!&ndash;<input id="fileFaName"  name="aaa" th:value="下拉框"/>&ndash;&gt;
+                </td>
+                </tr>
+                <tr>
+                    <th>選擇上傳文件:</th><td><input id="documentUpload" type="file" name="file"></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:center;"><input type="button" value="上传" onclick="formsum();" /><input align="center" th:type="button" onclick="window.parent.closeImg()" th:value="返回"/></td>
+                </tr>-->
+                <tr id ="fName">
+                    <th><span style="color: red">*</span>附件名稱：</th><td><select id="fileFaName" name="fileFaName" class="roleSelect" >
+                    <option value="">--請選擇--</option>
+                </select>
+                </td>
+                </tr>
+                <tr>
+                    <th>選擇上傳文件：</th><td><input id="documentUpload" type="file" name="file" ></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:center;"><input th:id="submitimport" type="button" class="button_blue" value="上傳" onclick="formsum();" />
+                        <input align="center" th:type="button" class="button_blue" onclick="closeWindow('uploanFile')" th:value="返回"/></td>
+                </tr>
+                </tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="taskDetailWindow" class="popupbox1" style="display:none;" >
+        <table class="tb02 mgt">
+            <tr>
+                <th>客戶屬性：</th><td th:text="${fbAppointment[9]}=='02'?'舊戶':'新戶'"></td>
+                <!-- <th>授信戶統編：</th><td th:text="${company.compilationNo}"></td> -->
+                <th>授信戶統編：</th><td th:text="${detail[27]}"></td>
+            </tr>
+            <tr>
+               <!--  <th>授信戶名稱：</th><td colspan="3" th:text="${company.comName}"></td> -->
+                <th>授信戶名稱：</th><td th:text="${detail[28]}"></td>
+                <th>負責人：</th><td th:text="${detail[30]}"></td>
+              <!--   <th>案件來源：</th><td> -->
+               <!--  <span th:unless="${#lists.isEmpty(enterSourceList)}" th:each="sourceList:${enterSourceList}">
+                        <span th:text="${sourceList.itemCode == detail.enterSource} ? ${sourceList.itemName}:''"></span>
+                </span> -->
+                
+                <!--  <span th:unless="${#lists.isEmpty(enterSourceList)}" th:each="sourceList:${enterSourceList}">
+                      <span th:unless="${#lists.isEmpty(detail)}" >
+                        <span th:each="det:${detail}"  th:text="${sourceList.itemCode == det[10]} ? ${sourceList.itemName}:''"></span>
+                       </span>
+                </span> -->
+                
+            </td>
+            </tr>
+            <tr>
+              <!--   <th>公司設立日期：</th><td th:text="${company.comEstabdate}"></td> -->
+               <!--  <th>公司設立日期：</th><td th:text="${#dates.format(company.comEstabdate,'yyyy-MM-dd')}"></td> -->
+                <th>公司設立日期：</th><td th:text="${#dates.format(vcInfo.comEstabdate, 'yyyy-MM-dd')}"></td>
+                <th>組織型態：</th><td >
+            <span th:unless="${#lists.isEmpty(organizationList)}" th:each="orga:${organizationList}">
+                        <span th:text="${orga.itemCode == company.comOrganization} ? ${orga.itemName}:''"></span>
+                </span>
+            </td>
+            </tr>
+           <!--  <tr>
+                <th>資本額(NT$)：</th><td th:text="${comActualCapital}+'仟元'"></td>
+                <th>公司登記地址：</th><td th:text="${detail.companyAddress}"></td>
+            </tr> -->
+            
+             <tr>
+                <th>資本額(NT$)：</th><td th:text="${vcInfo.comActualCapital}+'仟元'"></td>
+               <!--  <th>公司登記地址：</th><td th:each="det:${detail}"  th:text="${det[11]}!=null?${det[11]}:''"></td> -->
+                 <th>公司登記地址：</th><td th:text="${vcInfo.comAddress}"></td>
+               
+            </tr>
+            
+            
+            <!-- <tr>
+                <th>實際營業地址：</th><td th:text="${detail.businessAddress}"></td>
+                <th>拜訪對象：</th><td  th:text="${detail.visitName}"></td>
+            </tr> -->
+            
+              <tr>
+               <!--  <th>實際營業地址：</th><td th:text="${detail.businessAddress}"></td> -->
+               <!--  <th>實際營業地址：</th><td th:each="detail:${detail}" th:text="${detail[12]}"></td> -->
+                <th>實際營業地址：</th><td  th:text="${detail[17]}"></td>
+               
+              <!--   <th>拜訪對象：</th><td th:each="detail:${detail}" th:text="${detail.visitName}"></td> -->
+              <!--   <th>拜訪對象：</th><td th:each="detail:${detail}" th:text="${detail[14]}"></td> -->
+                <th>拜訪對象：</th><td  th:text="${detail[18]}"></td>
+            </tr>
+            
+            <!-- <tr>
+                <th>職稱：</th><td th:each="detail:${detail}" th:text="${detail.visitPosition}"></td>
+                  <th>職稱：</th><td  th:text="${detail[15]}"></td>
+                <th>公司連絡電話：</th><td th:text="'('+${fbAppointment.comPhoneAreaCode}+')'+${fbAppointment.comPhoneNum}+'/'+${fbAppointment.comPhoneExten}"></td>
+            </tr> -->
+            
+            <tr>
+        <th>職稱：</th>
+            <td>
+                <span th:unless="${#lists.isEmpty(positionList)}" th:each="position:${positionList}">
+                    <span th:text="${position.itemCode == detail[25]} ? ${position.itemName}:''"></span>
+                </span>
+                <span th:unless="${#strings.isEmpty(detail[26])}" th:text = "'('+${detail[26]}+')'"/>
+            </td>
+        <th>公司聯絡電話：</th>
+        <td>
+            <span th:unless="${#strings.isEmpty(detail[22])}" th:text = "''+${detail[22]}+'-'"/>
+            <span th:text = "${detail[23]}"/>
+            <span th:unless="${#strings.isEmpty(detail[24])}" th:text = "'#'+${detail[24]}"/>
+        </td>
+    </tr>
+            
+            
+              <tr>
+                 <th>行動電話：</th><td  th:text="${detail[31]}"></td>
+                <th>電子郵件信箱：</th><td  th:text="${detail[32]}"></td>
+                
+            </tr> 
+            
+            <tr>
+                <!-- <th>預定拜訪日期：</th><td th:each="detail:${detail}" th:text="${#dates.format(detail.reserveVisitTime, 'yyyy-MM-dd')}"></td>
+                <th>預定拜訪時間：</th><td th:each="detail:${detail}" th:text="${#dates.format(detail.reserveVisitTime, 'HH:mm')}"></td> -->
+                <!--  <th>預定拜訪日期：</th><td th:each="detail:${detail}" th:text="${#dates.format(detail[16], 'yyyy-MM-dd')}"></td>
+                <th>預定拜訪時間：</th><td th:each="detail:${detail}" th:text="${#dates.format(detail[16], 'HH:mm')}"></td> -->
+                 <th>預定拜訪日期：</th><td  th:text="${detail[19]}"></td>
+                <th>預定拜訪時間：</th><td  th:text="${detail[20]}+ ':' + ${detail[21]}"></td>
+                
+            </tr>
+            <tr>
+               <!--  <th>備註：</th><td th:each="detail:${detail}" colspan="3" th:text="${detail.visitDesc}"> -->
+                <!-- <th>備註：</th><td colspan="3" th:text="${detail[13]}"> -->
+                <th>備註：</th><td colspan="3" th:text="${detail[29]}">
+            </td>
+            </tr>
+        </table>
+    </div>
+    <div id="punchCardWindow" class="popupbox1" style="display:none;">
+        <table class="tb02 mgt">
+        <span th:if="${#lists.isEmpty(recodeList)} ">
+            <tr>
+                <th><a style ="color:#FF0000;">*</a>抵達時間：</th><td ><input th:type="text" th:class="hiDituBodder"  readonly></td>
+            <tr>
+                <th><a style ="color:#FF0000;">*</a>打卡地址：</th><td ><input th:type="text" th:class="hiDituBodder" readonly></td>
+            </tr>
+             <tr>
+                <th><a style ="color:#FF0000;">*</a>離開時間：</th><td ><input th:type="text" th:class="hiDituBodder"  readonly></td>
+            <tr>
+                <th><a style ="color:#FF0000;">*</a>打卡地址：</th><td ><input th:type="text" th:class="hiDituBodder" readonly></td>
+            </tr>
+        </span>
+        <span th:unless="${#lists.isEmpty(recodeList)}" th:each="recode:${recodeList}">
+            <tr>
+                <th>抵達時間：</th>
+                <td th:text="${#dates.format(recode[0], 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <th>打卡地址：</th>
+                <td th:text="${recode[1]}">
+                    <!-- <img src="../images/visit/u3943.png"  th:onclick="showLocationDetail(1)"/> -->
+                    <input th:type="hidden" th:id="startLongitude" th:value="${recode[2]}"/>
+                    <input th:type="hidden" th:id="startLatitude" th:value="${recode[3]}">
+
+                </td>
+            </tr>
+            <tr>
+                <th>離開時間：</th>
+                <td th:text="${#dates.format(recode[4], 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <th>打卡地址：</th><td th:text="${recode[5]}">
+                <!-- <img src="../images/visit/u3943.png"  th:onclick="showLocationDetail(2)"/> -->
+                <input th:type="hidden" th:id="endLongitude" th:value="${recode[6]}"/>
+                <input th:type="hidden" th:id="endtLatitude" th:value="${recode[7]}">
+                </td>
+            </tr>
+        </span>
+        </table>
+    </div>
+    <div id="dingwei_location" class="popupbox1" style="width: 600px;height: 400px;" hidden>
+        <div id="map_canvas" style="width: 580px; height: 350px">
+        </div>
+        <br/>
+        <table class="tb01 mgt">
+            <tr>
+                <th>抵達時間：</th><td><input  type="text" th:class="hiDituBodder"   th:id="dw_time" readonly/> </td>
+            </tr>
+            <tr>
+                <th>打卡地址：</th><td ><input  type="text" th:class="hiDituBodder"   th:id="dw_address" readonly/></td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <!--<input th:type="button"-->
+               <!--th:class="visitreback" th:value="儲存" onclick="saveImg()">-->
+     <!--    <input th:type="button"
+               th:class="visitreback" th:value="返回" onclick="javascript:history.go(-1);">button_blue -->
+            <input th:type="button"   th:class="bpic" style="width:100px;height: 36px;" th:value="儲存" onclick="saveImg()">
+                  <input th:type="button"
+               th:class="button_blue" th:value="返回" onclick="javascript:backPage(1);">
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+        <input type="hidden" id="imgIds" value=","/>
+        <input type="hidden" id="deleteimgIds" value=","/>
+
+    </div>
+
+</div>
+<div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

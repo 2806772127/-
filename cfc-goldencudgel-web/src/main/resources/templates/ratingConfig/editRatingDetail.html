@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{golden.menu.CompareConfigDetail})">
+</head>
+
+<script type="text/javascript" defer=true src="../../js/ratingconfig/editratingConfig.js"></script>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../css/boxImg.css">
+<script type="text/javascript" src="../../js/common/jquery.min.js"></script>
+<!--<script type="text/javascript" defer=true src="../../js/applyIncom/jquery.min.js"></script>-->
+<style>
+.u11098 {
+font-size: 16px;
+color: #23799E;
+}
+td input {
+    border: none;
+    background: white;
+}
+</style>
+<body class="body_bg">
+ <div th:replace="index/index :: #top"/>
+ <div th:insert="~{index/index :: menu}"/>
+ <div class="main">
+     </br><div>當前位置：企業經營報告書  > 企业評等配置  >企业評等配置詳情</div></br>
+     <div >
+         <table class="tb03">
+             <tbody>
+             <tr>
+                 <th colspan="6" class="title">
+                     <input type="hidden" id="searchData"  th:value="${searchData}">
+                     <input type="hidden" id="ratings" th:value="${ratingConfig.ratingDescribe}"/>
+                     <img src="../images/applyIncom/applyIncom.png" />企业評等配置詳情
+                 </th>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <div id ="companyInfo">
+         <form id="saveForm">
+             <table class="tb02 mgt">
+                 <tbody>
+                   <tr>
+                       <th style="text-align:right;">評等：</th>
+                       <td>
+                           <input type="hidden" name="id" th:value="${ratingConfig.configId}"/>
+                           <input type="text" th:value="${ratingConfig.rating}" disabled/>
+                        </td>
+                     </tr>
+                   <tr>
+                       <th >描述：</th>
+                       <td >
+                           <textarea id="RATING_DESCRIBE" name="ratingDes" rows="5" cols="120" class="required" maxlength="200"></textarea>
+                       </td>
+                   </tr>
+                 </tbody>
+             </table>
+         </form>
+     </div>
+     <br>
+     <div style="text-align: center;">
+         <input th:type="button"  th:class="bpic" style="width:100px;height: 36px;" th:value="儲存" onclick="saves()">
+         <input th:type="button"  th:class="button_blue" th:value="返回" onclick="goBack('/ratingConfig/viewRatingConfig');">
+     </div>
+ </div>
+ <div th:replace="~{common/footer :: footer}"/>
+</body>
+</html>

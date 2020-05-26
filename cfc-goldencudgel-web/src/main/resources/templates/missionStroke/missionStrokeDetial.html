@@ -1,0 +1,86 @@
+<table class="tb02 mgt">
+    <tr>
+        <th style="width: 25%;text-align: right">客戶屬性：</th>
+        <td style="width: 25%;text-align: left" th:text="${appointmentRecord.comCustomerType=='02'?'舊戶':'新戶'}"></td>
+        <th style="width: 25%;text-align: right">授信戶統編：</th>
+        <td style="width: 25%;text-align: left" th:text="${appointmentRecord.compilationNo}"></td>
+    </tr>
+    <tr>
+        <th>授信戶名稱：</th><td th:text="${appointmentRecord.compilationName}"></td>
+        <th>負責人：</th><td th:text="${vcInfo.principalName}"></td>
+   </tr>
+    <tr th:if="${appointmentRecord.appointmentType} == '1'">
+        <th>案件來源：</th>
+        <td colspan="3">
+            <span th:unless="${#lists.isEmpty(enterSourceList)}" th:each="sourceList:${enterSourceList}">
+                <span th:text="${sourceList.itemCode == appointmentRecord.enterSource} ? ${sourceList.itemName}:''"></span>
+            </span>
+        </td>
+    </tr>
+    <span th:if="${appointmentRecord.enterSource}">
+    <tr th:if="${#strings.startsWith(appointmentRecord.enterSource,'ZJ')}">
+        <th >案源轉介人姓名：</th>
+        <td th:text="${appointmentRecord.introduceName}"></td>
+        <th>案源轉介人员编/ID：</th>
+        <td th:text="${appointmentRecord.introduceId}"></td>
+    </tr>
+    <tr th:if="${#strings.startsWith(appointmentRecord.enterSource,'ZJ')}">
+        <th>案源轉介人電話：</th>
+        <td th:text="${appointmentRecord.introducePhone}"></td>
+        <th>案源轉介人單位：</th>
+        <td th:text="${appointmentRecord.introduceAddress}"></td>
+    </tr>
+    </span>
+    <tr>
+        <th>公司設立日期：</th><td th:text="${#dates.format(vcInfo.comEstabdate, 'yyyy-MM-dd')}"></td>
+        <th>組織型態：</th>
+        <td >
+            <span th:unless="${#lists.isEmpty(organizationList)}" th:each="orga:${organizationList}">
+            <span th:text="${orga.itemCode == vcInfo.comOrganization} ? ${orga.itemName}:''"></span>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <th>資本額(NT$)：</th><td th:text="${vcInfo.comActualCapital}+'仟元'"></td>
+        <th>公司登記地址：</th>
+        <td >
+            <span th:text="${vcInfo.comAddress}"/>
+        </td>
+    </tr>
+    <tr>
+        <th>實際營業地址：</th>
+        <td>
+            <span th:text="${appointmentRecord.businessAddress}" />
+        </td>
+        <th>拜訪對象：</th><td th:text="${appointmentRecord.appointmentUser}"></td>
+    </tr>
+    <tr>
+        <th>職稱：</th>
+            <td>
+                <span th:unless="${#lists.isEmpty(positionList)}" th:each="position:${positionList}">
+                    <span th:text="${position.itemCode == appointmentRecord.appointmentPosition} ? ${position.itemName}:''"></span>
+                </span>
+                <span th:unless="${#strings.isEmpty(appointmentRecord.appoipositionOther)}" th:text = "'('+${appointmentRecord.appoipositionOther}+')'"/>
+            </td>
+        <th>公司聯絡電話：</th>
+        <td>
+            <span th:unless="${#strings.isEmpty(appointmentRecord.comPhoneAreaCode)}" th:text = "''+${appointmentRecord.comPhoneAreaCode}+'-'"/>
+            <span th:text = "${appointmentRecord.comPhoneNum}"/>
+            <span th:unless="${#strings.isEmpty(appointmentRecord.comPhoneExten)}" th:text = "'#'+${appointmentRecord.comPhoneExten}"/>
+        </td>
+    </tr>
+    
+     <tr>
+        <th>行動電話：</th><td th:text="${appointmentRecord.mobile}"></td>
+        <th>電子郵件信箱：</th><td th:text="${appointmentRecord.email}"></td>
+    </tr>
+    
+    <tr>
+        <th>預定拜訪日期：</th><td th:text="${appointmentRecord.appointmentDate}"></td>
+        <th>預定拜訪時間：</th><td th:text="${appointmentRecord.appointmentTimeH} + ':' + ${appointmentRecord.appointmentTimeM}"></td>
+    </tr>
+    <tr>
+        <th>備註：</th><td colspan="3" th:text="${appointmentRecord.remark}">
+    </td>
+    </tr>
+</table>

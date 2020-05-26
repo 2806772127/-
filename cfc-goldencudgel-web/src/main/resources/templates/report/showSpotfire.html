@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- <head th:insert="common/header :: commonHeader(#{goldencudgel.menu.letterConsent})"> -->
+<head th:insert="common/header :: commonHeader(#{golden.menu.report})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/visit.css}" type="text/css"/>
+<style>
+select::-ms-expand { display: none; }
+
+.date-box {
+    display: none;
+    position: absolute;
+    background: white;
+    width: 240px;
+    height: 110px;
+    border: 3px solid rgba(166, 201, 226, 1);
+    border-radius: 8px;
+}
+
+.date-box input[type=button] {
+    background: rgba(226, 241, 253, 1);
+    width: 80px;
+    height: 30px;
+    border: 1px solid rgba(166, 201, 226, 1);
+    border-radius: 5px;
+}
+
+.date-box .select-box {
+    background: rgba(0, 150, 195, 1);
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.date-box .btn-box {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.date-box select {
+    border:1px solid rgba(230, 230, 230, 1);
+    border-radius: 8px;
+    width: 80px;
+    height: 26px;
+    outline:none;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    -ms-appearance:none;
+    background: url(../images/arrow.png) no-repeat scroll right center white;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    
+}
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+    <br/>
+    <div style="margin-left:50px;margin-top:5px;">當前位置：<span>報表</span></div>
+    <br/>
+    <div class="main" id="mybg" style="margin-bottom: 0;">
+        <input id="reportPath" type="hidden" th:value="${reportPath}">
+        <input id="spotfireServerRootUrl" type="hidden" th:value="${spotfireServerRootUrl}">
+        <input id="spotfireApiVersion" type="hidden" th:value="${spotfireApiVersion}">
+        <input id="userType" type="hidden" th:value="${session.user.userType}" />
+        <input id="userCodeParam" type="hidden" th:value="${session.user.userCode}" />
+        <input id="userArea" type="hidden" th:value="${session.user.userArea}" />
+        <input id="userGroup" type="hidden" th:value="${session.user.userGroup}" />
+        <input id="whereSql" type="hidden" th:value="${whereSql}" />
+        <input id="reportPdfName" type="hidden" th:value="${reportPdfName}" />
+        <input id="queryDateFormat" type="hidden" th:value="${queryDateFormat}" />
+        <input id="reportCode" type="hidden" th:value="${reportCode}" />
+        <div>
+            <table class="tb03" >
+                <tr style="height:40px;" th:if="${session.user.userType != 'A' && session.user.userType != 'C' && session.user.userType != 'S' && session.user.userType != 'Z'}">
+                    <td style="width:8%;text-align:right;"><span>區域：</span></td>
+                    <td style="width:12%;">
+                        <span th:unless="${#lists.isEmpty(areaList)}">
+                            <select name="areaCode" id="areaCode" onchange="getGroupList()" class="select" >
+                                <option value="">全部</option>
+                                <option th:each="area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                            </select>
+                        </span>
+                    </td>
+                    
+                    <td style="width:8%;text-align: right;"><span>組別：</span></td>
+                    <td style="width:12%;">
+                        <span th:unless="${#lists.isEmpty(groupList)}">
+                            <select name="groupCode" id="groupCode" onchange="getUserList()" class="select" >
+                                <option value="">全部</option>
+                                <option th:each="group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                            </select>
+                        </span>
+                    </td>
+                
+                    <td style="width:8%;text-align: right;"><span>員工姓名：</span></td>
+                    <td style="width:12%;">
+                        <span th:unless="${#lists.isEmpty(userList)}">
+                            <select name="userCode" id="userCode" class="select" onchange="changeQueryParams()">
+                                <option value="">全部</option>
+                                <option th:each="u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                            </select>
+                        </span>
+                    </td>
+                    
+                    <td style="width:8%;text-align: right;">[[${queryDateLabelName}]]：</td>
+                    <td style="width:20%;" id="dateTd">
+                        <span th:if="${queryDateFormat == '1'}">
+                            <select class="select" id="startDate" name="startDate">
+                            </select>
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <select class="select" id="endDate" name="endDate">
+                            </select>
+                            </span>
+                            <span th:if="${reportQueryRegion == 'N'}">
+                                <select class="select" id="endDate" name="endDate" style="display: none;">
+                            </select>
+                            </span>
+                        </span>
+                        <span th:if="${queryDateFormat == '2'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png">
+                            </span>
+                        </span>
+                        <div id="startDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="startDateYear">
+                                </select>
+                                <select id="startDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <div id="endDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="endDateYear">
+                                </select>
+                                <select id="endDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <span th:if="${queryDateFormat == '3'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png">
+                            </span>
+                        </span>
+                    </td>
+                    <td style="width:12%; text-align: right;" th:if="${reportDownload == 'Y'}"><a th:href="${reportExcelPath}" target="_blank" style="padding: 6px 12px; color: white; background: rgba(0, 132, 206, 1); border-radius: 5px;">匯出</a></td>
+                </tr>
+            
+                <tr style="height:40px;" th:if="${session.user.userType == 'A'}">
+                    <span>
+                        <select name="areaCode" id="areaCode" style="display: none" >
+                            <option value="" selected="selected"></option>
+                        </select>
+                    </span>
+                    
+                    <td style="width:8%;text-align: right;"><span>組別：</span></td>
+                    <td style="width:12%;">
+                        <span th:unless="${#lists.isEmpty(groupList)}">
+                            <select name="groupCode" id="groupCode" onchange="getUserList()" class="select" >
+                                <option value="">全部</option>
+                                <option  th:each=" group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                            </select>
+                        </span>
+                    </td>
+                    
+                    <td style="width:8%;text-align: right;"><span>員工姓名：</span></td>
+                    <td style="width:12%;">
+                        <span th:unless="${#lists.isEmpty(userList)}">
+                            <select name="userCode" id="userCode" class="select" onchange="changeQueryParams()">
+                                <option value="">全部</option>
+                                <option th:unless="${#lists.isEmpty(userList)}" th:each="u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                            </select>
+                        </span>
+                    </td>
+                    
+                    <td style="width:8%;text-align: right;">[[${queryDateLabelName}]]：</td>
+                    <td colspan="3" id="dateTd">
+                        <span th:if="${queryDateFormat == '1'}">
+                            <select class="select" id="startDate"  name="startDate">
+                            </select>
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <select class="select" id="endDate"  name="endDate">
+                                </select>
+                            </span>
+                            <span th:if="${reportQueryRegion == 'N'}">
+                                <select class="select" id="endDate" name="endDate" style="display: none;">
+                                </select>
+                            </span>
+                        </span>
+                        <span th:if="${queryDateFormat == '2'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png">
+                            </span>
+                        </span>
+                        <div id="startDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="startDateYear">
+                                </select>
+                                <select id="startDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <div id="endDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="endDateYear">
+                                </select>
+                                <select id="endDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <span th:if="${queryDateFormat == '3'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png">
+                            </span>
+                        </span>
+                    </td>
+                    <td style="width:12%; text-align: right;" th:if="${reportDownload == 'Y'}"><a th:href="${reportExcelPath}" style="padding: 6px 12px; color: white; background: rgba(0, 132, 206, 1); border-radius: 5px;">匯出</a></td>
+                </tr>
+                
+                <tr style="height:40px;" th:if="${session.user.userType == 'C'}">
+                    <span>
+                        <select name="areaCode" id="areaCode" style="display: none" >
+                            <option value="" selected="selected"></option>
+                        </select>
+                        <select name="groupCode" id="groupCode" style="display: none" >
+                            <option value="" selected="selected"></option>
+                        </select>
+                    </span>
+                    
+                    <td style="width:8%;text-align: right;"><span>員工姓名：</span></td>
+                    <td style="width:12%;">
+                        <span th:unless="${#lists.isEmpty(userList)}">
+                            <select name="userCode" id="userCode" class="select" onchange="changeQueryParams()">
+                                <option value="">全部</option>
+                                <option th:unless="${#lists.isEmpty(userList)}" th:each="u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                            </select>
+                        </span>
+                    </td>
+                    
+                    <td style="width:8%;text-align: right;">[[${queryDateLabelName}]]：</td>
+                    <td colspan="5" id="dateTd">
+                        <span th:if="${queryDateFormat == '1'}">
+                            <select class="select" id="startDate"  name="startDate">
+                            </select>
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <select class="select" id="endDate"  name="endDate">
+                                </select>
+                            </span>
+                            <span th:if="${reportQueryRegion == 'N'}">
+                                <select class="select" id="endDate" name="endDate" style="display: none;">
+                                </select>
+                            </span>
+                        </span>
+                        <span th:if="${queryDateFormat == '2'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">&nbsp;~&nbsp;
+                            <span th:if="${reportQueryRegion == 'Y'}"><input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png"></span>
+                        </span>
+                        <div id="startDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="startDateYear">
+                                </select>
+                                <select id="startDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <div id="endDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="endDateYear">
+                                </select>
+                                <select id="endDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <span th:if="${queryDateFormat == '3'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png">
+                            </span>
+                        </span>
+                    </td>
+                    <td style="width:12%; text-align: right;" th:if="${reportDownload == 'Y'}"><a th:href="${reportExcelPath}" style="padding: 6px 12px; color: white; background: rgba(0, 132, 206, 1); border-radius: 5px;">匯出</a></td>
+                </tr>
+                
+                <tr style="height:40px;" th:if="${session.user.userType == 'S' || session.user.userType == 'Z'}">
+                    <span>
+                        <select name="areaCode" id="areaCode" style="display: none" >
+                            <option value="" selected="selected"></option>
+                        </select>
+                        <select name="groupCode" id="groupCode" style="display: none" >
+                            <option value="" selected="selected"></option>
+                        </select>
+                        <select name="userCode" id="userCode" style="display: none" >
+                            <option value="" selected="selected"></option>
+                        </select>
+                    </span>
+                    
+                    <td style="width:8%;text-align: right;">[[${queryDateLabelName}]]：</td>
+                    <td colspan="7" id="dateTd">
+                        <span th:if="${queryDateFormat == '1'}">
+                            <select class="select" id="startDate"  name="startDate">
+                            </select>
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <select class="select" id="endDate"  name="endDate">
+                                </select>
+                            </span>
+                            <span th:if="${reportQueryRegion == 'N'}">
+                                <select class="select" id="endDate" name="endDate" style="display: none;">
+                                </select>
+                            </span>
+                        </span>
+                        <span th:if="${queryDateFormat == '2'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <span th:if="${reportQueryRegion == 'Y'}"><input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png"></span>
+                            </span>
+                        </span>
+                        <div id="startDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="startDateYear">
+                                </select>
+                                <select id="startDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <div id="endDateBox" class="date-box" style="display: none;position: absolute;">
+                            <div class="select-box">
+                                <select id="endDateYear">
+                                </select>
+                                <select id="endDateMonth">
+                                </select>
+                            </div>
+                            <div class="btn-box">
+                                <input class="date-close-btn" type="button" value="關閉">
+                            </div>
+                        </div>
+                        <span th:if="${queryDateFormat == '3'}">
+                            <input th:value="${#dates.format(startDateTmp, queryDateFormatter)}" class="input" type="text" id="startDate"  name="startDate" readonly/>&nbsp;<img id="startImg" src="../images/measureWord/u22.png">
+                            <span th:if="${reportQueryRegion == 'Y'}">
+                                &nbsp;~&nbsp;
+                                <input th:value="${#dates.format(endDateTmp, queryDateFormatter)}" class="input" type="text"  name="endDate" id="endDate" readonly/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png">
+                            </span>
+                        </span>
+                    </td>
+                    <td style="width:12%;text-align: right;" th:if="${reportDownload == 'Y'}"><a th:href="${reportExcelPath}" target="_blank" style="padding: 6px 12px; color: white; background: rgba(0, 132, 206, 1); border-radius: 5px;">匯出</a></td>
+                </tr>
+            </table>
+        </div>
+        <div id="webPlayer"  style="height:650px;"></div>
+        <div style="text-align: center; height:50px; line-height: 50px;">
+            <span><a href="javascript:void(0);" onclick="javascript:history.go(-1);" style="padding: 10px 30px; background: white; border-radius: 5px;">返回</a></span>
+            <span th:if="${userUtil.hasFunction('WEB_ACOUNT_REPORT_PRINT')}"><a th:href="${reportPdfPath}" target="_blank" style="padding: 10px 30px; background: white; border-radius: 5px;">列印</a></span>
+        </div>
+        
+        
+    </div>
+    <div th:replace="~{common/footer :: footer}"></div>
+    <script type="text/javascript" src="/spotfire/js-api/loader.js"></script>
+    <script type="text/javascript" src="../../js/report/viewSpotfire.js"></script>
+    
+</body>
+</html>

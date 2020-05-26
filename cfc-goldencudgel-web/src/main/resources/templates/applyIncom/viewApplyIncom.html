@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: commonHeader(#{goldencudgel.menu.apply})">
+</head>
+<style type="text/css">
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+
+    <div class="main">
+        </br><div>當前位置：進件申請  > 進件申請查詢</div></br>
+        <input id="backFlag" type="text" th:value="${backFlag}" style="display: none;" />
+        <div >
+            <table class="tb03">
+                <tbody>
+                <tr>
+                    <th colspan="8" class="title"><img src="../images/applyIncom/applyIncom.png" />進件申請查詢</th>
+                </tr>
+               
+             <tr style="height:40px;" th:unless="${session.user.userType == 'S' || session.user.userType == 'Z'}">
+            <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}">區中心：</span></td>
+            <td style="width:16%;">
+                <span th:if="${session.user.userType == 'M'}"  th:unless="${#lists.isEmpty(areaList)}">
+                    <select name="areaCode" id="areaCode" onchange="getGroupList()" class="select" >
+                        <option value="">全部</option>
+                        <option th:each=" area : ${areaList}" th:value="${area.key}" th:text="${area.value}"></option>
+                    </select>
+                </span>
+                <span th:if="${session.user.userType == 'A' || session.user.userType == 'C'}" th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                                <span th:text="${area.key == session.user.userArea} ? ${area.value}:''"></span>
+                            </span>
+                <span th:if="${session.user.userType != 'M'}"><input name="areaCode" th:value="${session.user.userArea}" style="display: none"></span>
+            </td>
+            <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 業務組別：</span></td>
+            <td style="width:16%;">
+                <span th:if="${session.user.userType == 'M' || session.user.userType == 'A'}">
+                    <select name="groupCode" id="groupCode" onchange="getUserList()" class="select" >
+                        <option value="">全部</option>
+                        <option th:unless="${#lists.isEmpty(groupList)}" th:each=" group : ${groupList}" th:value="${group.key}" th:text="${group.value}"></option>
+                    </select>
+                </span>
+                <span th:if="${session.user.userType} == 'C'" th:unless="${#lists.isEmpty(groupList)}" th:each="group:${groupList}">
+                                <span th:text="${group.key == session.user.userGroup} ? ${group.value}:''"></span>
+                            </span>
+                <span th:if="${session.user.userType != 'M' && session.user.userType != 'A'}"><input name="groupCode" th:value="${session.user.userGroup}" style="display: none"></span>
+            </td>
+            
+            <td style="width:8%;text-align: right;"><span th:if="${session.user.userType != 'S' && session.user.userType != 'Z'}"> 經辦人：</span></td>
+            <td style="width:16%;">
+                <span th:if="${session.user.userType == 'M' || session.user.userType == 'A' || session.user.userType == 'C'}">
+                            <select name="userCode" id="userCode" class="select" >
+                                <option value="">全部</option>
+                                <option th:unless="${#lists.isEmpty(userList)}" th:each=" u : ${userList}" th:value="${u.key}" th:text="${u.value}"></option>
+                            </select>
+                            </span>
+                <span th:if="${session.user.userType == 'S' || session.user.userType == 'Z'}"><input name="userCode" th:value="${session.user.userCode}" style="display: none"></span>
+            </td>
+            <td></td>
+            </tr>
+              
+                <tr>
+                    <td style="width:8%;text-align:right;"> 授信戶統編：</td>
+                    <td style="width:16%;"> <input class="input" type="text" id="compilationNo"/></td>
+                    <td style="width:8%;text-align:right;"> 授信戶名稱：</td>
+                    <td style="width:16%;"><input class="input" type="text" id="companyName"/></td>
+                    <td style="width: 8%!important;text-align:right;"> 進件時間：</td>
+                    <td style="width:34%;"><input class="input" type="text" id="startDate" name ="startDate" readonly="readonly" />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />&nbsp;~&nbsp;<input class="input"  type="text" id="endDate" name ="endDate" readonly="readonly"/>&nbsp;<img id="endImg" src="../images/measureWord/u22.png" /></td>
+                    <td style="width: 10%!important;"><input type="button" class="button_blue" value="查詢" onclick="javascript:queryApplyIncoms(1);"></td>
+               </tr>
+                       
+                </tbody>
+            </table>
+        </div>
+
+        <div id="applyIncom_list">
+        </div>
+    </div>
+    <div hidden>
+        <input type="hidden" id="curPage" th:value="${curPage}"/>
+    </div>
+    <div th:replace="~{common/footer :: footer}"/>
+    <script type="text/javascript" defer=true src="../../js/applyIncom/applyIncom.js"></script>
+</body>
+
+</html>

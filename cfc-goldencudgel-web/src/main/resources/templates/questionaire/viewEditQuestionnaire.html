@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.questionnaire.edit})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/questionniare.css}" type="text/css" />
+<body class="body_bg">
+    <div th:replace="index/index :: #top"></div>
+    <div th:insert="~{index/index :: menu}"></div>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：
+   <span th:text="#{golden.product.manager}"/></span> >
+   <span th:text="#{goldencudgel.menu.questionnaire}"/></span> >
+   <span th:text="#{goldencudgel.menu.questionnaire.edit}"/></span>
+  </div>
+  <br/>
+  <div class="main">
+  <input type="hidden" id="flag" th:value="${flag}" />
+  <input type="hidden" id="forAuditFlag" th:value="${forAuditFlag}" />
+  <input type="hidden" id="viewForAudit" th:value="${viewForAudit}" />
+  <input type="hidden" id="createUserCode" th:value="${createUserCode}" />
+  <input type="hidden" id="auditStatusId" th:value="${auditStatus}" />
+  <input type="hidden" id="functionCode" th:value="${functionCode}" />
+  <form id="questionnarie">
+  <table class="tb01 mgt">
+     <tr>
+      <th colspan="6" class="title">
+       <img src="../images/measureWord/u8597.png">
+       <span th:text="#{goldencudgel.menu.questionnaire.edit}" style="margin-left:5px;"/></span>
+      </th>
+     </tr>
+     <tr>
+       <td class="tdback" style="width:15%;text-align:right;">
+          <span class="_red">*</span>問卷類型：
+           <input type="hidden" id="introduceType" name="introduceType" th:value="${questionnaire.introduceType}" />
+       </td>
+       <td style="width:20%;">
+            <input type="button" th:if="${questionnaire.introduceType}=='01'" th:class="${questionnaire.questionniareType=='01'} or ${questionnaire.questionniareType=='03'} or ${questionnaire.questionniareType=='14'}? 'gpic':'pic'"  value="初篩" style="width:65px;height:25px" onclick="changeType(this,'01','_type');"/> &nbsp;
+            <input type="button" th:if="${questionnaire.introduceType}=='01'" th:class="${questionnaire.questionniareType=='02'}? 'gpic':'pic'" value="產品" style="width:65px;height:25px" onclick="changeType(this,'02','_type');"/> &nbsp;
+            <input type="button" th:if="${introduceType}=='02'" class="gpic" value="徵信" style="width:65px;height:25px">
+            <input type="hidden" id="questionType" name="questionniareType" th:value="${questionnaire.questionniareType}"/>
+            <input type="hidden" name="id" th:value="${questionnaire.id}"/>
+       </td>
+       <td class="tdback" style="width:15%;text-align:right;">
+          <span class="_red">*</span>問卷名稱：
+       </td>
+       <td style="text-align:left;width:20%;">
+         <input type="text" name="name" style="width:200px;" th:value="${questionnaire.name}" id="questionnaireName" maxlength="30" class="input"/>
+       </td>
+       <td class="tdback" style="width:10%;text-align:right;">
+          <span th:if="${questionnaire.questionniareType=='01'} or ${questionnaire.questionniareType=='03'} or ${questionnaire.questionniareType=='14'} or ${questionnaire.questionniareType=='04'} or ${questionnaire.questionniareType=='05'} or ${questionnaire.questionniareType=='06'} or ${questionnaire.questionniareType=='07'} or ${questionnaire.questionniareType=='08'} or ${questionnaire.questionniareType=='09'} or ${questionnaire.questionniareType=='10'} or ${questionnaire.questionniareType=='11'} or ${questionnaire.questionniareType=='12'} or ${questionnaire.questionniareType=='13'}" id="prodLabel">
+            <span class="_red">*</span>類别：
+         </span>
+       </td>
+       <td style="width:15%;text-align:left">
+            <span id="prodSelect" th:style="${questionnaire.questionniareType}=='02'?'display:none':''">
+            <select name="prodCode" id="prodCode"  style="width:195px;" class="input" onchange="qSelectChange(this);">
+                <option th:if="${questionnaire.introduceType}=='01'" value="01" th:selected="${questionnaire.questionniareType}=='01'">初篩問卷1</option>
+                <option th:if="${questionnaire.introduceType}=='01'" value="03" th:selected="${questionnaire.questionniareType}=='03'">初篩問卷2</option>
+                <option th:if="${questionnaire.introduceType}=='01'" value="14" th:selected="${questionnaire.questionniareType}=='14'">初篩問卷3</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="04" th:selected="${questionnaire.questionniareType}=='04'">企業沿革</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="05" th:selected="${questionnaire.questionniareType}=='05'">資金調度及償債能力</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="06" th:selected="${questionnaire.questionniareType}=='06'">保人資力</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="07" th:selected="${questionnaire.questionniareType}=='07'">產業-批發</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="08" th:selected="${questionnaire.questionniareType}=='08'">產業-零售&餐飲</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="09" th:selected="${questionnaire.questionniareType}=='09'">產業-營造</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="10" th:selected="${questionnaire.questionniareType}=='10'">產業-製造</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="11" th:selected="${questionnaire.questionniareType}=='11'">產業-服務&其他</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="12" th:selected="${questionnaire.questionniareType}=='12'">產業-旅行社</option>
+                <option th:if="${questionnaire.introduceType}=='02'" value="13" th:selected="${questionnaire.questionniareType}=='13'">綜合評估說明</option>
+            </select>
+        <input type="hidden" id="prod" th:value="${questionnaire.questionniareType}" class="next"/>
+       </span>
+      </td>
+     </tr>
+     <tr>
+       <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>問卷說明：</td>
+       <td colspan="5" style="text-align:left">
+        <textarea rows="3" id="QuestionExplanation" cols="112" name="description" th:text="${questionnaire.description}" maxlength="150" class="textarea" ></textarea>
+       </td>
+     </tr>
+     </table>
+</form>
+<div id="question" class="question" th:unless="${#lists.isEmpty(questionnaire.details)}">
+  <div th:each="question,questionStat:${questionnaire.details}" th:id="'question_'+${questionStat.count}" class="question_div" th:listnamehead="details">
+  <input type="hidden" th:listName="id" th:value="${question.id}"/>
+  <input type="hidden" th:listName="defaultId" th:value="${question.defaultId}"/>
+  <table class="tb01 mgt">
+      <tr>
+       <th colspan="8" style="text-align:left;margin-left:15px;">
+         <span><b class="question_no">第<span th:text="${questionStat.count}"></span>題</b></span>
+         <span style="float:right;margin-right:15px">
+           <input type="button" class="add" onclick="addTemplate(this)" />&nbsp;&nbsp;
+           <input type="button" class="del" onclick="delTemplate(this)" />&nbsp;&nbsp;
+           <input type="button" class="up" onclick="templateUp(this);" />&nbsp;&nbsp;
+           <input type="button" class="down" onclick="templateDown(this)" />
+         </span>
+      </th>
+      </tr>
+      <tr>
+        <td class="tdback" style="width:10%;text-align:right"><span class="_red">*</span>當前題型：</td>
+        <td style="text-align:left">
+           <select name="type" style="width:130px" onchange="javascript:selectChange(this)" th:listName="questionType" class="input1">
+               <option value="01" th:selected="'01'==${question.questionType}">問答題(輸入框)</option>
+               <option value="09" th:selected="'09'==${question.questionType}">問答題(數字)</option>
+               <option value="08" th:selected="'08'==${question.questionType}">問答題(文本框)</option>
+	           <option value="02" th:selected="'02'==${question.questionType}">選擇題</option>
+               <option value="03" th:selected="'03'==${question.questionType}">日期</option>
+               <option value="04" th:selected="'04'==${question.questionType}">複選題</option>
+               <option value="05" th:selected="'05'==${question.questionType}">日期(民國年月)</option>
+               <option value="06" th:selected="'06'==${question.questionType}">日期(民國年)</option>
+               <option value="07" th:selected="'07'==${question.questionType}">時間(年月)</option>
+           </select>
+           <input type="hidden" th:value="${question.questionType}" class="next" />
+        </td>
+	    <td class="tdback" style="text-align:right">規則目標欄位：</td>
+	        <td>
+	           <select name="ruleName" onchange="mappingChange(this,'rule')" class="input1">
+	               <option value="">--請選擇--</option>
+	               <option th:unless="${#lists.isEmpty(rules)}" 
+	                       th:each="rule : ${rules}" th:value="${rule}" th:text="${rule}"></option>
+	            </select>
+	            <select name="ruleItem" onchange="setMappingItem(this,'ruleItem')" class="input1">
+	               <option value="">--請選擇--</option>
+	            </select>
+	            <input type="hidden" id="ruleItem" th:listName="ruleItem" th:value="${question.ruleItem}"/>
+	        </td>
+	        <td class="tdback" style="text-align:right">進件欄位：</td>
+	        <td>
+	             <select name="applyName" onchange="mappingChange(this,'apply')" class="input1">
+	               <option value="">--請選擇--</option>
+	               <option th:unless="${#lists.isEmpty(applys)}" 
+	                       th:each="apply : ${applys}" th:value="${apply}" th:text="${apply}"
+	                       ></option>
+	            </select>
+	            <select name="applyItem" onchange="setMappingItem(this,'applyItem')" class="input1">
+	               <option value="">--請選擇--</option>
+	            </select>
+	            <input type="hidden" id="applyItem" th:listName="applyItem" th:value="${question.applyItem}"/>
+	        </td>
+      </tr>
+      <tr>
+          <td class="tdback" style="width:15%;text-align:right"><span class="_red">*</span>問題級別：</td>
+          <td class="questionTdClass" style="text-align:left">
+              <select name="level" style="width:130px" onchange="javascript:selectLevel(this)" th:listName="questionLevel" class="input1 questionLevel">
+                  <option value="1" th:selected="'1'==${question.questionLevel}">主問題</option>
+                  <option value="2" th:selected="'2'==${question.questionLevel}">副問題</option>
+                  <option value="3" th:selected="'3'==${question.questionLevel}">二级副問題</option>
+                  <option value="4" th:selected="'4'==${question.questionLevel}">三级副問題</option>
+              </select>
+              <input type="hidden" th:value="${question.questionLevel}" class="next" />
+          </td>
+          <!-- 初賽問卷3 默認答案 -->
+          <td id="defAnsHd" class="tdback" style="width:15%;text-align:right;"><span class="defualtAnswer" style="display:none;"><span class="_red"></span>默認答案：</span></td>
+          <td id="defAnsBd"style="text-align:left">
+              <input type="text" class="input1 defualtAnswer" th:value="${question.defualtAnswer}" listName="defualtAnswer" style="display:none;width:80%;"/>
+          </td>  
+          <td id="fatherQHd" class="tdback" style="width:15%;text-align:right;"><span class="selectLevel" th:style="${question.questionLevel == '1'}? 'display: none;':'display: inline;'" ><span class="_red">*</span>所屬主問題：</span></td>
+          <td id="fatherQBd" class="fatherQuestionClass" style="text-align:left">
+              <select name="fatherQuestion" th:style="${question.questionLevel == '1'}? 'width:130px;display: none;':'width:130px;display: inline;'" th:listName="fatherQuestion" class="input1 selectLevel" onchange="changeFatherQuestion(this);">
+                  <option value="">--請選擇--</option>
+                  <option th:if="${questionStat.count}>1" th:each="i:${#numbers.sequence(1,questionStat.count - 1)}" th:text="'第'+${i}+'題'" th:value="${i}" th:selected="${i}==${question.fatherQuestion}"></option>
+              </select>
+              <input type="hidden" th:value="${question.fatherQuestion}" class="next" />
+          </td>
+      </tr>
+  </table>
+  <div class="question_body">
+	  <table class="tb01 mgt">
+	      <tr>
+            <td class="tdback" style="text-align:center">題目</td>
+            <td class="tdback" style="text-align:center">選項文字</td>
+            <td class="tdback" style="text-align:center">跳轉題目</td>
+            <td class="tdback" style="text-align:center" th:if="${question.questionType=='02'} OR ${question.questionType=='04'}">操作</td>
+	      </tr>
+	      <tr th:each="curAnswer,curAnswerStat:${question.answers}" class="_add_clone" th:listNameHead2="answers">
+	         <input type="hidden" th:listName2="id" th:value="${curAnswer.id}"/>
+	        <td th:if="${curAnswerStat.count==1}" style="width:60%;text-align:left" th:rowspan="${curAnswerStat.size}">
+	           <textarea rows="3" cols="90" name="questionName" th:listName="name" th:text="${question.name}" class="textarea"></textarea>
+	        </td>
+	        <td style="width:20%;">
+	          <input type="text" name="answer" style="width:98%;" th:listName2="answer" th:value="${curAnswer.answer}" class="input"/>
+	        </td>
+	        <td style="width:10%;text-align:left">
+	          <select style="width:100%;" name="nextQuestion" th:listName2="nextQuestion" class="input1 nextQuestion" onchange="changeNextQuestion(this)">
+                  <option value="">--請選擇--</option>
+                  <option th:if="${questionStat.size} > ${questionStat.count}" th:each="i:${#numbers.sequence(questionStat.count+1,questionStat.size)}" th:text="'第'+${i}+'題'" th:value="${i}" th:selected="${i}==${curAnswer.nextQuestion}"></option>
+                  <option th:text="跳到問卷末尾，結束作答" th:value="end" th:selected="'end'==${curAnswer.nextQuestion}"></option>
+              </select>
+	          <input type="hidden" th:value="${curAnswer.nextQuestion}" class="next" />
+	        </td>
+	        <td th:if="${question.questionType=='02'} or ${question.questionType=='04'}">
+	           <input type="button" class="add" onclick="javascript:addRows(this);"/>
+	           <input type="button" class="del" onclick="javascript:delRows(this);" />
+	        </td>
+	        </tr>
+	 </table>
+    </div> 
+   </div>
+  </div>
+        <!-- 备注 -->
+		<div>
+			<table class="tb01 mgt">
+				<tr>
+					<th colspan="8" style="text-align: left; margin-left: 15px;">
+						<span><b class="question_no"><span>備註</span></b></span>
+					</th>
+				</tr>
+				<tr>
+					<td class="tdback" style="width: 20%; text-align: right;">修改說明：</td>
+				    <td style="width: 60%; text-align: left">
+                        <textarea style="width:90%" rows="3" cols="90" name="updateRemarkName" id="updateRemarkId" placeholder=" 字數限制150字" maxlength="150" class="textarea"></textarea>
+                    </td>
+				</tr>
+			</table>
+		</div>
+		
+        <!-- 审核状态 -->
+		<div th:if="${forAuditFlag!='undefined'}">
+			<table class="tb01 mgt">
+				<tr>
+					<th colspan="8" style="text-align: left; margin-left: 15px;">
+						<span><b class="question_no"><span>人工審核意見</span></b></span>
+					</th>
+				</tr>
+				<tr>
+                 <td class="tdback" style="width:20%;text-align:right;"><span class="_red">*</span>審核結果：</td>
+                 <td style="text-align:left">
+                  <div id="questionNames">
+                   <input name="auditStateName" type="radio"  value="01" th:text="通過"  th:checked="${auditResult}=='01'" ></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <input name="auditStateName" type="radio"  value="02" th:text="拒絕"  th:checked="${auditResult}=='02'" ></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                 </td>
+                </tr>
+                <tr>
+					<td class="tdback" style="width: 20%; text-align: right;">審核備註：</td>
+					<td style="width: 60%; text-align: left">
+                        <textarea style="width:90%" rows="3" th:value="${auditRemark}" th:text="${auditRemark}" cols="90" name="auditRemarkName" id="auditRemarkId" placeholder=" 字數限制150字" maxlength="150" class="textarea"></textarea>
+                    </td>
+				</tr>
+			</table>
+		</div>
+		<div style="text-align:center;margin-top:15px;">
+        <input th:if="${viewForAudit!='viewForAudit'}" name="commitBotton" type="button" class="button_blue" value="提交" onclick="javascript:updateQuestion()" />
+        <input type="button" name="backQueryBotton" class="button_blue" value="返回查詢頁" onclick="javascript:gotoPage();" />
+</div> 
+</div>
+<!-- template -->
+<div id="template_02" class="question_div" style="display:none;" listnamehead="details">
+	<table class="tb01 mgt">
+	   <tr>
+	       <th colspan="8" style="text-align:left;margin-left:15px;">
+	         <span><b class="question_no">第1題</b></span>
+	         <span style="float:right;margin-right:15px">
+	           <input type="button" class="add" onclick="addTemplate(this)" />&nbsp;&nbsp;
+	           <input type="button" class="del" onclick="delTemplate(this)" />&nbsp;&nbsp;
+	           <input type="button" class="up" onclick="templateUp(this);" />&nbsp;&nbsp;
+	           <input type="button" class="down" onclick="templateDown(this)" />
+	         </span>
+	      </th>
+	      </tr>
+	      <tr>
+	        <td class="tdback" style="width:15%;text-align:right"><span class="_red">*</span>當前題型：</td>
+	        <td style="text-align:left">
+	           <select name="type" style="width:130px" onchange="javascript:selectChange(this)" listName="questionType" class="input1">
+	             <option value="01">問答題</option>
+	             <option value="02">選擇題</option>
+	           </select>
+	        </td>
+	        <td class="tdback" style="text-align:right">規則目標欄位：</td>
+	        <td>
+	            <select name="ruleName" onchange="mappingChange(this,'rule')" class="input1">
+	               <option value="">--請選擇--</option>
+	               <option th:unless="${#lists.isEmpty(rules)}" th:each="rule : ${rules}" th:value="${rule}" th:text="${rule}"></option>
+	            </select>
+	            <select name="ruleItem" onchange="setMappingItem(this,'ruleItem')" class="input1">
+	               <option value="">--請選擇--</option>
+	            </select>
+	            <input type="hidden" id="ruleItem" listName="ruleItem" />
+	        </td>
+	        <td class="tdback" style="text-align:right">進件欄位：</td>
+	        <td>
+	            <select name="applyName" onchange="mappingChange(this,'apply')" class="input1">
+	               <option value="">--請選擇--</option>
+	               <option th:unless="${#lists.isEmpty(applys)}" th:each="apply : ${applys}" th:value="${apply}" th:text="${apply}"></option>
+	            </select>
+	            <select name="applyItem" onchange="setMappingItem(this,'applyItem')" class="input1">
+	               <option value="">--請選擇--</option>
+	            </select>
+	            <input type="hidden" id="applyItem" listName="applyItem" />
+	        </td>
+	      </tr>
+	</table>
+	<div class="question_body">
+		<table class="tb01 mgt">
+		      <tr>
+		        <td class="tdback" style="text-align:center">題目</td>
+		        <td class="tdback" style="text-align:center">選項文字</td>
+		        <td class="tdback" style="text-align:center">跳轉題目</td>
+		      </tr>
+		      <tr class="_add_clone" listNameHead2="answers">
+		         <td style="width:60%;text-align:left">
+		           <textarea rows="3" cols="90" name="questionName" listName="name" class="textarea"></textarea>
+		        </td>
+		        <td style="width:20%;"><input type="text" name="answer" style="width:98%;" listName2="answer" class="input"/></td>
+		        <td style="width:10%;text-align:left">
+		          <select style="width:100%;" name="nextQuestion" listName2="nextQuestion" class="input1 nextQuestion" onchange="changeNextQuestion(this)">
+		            <option value="">--請選擇--</option>
+		            <option value='end'>跳到問卷末尾，結束作答</option>
+		          </select>
+                  <input type="hidden" value="" class="next">
+		        </td>
+		      </tr>
+		</table>
+	</div>
+</div>
+
+<div id="template_01" class="question_div" style="display:none;" listnamehead="details">
+  <table class="tb01 mgt">
+      <tr>
+       <th colspan="5" style="text-align:left;margin-left:15px;">
+         <span><b class="question_no">第1題</b></span>
+         <span style="float:right;margin-right:15px">
+           <input type="button" class="add" onclick="addTemplate(this)" />&nbsp;&nbsp;
+           <input type="button" class="del" onclick="delTemplate(this)" />&nbsp;&nbsp;
+           <input type="button" class="up" onclick="templateUp(this);" />&nbsp;&nbsp;
+           <input type="button" class="down" onclick="templateDown(this)" />
+         </span>
+      </th>
+      </tr>
+      <tr>
+        <td class="tdback" style="width:20%;text-align:right"><span class="_red">*</span>當前題型：</td>
+        <td style="text-align:left">
+           <select name="" style="width:200px" onchange="javascript:selectChange(this)" listName="questionType" class="input">
+               <option value="01">問答題</option>
+	           <option value="02">選擇題</option>
+           </select>
+        </td>
+      </tr>
+  </table>
+<div class="question_body">
+  <table class="tb01 mgt">
+      <tr>
+        <td class="tdback" style="text-align:center">題目</td>
+        <td class="tdback" style="text-align:center">選項文字</td>
+        <td class="tdback" style="text-align:center">跳轉題目</td>
+        <td class="tdback" style="text-align:center">操作</td>
+      </tr>
+      <tr class="_add_clone" listNameHead2="answers">
+        <td style="width:60%;text-align:left" rowspan="2">
+           <textarea rows="3" cols="90" name="questionName" listName="name" class="textarea"></textarea>
+        </td>
+        <td style="width:20%;"><input type="text" name="answer" style="width:98%;" listName2="answer" class="input"/></td>
+        <td style="width:10%;text-align:left">
+          <select style="width:100%;" name="nextQuestion" listName2="nextQuestion" class="input nextQuestion" onchange="changeNextQuestion(this)">
+            <option value="">--請選擇--</option>
+            <option value='end'>跳到問卷末尾，結束作答</option>
+          </select>
+          <input type="hidden" value="" class="next">
+        </td>
+        <td>
+           <input type="button" class="add" onclick="javascript:addRows(this);"/>
+           <input type="button" class="del" onclick="javascript:delRows(this);" />
+        </td>
+        </tr>
+        <tr class="_add_clone" listNameHead2="answers">
+        <td style="width:20%;"><input type="text" name="answer" style="width:98%;" listName2="answer" class="input"/></td>
+        <td style="width:10%;text-align:left">
+          <select style="width:100%;" name="nextQuestion" listName2="nextQuestion" class="input1 nextQuestion" onchange="changeNextQuestion(this)">
+            <option value="">--請選擇--</option>
+            <option value='end'>跳到問卷末尾，結束作答</option>
+            <input type="hidden" value="" class="next">
+          </select>
+        </td>
+        <td>
+           <input type="button" class="add" onclick="javascript:addRows(this);"/>
+           <input type="button" class="del" onclick="javascript:delRows(this);" />
+        </td>
+        </tr>
+  </table>
+ </div>
+ </div>
+<div th:replace="~{common/footer :: footer}"></div>
+<script type="text/javascript" src="../../js/questionnaire/questionnaire.js"></script>
+<script type="text/javascript">
+$(function(){
+	 var forAuditFlag = $("#forAuditFlag").val();
+	 var viewForAudit = $("#viewForAudit").val();
+	 if(forAuditFlag=="forAuditFlag"&&viewForAudit!="viewForAudit"){
+  		 $("input").attr("disabled",true);
+  	     $("select").attr("disabled",true);
+  		 $("textarea").attr("readonly",true);
+  		 $('textarea[name="updateRemarkName"]').attr("readonly",false);
+  		 $('textarea[name="auditRemarkName"]').attr("readonly",false);
+  		 $('input[name="auditStateName"]').attr("disabled",false);
+  		 $('input[name="commitBotton"]').attr("disabled",false);
+  		 $('input[name="backQueryBotton"]').attr("disabled",false); 
+  	}
+	if(forAuditFlag=="forAuditFlag"&&viewForAudit=="viewForAudit"){
+  		 $("input").attr("disabled",true);
+  		 $("select").attr("disabled",true);
+  		 $("textarea").attr("readonly",true);
+  		 $('input[name="backQueryBotton"]').attr("disabled",false);
+  	}
+})
+</script>
+</body>
+</html>

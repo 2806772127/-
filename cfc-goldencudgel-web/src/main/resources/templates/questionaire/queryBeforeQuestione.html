@@ -1,0 +1,252 @@
+  <div style="width: 1300px">
+  
+   <form id="questionnarieBefore">
+  
+  
+  <table class="tb01 mgt">
+     <tr style="width:100%;">
+       <td class="tdback" style="width:10%;text-align:right;">
+          <span class="_red">*</span>問卷類型：
+           <input type="hidden" id="introduceTypeBefore" name="introduceTypeBefore" th:value="${introduceType}" />
+       </td>
+       <td style="width:20%;">
+            <input type="button" th:if="${introduceType}=='01'" th:class="${questionnaireBefore.questionniareType=='01'} or ${questionnaireBefore.questionniareType=='03'} or ${questionnaireBefore.questionniareType=='14'}? 'gpic':'pic'"  value="初篩" style="width:65px;height:25px" onclick="changeType(this,'01','_type');"/> &nbsp;
+            <input type="button" th:if="${introduceType}=='01'" th:class="${questionnaireBefore.questionniareType=='02'}? 'gpic':'pic'" value="產品" style="width:65px;height:25px" onclick="changeType(this,'02','_type');"/> &nbsp;
+            
+            <input type="button" th:if="${introduceType}=='02'" class="gpic" value="徵信" style="width:65px;height:25px">
+            <input type="hidden" id="questionTypeBefore" name="questionniareTypeBefore" th:value="${questionnaireBefore.questionniareType}"/>
+            <input type="hidden" name="idBefore" th:value="${questionnaireBefore.id}"/>
+       </td>
+       <td class="tdback" style="width:10%;text-align:right;">
+          <span class="_red">*</span>問卷名稱：
+       </td>
+       <td style="text-align:left;width:20%;">
+         <span type="text" name="nameBefore" style="width:200px;" th:text="${questionnaireBefore.name}" th:value="${questionnaireBefore.name}" id="questionnaireNameBefore" maxlength="30" ></span>
+       </td>
+       <td class="tdback" style="width:10%;text-align:right;">
+        <!--  <span id="prodLabel" style="display:none;"> -->
+        <!--  <span id="prodLabelBefore"> -->
+        <!-- <span th:if="${questionnaireBefore.questionniareType=='01'} or ${questionnaireBefore.questionniareType=='03'} or ${questionnaireBefore.questionniareType=='14'}" id="prodLabel">
+            <span class="_red">*</span>類别：
+         </span> -->
+         <span th:if="${questionnaireBefore.questionniareType=='01'} or ${questionnaireBefore.questionniareType=='03'} or ${questionnaireBefore.questionniareType=='14'} or ${questionnaireBefore.questionniareType=='04'} or ${questionnaireBefore.questionniareType=='05'} or ${questionnaireBefore.questionniareType=='06'} or ${questionnaireBefore.questionniareType=='07'} or ${questionnaireBefore.questionniareType=='08'} or ${questionnaireBefore.questionniareType=='09'} or ${questionnaireBefore.questionniareType=='10'} or ${questionnaireBefore.questionniareType=='11'} or ${questionnaireBefore.questionniareType=='12'} or ${questionnaireBefore.questionniareType=='13'}" id="prodLabel">
+            <span class="_red">*</span>類别：
+         </span>
+       </td>
+       <td style="width:15%;text-align:left">
+            <span id="prodSelectBefore" th:style="${questionnaireBefore.questionniareType}=='02'?'display:none':''">
+           <!--  <select name="prodCodeBefore" id="prodCodeBefore"  style="width:195px;" class="input" onchange="qSelectChange(this);">
+               
+                <option th:if="${introduceType}=='01'" value="01" th:selected="${questionnaireBefore.questionniareType}=='01'">初篩問卷1</option>
+                <option th:if="${introduceType}=='01'" value="03" th:selected="${questionnaireBefore.questionniareType}=='03'">初篩問卷2</option>
+                <option th:if="${introduceType}=='01'" value="14" th:selected="${questionnaireBefore.questionniareType}=='14'">初篩問卷3</option>
+                <option th:if="${introduceType}=='02'" value="04" th:selected="${questionnaireBefore.questionniareType}=='04'">企業沿革</option>
+                <option th:if="${introduceType}=='02'" value="05" th:selected="${questionnaireBefore.questionniareType}=='05'">資金調度及償債能力</option>
+                <option th:if="${introduceType}=='02'" value="06" th:selected="${questionnaireBefore.questionniareType}=='06'">保人資力</option>
+                <option th:if="${introduceType}=='02'" value="07" th:selected="${questionnaireBefore.questionniareType}=='07'">產業-批發</option>
+                <option th:if="${introduceType}=='02'" value="08" th:selected="${questionnaireBefore.questionniareType}=='08'">產業-零售&餐飲</option>
+                <option th:if="${introduceType}=='02'" value="09" th:selected="${questionnaireBefore.questionniareType}=='09'">產業-營造</option>
+                <option th:if="${introduceType}=='02'" value="10" th:selected="${questionnaireBefore.questionniareType}=='10'">產業-製造</option>
+                <option th:if="${introduceType}=='02'" value="11" th:selected="${questionnaireBefore.questionniareType}=='11'">產業-服務&其他</option>
+                <option th:if="${introduceType}=='02'" value="12" th:selected="${questionnaireBefore.questionniareType}=='12'">產業-旅行社</option>
+                <option th:if="${introduceType}=='02'" value="13" th:selected="${questionnaireBefore.questionniareType}=='13'">綜合評估說明</option>
+            </select> -->
+             <span th:if="${introduceType}=='01'" th:value="${questionnaireBefore.questionniareType}" th:text="${questionnaireBefore.questionniareType}=='01'?'初篩問卷1':(${questionnaireBefore.questionniareType}=='03'?'初篩問卷2':(${questionnaireBefore.questionniareType}=='14'?'初篩問卷3':''))"></span>
+             <span th:if="${introduceType}=='02'" th:value="${questionnaireBefore.questionniareType}" th:text="${questionnaireBefore.questionniareType}=='04'?'企業沿革':(${questionnaireBefore.questionniareType}=='05'?'資金調度及償債能力':(${questionnaireBefore.questionniareType}=='06'?'保人資力':(${questionnaireBefore.questionniareType}=='07'?'產業-批發':(${questionnaireBefore.questionniareType}=='08'?'產業-零售&餐飲':(${questionnaireBefore.questionniareType}=='09'?'產業-營造':(${questionnaireBefore.questionniareType}=='10'?'產業-製造':(${questionnaireBefore.questionniareType}=='11'?'產業-服務&其他':(${questionnaireBefore.questionniareType}=='12'?'產業-旅行社':(${questionnaireBefore.questionniareType}=='13'?'綜合評估說明':'')))))))))"></span>
+        <input type="hidden" id="prodBefore" th:value="${questionnaireBefore.questionniareType}" class="next"/>
+       </span>
+      </td>
+     </tr>
+     <tr>
+       <td class="tdback" style="width:13%;text-align:right;"><span class="_red">*</span>問卷說明：</td>
+       <td colspan="5" style="text-align:left">
+        <textarea rows="3" id="QuestionExplanationBefore" cols="112" name="descriptionBefore" th:text="${questionnaireBefore.description}" maxlength="150" class="textarea" ></textarea>
+       </td>
+     </tr>
+     <tr>
+       <td class="tdback" colspan="6">
+         
+       </td>
+     </tr>
+     </table>
+</form>
+<div  id="questionBefore" class="question" th:unless="${#lists.isEmpty(questionnaireBefore.details)}">
+  <div  th:each="question,questionStat:${questionnaireBefore.details}" th:id="'question_'+${questionStat.count}" class="question_div" th:listnamehead="details">
+  <input type="hidden" th:listName="id" th:value="${question.id}"/>
+  <table class="tb01 mgt">
+      <tr style="width:100%;">
+       <th colspan="8" style="text-align:left;margin-left:15px;">
+         <span><b class="question_no">第<span th:text="${questionStat.count}"></span>題</b></span>
+         <!-- <span style="float:right;margin-right:15px">
+           <input type="button" class="add" onclick="addTemplate(this)" />&nbsp;&nbsp;
+           <input type="button" class="del" onclick="delTemplate(this)" />&nbsp;&nbsp;
+           <input type="button" class="up" onclick="templateUp(this);" />&nbsp;&nbsp;
+           <input type="button" class="down" onclick="templateDown(this)" />
+         </span> -->
+      </th>
+      </tr>
+      <tr style="width:100%;">
+        <td class="tdback" style="width:10%;text-align:right"><span class="_red">*</span>當前題型：</td>
+        <td style="text-align:left">
+          <!--  <select name="typeBefore" style="width:130px" onchange="javascript:selectChange(this)" th:listName="questionType" class="input1">
+               <option value="01" th:selected="'01'==${question.questionType}">問答題(輸入框)</option>
+               <option value="08" th:selected="'08'==${question.questionType}">問答題(文本框)</option>
+	           <option value="02" th:selected="'02'==${question.questionType}">選擇題</option>
+               <option value="03" th:selected="'03'==${question.questionType}">日期</option>
+               <option value="04" th:selected="'04'==${question.questionType}">複選題</option>
+               <option value="05" th:selected="'05'==${question.questionType}">日期(民國年月)</option>
+               <option value="06" th:selected="'06'==${question.questionType}">日期(民國年)</option>
+               <option value="07" th:selected="'07'==${question.questionType}">時間(年月)</option>
+           </select> -->
+           <span  th:value="${question.questionType}" th:text="${question.questionType}=='01'?'問答題(輸入框)':(${question.questionType}=='08'?'問答題(文本框)':(${question.questionType}=='02'?'選擇題':(${question.questionType}=='03'?'日期':(${question.questionType}=='04'?'複選題':(${question.questionType}=='05'?'日期(民國年月)':(${question.questionType}=='06'?'日期(民國年)':(${question.questionType}=='07'?'時間(年月)':'')))))))"></span>
+           <input type="hidden" th:value="${question.questionType}" class="next" />
+        </td>
+	    <td class="tdback" style="text-align:right">規則目標欄位：</td>
+	        <td style="width:260px">
+	           <!-- <select name="ruleNameBefore" onchange="mappingChange(this,'rule')" class="input1">
+	               <option value="${rule.size}">--請選擇--</option>
+	               <option th:unless="${#lists.isEmpty(rules)}" 
+	                       th:each="rule : ${rules}" th:value="${rule}" th:text="${rule}"></option>
+	            </select>
+	            <select name="ruleItemBefore" onchange="setMappingItem(this,'ruleItem')" class="input1">
+	               <option value="">--請選擇--</option>
+	            </select> -->
+	            <span name="ruleName" th:unless="${#lists.isEmpty(rules)}" th:each="rule : ${rules}">
+	        		<span  th:text="${rule == question.ruleItem}?'${question.ruleItem}':'' " ></span>
+	        	</span>
+	            <input type="hidden" id="ruleItemBefore" th:listName="ruleItem" th:value="${question.ruleItem}"/>
+	        </td>
+	        <td class="tdback" style="text-align:right">進件欄位：</td>
+	        <td style="width:260px">
+	             <!-- <select name="applyNameBefore" onchange="mappingChange(this,'apply')" class="input1">
+	               <option value="">--請選擇--</option>
+	               <option th:unless="${#lists.isEmpty(applys)}" 
+	                       th:each="apply : ${applys}" th:value="${apply}" th:text="${apply}"
+	                       ></option>
+	            </select>
+	            <select name="applyItemBefore" onchange="setMappingItem(this,'applyItem')" class="input1">
+	               <option value="">--請選擇--</option>
+	            </select> -->
+	            <span  name="applyName" th:unless="${#lists.isEmpty(applys)}" th:each="apply : ${applys}">
+	        		<span th:text="${apply == question.applyItem}?'${apply}':'' " th:value="${apply}" ></span>
+	        	</span>
+	            <input type="hidden" id="applyItemBefore" th:listName="applyItem" th:value="${question.applyItem}"/>
+	        </td>
+      </tr>
+      <tr style="width:100%;">
+          <td class="tdback" style="width:15%;text-align:right"><span class="_red">*</span>問題級別：</td>
+          <td class="questionTdClass" style="text-align:left">
+             <!--  <select name="levelBefore" style="width:130px" onchange="javascript:selectLevel(this)" th:listName="questionLevel" class="input1 questionLevel">
+                  <option value="1" th:selected="'1'==${question.questionLevel}">主問題</option>
+                  <option value="2" th:selected="'2'==${question.questionLevel}">副問題</option>
+                  <option value="3" th:selected="'3'==${question.questionLevel}">二级副問題</option>
+                  <option value="4" th:selected="'4'==${question.questionLevel}">三级副問題</option>
+              </select> -->
+              <span  style="width:130px" th:value="${question.questionLevel}" th:text="${question.questionLevel}=='1'?'主問題':(${question.questionLevel}=='2'?'副問題':(${question.questionLevel}=='3'?'二级副問題':(${question.questionLevel}=='4'?'三级副問題':''))) " ></span>
+              <input name="level" type="hidden" th:value="${question.questionLevel}" class="next" />
+          </td>
+          <!-- 初賽問卷3 默認答案 -->
+          <td id="defAnsHdBefore" class="tdback" style="width:15%;text-align:right;"><span class="defualtAnswer" style="display:none;"><span class="_red"></span>默認答案：</span></td>
+          <td id="defAnsBdBefore"style="text-align:left">
+              <span  class="defualtAnswer" th:text="${question.defualtAnswer}" th:value="${question.defualtAnswer}" listName="defualtAnswer" style="display:none;width:80%;"></span>
+          </td>  
+          <td id="fatherQHdBefore" class="tdback" style="width:15%;text-align:right;"><span class="selectLevel" th:style="${question.questionLevel == '1'}? 'display: none;':'display: inline;'" ><span class="_red">*</span>所屬主問題：</span></td>
+          <td id="fatherQBdBefore" class="fatherQuestionClass" style="text-align:left">
+              <select name="fatherQuestionBefore" th:style="${question.questionLevel == '1'}? 'width:130px;display: none;':'width:130px;display: inline;'" th:listName="fatherQuestion" class="input1 selectLevel" onchange="changeFatherQuestion(this);">
+                  <option value="">--請選擇--</option>
+                  <option th:if="${questionStat.count}>1" th:each="i:${#numbers.sequence(1,questionStat.count - 1)}" th:text="'第'+${i}+'題'" th:value="${i}" th:selected="${i}==${question.fatherQuestion}"></option>
+              </select>
+              <input type="hidden" th:value="${question.fatherQuestion}" class="next" />
+          </td>
+      </tr>
+  </table>
+  <div class="question_body">
+	  <table class="tb01 mgt">
+	      <tr style="width:100%;">
+            <td class="tdback" style="text-align:center">題目</td>
+            <td class="tdback" style="text-align:center">選項文字</td>
+            <td class="tdback" style="text-align:center">跳轉題目</td>
+           <!--  <td class="tdback" style="text-align:center" th:if="${question.questionType=='02'}">操作</td> -->
+	      </tr>
+	      <tr style="width:100%;" th:each="curAnswer,curAnswerStat:${question.answers}" class="_add_clone" th:listNameHead2="answers">
+	         <input type="hidden" th:listName2="id" th:value="${curAnswer.id}"/>
+	        <td th:if="${curAnswerStat.count==1}" style="width:60%;text-align:left" th:rowspan="${curAnswerStat.size}">
+	           <textarea rows="3" cols="90" name="questionNameBefore" th:listName="name" th:text="${question.name}" class="textarea"></textarea>
+	        </td>
+	        <td style="width:20%;">
+	          <span type="text" name="answerBefore" style="width:98%;" th:listName2="answer" th:value="${curAnswer.answer}" th:text="${curAnswer.answer}" ></span>
+	        </td>
+	        <td style="width:10%;text-align:left">
+	          <!-- <select style="width:100%;" name="nextQuestionBefore" th:listName2="nextQuestion" class="input1 nextQuestion" onchange="changeNextQuestion(this)">
+                  <option value="">--請選擇--</option>
+                  <option th:if="${questionStat.size} > ${questionStat.count}" th:each="i:${#numbers.sequence(questionStat.count+1,questionStat.size)}" th:text="'第'+${i}+'題'" th:value="${i}" th:selected="${i}==${curAnswer.nextQuestion}"></option>
+                  <option th:text="跳到問卷末尾，結束作答" th:value="end" th:selected="'end'==${curAnswer.nextQuestion}"></option>
+              </select> -->
+               <span th:if="${questionStat.size} > ${questionStat.count}" th:each="i:${#numbers.sequence(questionStat.count+1,questionStat.size)}">
+              	<span th:text="'第'+${i}+'題'" th:value="${i}" th:if="${i}==${curAnswer.nextQuestion}"></span>
+              </span>
+              <span th:text="跳到問卷末尾，結束作答" th:if="'end'==${curAnswer.nextQuestion}"></span>
+	          <input type="hidden" th:value="${curAnswer.nextQuestion}" class="next" />
+	        </td>
+	        <!-- <td th:if="${question.questionType=='02'}">
+	           <input type="button" class="add" onclick="javascript:addRows(this);"/>
+	           <input type="button" class="del" onclick="javascript:delRows(this);" />
+	        </td> -->
+	        </tr>
+	 </table>
+    </div> 
+   </div>
+  </div>
+  </div>
+  <script type="text/javascript">
+$(function(){
+	 var forAuditFlag = $("#forAuditFlag").val();
+	 var viewForAudit = $("#viewForAudit").val();
+	 if(forAuditFlag=="forAuditFlag"&&viewForAudit!="viewForAudit"){
+  		 $("input").attr("disabled",true);
+  	     $("select").attr("disabled",true);
+  		 $("textarea").attr("readonly",true);
+  		 $('textarea[name="updateRemarkName"]').attr("readonly",true);
+  		 $('textarea[name="auditRemarkName"]').attr("readonly",false);
+  		 $('input[name="auditStateName"]').attr("disabled",false);
+  		 $('input[name="commitBotton"]').attr("disabled",false);
+  		 $('input[name="backQueryBotton"]').attr("disabled",false); 
+  	}
+	if(forAuditFlag=="forAuditFlag"&&viewForAudit=="viewForAudit"){
+  		 $("input").attr("disabled",true);
+  		 $("select").attr("disabled",true);
+  		 $("textarea").attr("readonly",true);
+  		 $('textarea[name="updateRemarkName"]').attr("readonly",true);
+  		 $('input[name="backQueryBotton"]').attr("disabled",false);
+  	}
+	  var questionType = $("#prodBefore").val();
+		if(questionType=="14"){
+			  $("#questionBefore .defualtAnswer").each(function(){
+				 $(this).css('display','block');
+			  });
+			}else{
+				$("#questionBefore .defualtAnswer").each(function(){
+					$(this).css('display','none');
+				  });
+			}
+	$("#questionBefore .question_div").each(function(){
+		var _valueAudit = $(this).find(".questionTdClass input[name='level']").val();
+		var curTd = $(this).find(".questionTdClass");//當前下拉框所在td
+		var curTr = $(curTd).parent("tr");//當前下拉所在tr
+		var fatherQHead = $(curTr).find("#fatherQHdBefore");
+		var fatherQBody = $(curTr).find("#fatherQBdBefore");
+		var defAnsHd = $(curTr).find("#defAnsHdBefore");
+		var defAnsBd = $(curTr).find("#defAnsBdBefore");
+		if (_valueAudit == '1') {
+			$(defAnsBd).insertAfter($(curTd));
+			$(defAnsHd).insertAfter($(curTd));
+			
+		}else{
+			$(fatherQBody).insertAfter($(curTd));
+			$(fatherQHead).insertAfter($(curTd));
+			
+		}
+		
+	  });
+})
+</script>

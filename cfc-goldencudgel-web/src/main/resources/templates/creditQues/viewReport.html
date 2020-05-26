@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: commonHeader(#{golden.menu.viewreport})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/questionniare.css}" type="text/css"/>
+<body class="body_bg">
+<div th:replace="index/index :: #top"></div>
+<div th:insert="~{index/index :: menu}"></div>
+<br/>
+<div style="margin-left:50px;margin-top:5px;">
+    <div>當前位置：徵信實訪 > 徵信報告問卷查詢 > 徵信報告問卷詳情</div>
+</div>
+<br/>
+<div class="main">
+    <div id="d1">
+        <form id="viewReport">
+            <table class="tb01 mgt">
+                <tr>
+                    <th colspan="8" class="title">
+                        <img src="../images/measureWord/u8597.png">
+                        <span style="margin-left:5px;"/>徵信報告問卷詳情</span>
+                    </th>
+                </tr>
+                <!--第一行-->
+                <tr>
+                    <td class=" tdback" style="width:12.5%;text-align:right;" height="40px">
+                        <span></span>授信戶統編：
+                    </td>
+                    <td style="width:12.5%;text-align:left;">
+                        <span th:text="${reportList[0]}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        <span></span>授信戶名稱：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${compilationNanme}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        問卷類型：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="徵信"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        問卷名稱：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${reportList[2]}"></span>
+                    </td>
+                </tr>
+                    <!--第二行-->
+                <tr>
+                    <td class="tdback" style="width:12.5%; text-align:right;" height="40px">
+                        <span></span>類別：
+                    </td>
+                    <td style="width:12.5%;text-align:left;">
+                        <span th:text="${reportList[2]}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        <span></span>答題時間：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${reportList[3]}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                        <span></span>修改時間：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${reportList[4]}"></span>
+                    </td>
+                    <td class="tdback" style="width:12.5%;text-align:right;">
+                          <span></span>徵信員姓名：
+                    </td>
+                    <td style="text-align:left;width:12.5%;">
+                        <span th:text="${reportList[6]}"></span>
+                    </td>
+                </tr>
+                    <!--第三行-->
+                <tr>
+                    <td class="tdback" style="width:12.5%;text-align:right;" height="40px">
+                        <span></span>問卷說明：
+                    </td>
+                    <td style="text-align:left;width:12.5%;" colspan="7">
+                        <span th:text="${reportList[5]}"></span>
+                    </td>
+                </tr>
+                    </span>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="d2">
+        <form>
+            <table class="tb01 mgt">
+            <!--    <tr>
+                    <td width="35%"  height="40px" style="text-align:center" th:text="題目" ;/>
+                    <td width="65%" class="tdback" th:colspan="2" height="40px" style="text-align:center" th:text="答案" ;/>
+                </tr>-->
+              <!--  <tr style="margin-left:15px; height: 40px" th:each="QAS : ${viewReportList}">
+                    <td th:text="${QAS[0]}" style="text-align: right;padding:0 10px" ></td>
+                    <td th:text="${QAS[1]}" style="text-align: left;padding:0 10px"></td>
+                </tr>-->
+                <div>
+                    <!--<div th:each="nameLists:${nameList}">
+                        <tr th:text="${nameLists}" style="text-align: center;padding:0 10px" ></tr>
+                    </div>-->
+                    <div th:each="listes : ${lists}" >
+                        <!--  <div th:each="nameLists:${nameList}">
+                                  <tr th:text="${nameLists}" style="text-align: center;padding:0 10px" ></tr>
+                          </div>-->
+                        <div th:each="list:${listes}">
+
+                            <tr>
+                                <td th:if="${list[1]}==false" th:text="${list[0]}"th:colspan="3" class="tdback" style="text-align: left;font-size: 15px;font-weight:800;padding: 0 20px" ></td>
+
+                                <td th:if="${list[5]}==1 and ${list[1]}!=false" th:text="${list[0]}" th:rowspan="${list[3]}" style="text-align: right;padding:0 10px;width: 30%" ></td>
+                                <td  th:if="${list[6]}==1 and ${list[2]}=='' and ${list[1]}!=false" th:text="${list[1]}" th:rowspan="${list[4]}" th:colspan="2" style="text-align: left;padding:0 10px;width: 20%"></td>
+                                <td  th:if="${list[6]}==1 and ${list[2]}!='' and ${list[1]}!=false" th:text="${list[1]}" th:rowspan="${list[4]}"style="text-align: left;padding:0 10px;width: 20%"></td>
+                                <td th:if="${list[2]}!='' and ${list[1]}!=false"th:text="${list[2]}" style="text-align: left;padding:0 10px;width: 50%"></td>
+                        </div>
+                    </div>
+                </div>
+
+            </table>
+        </form>
+        <input type="text" hidden th:value="${lists}" id="lists">
+        <div style="text-align:center;margin-top:20px;">
+            <input type="hidden" id="measureId" th:value="${measureId}"/>
+            <input type="button" class="button_blue" value="返回" onclick="javascript:backPage(-1)"/>
+            <input th:if="${userUtil.hasFunction('WEB_INTRODUCE_QUESTION_PDF_DOWNLOAD')}" type="button" class="button_blue" value="PDF報告下載" onclick="javascript:pdfDown();"/>
+        </div>
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+<script type="text/javascript" src="../../js/creditQues/creditQues.js"></script>
+
+<script>
+    $(function(){
+   /*   var lists=$("#lists").val();
+        for (var i = 0; i <lists.length ; i++) {
+            console.log(lists[i])
+        }*/
+       $("#d2").find("td").each(function(){
+           var t = $(this).html();
+           t = t.replace(/\n/g,"<br/>");
+           $(this).html(t);
+       });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<table class="tab05" xmlns:th="http://www.thymeleaf.org">
+    <thead>
+    <tr>
+       <!--  <th style="text-align:center;"> -->
+        <th style="text-align:left;">
+            <img src="../../images/missionStroke/u212.png" style="cursor:default;"/>
+        </th>
+        <!--  <th style="text-align:left;" colspan="2">行程進度</th> -->
+        <th style="text-align:left;width: 350px;height: 30px" colspan="2">行程進度</th>
+    </tr>
+    </thead>
+    <tbody>
+    <span th:unless="${#lists.isEmpty(travelScheduleList)}">
+                    <tr th:each="travelSchedule : ${travelScheduleList}">
+                       <!--  <td style="width:13%" th:text = "${#dates.format(travelSchedule[1],'MM-dd')}"/> -->
+                        <td>
+                            <img src="../../images/missionStroke/u203.png" />
+                        </td>
+                        <td style="text-align:left;" th:measureId="${travelSchedule[7]}" th:compilationNo="${travelSchedule[0]}" th:trandId="${#dates.format(travelSchedule[1],'YYYYMMdd')}">
+                           <span style="display:block;margin-top:8px;" th:text = "${#dates.format(travelSchedule[1],'yyyy-MM-dd')}"></span>
+                           <!--  <span style="float:left;" th:text = "${travelSchedule[2]}"></span> -->
+                            <span style="display:block;margin-bottom:3px;overflow: hidden;white-space: nowrap; width: 260px; text-overflow:ellipsis;" th:text = "${travelSchedule[2]}"></span>
+                            <span style="float:left;margin-bottom:12px">
+                            <span class="span_bule" th:if = "${travelSchedule[3]}" th:onclick="${userUtil.hasFunction('WEB_VISIT_NOTES')} ? 'showDetial(this,1)' : 'javascript:void(0)'">拜訪筆記</span>
+                            <span class="span_blick" th:if = "!${travelSchedule[3]}" >拜訪筆記</span>
+                            <span class="span_bule" th:if = "${travelSchedule[4]}" th:onclick="${userUtil.hasFunction('WEB_QUESTION_ANSWER')} ? 'showDetial(this,2)' : 'javascript:void(0)'">測字館</span>
+                            <span class="span_blick" th:if = "!${travelSchedule[4]}">測字館</span>
+                            <span class="span_bule" th:if = "${travelSchedule[5]}" th:onclick="${userUtil.hasFunction('WEB_ENTER_CASE')} ? 'showDetial(this,3)' : 'javascript:void(0)'">進件申請</span>
+                            <span class="span_blick" th:if = "!${travelSchedule[5]}">進件申請</span>
+                            <span class="span_bule" th:if = "${travelSchedule[6]}" th:onclick="${userUtil.hasFunction('WEB_INTRODUCE_PAGE')} ? 'showDetial(this,4)' : 'javascript:void(0)'">徵信實訪</span>
+                            <span class="span_blick" th:if = "!${travelSchedule[6]}">徵信實訪</span>
+                            </span>
+                        </td>
+                     </tr>
+                </span>
+    <tr th:if="${#lists.isEmpty(travelScheduleList)}" style="text-align: center">
+        <td style="height:369px;border:none;" colspan="7">
+            查無數據！
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div style="margin-top:10px;" th:insert="~{common/page :: page('findPage')}"/>

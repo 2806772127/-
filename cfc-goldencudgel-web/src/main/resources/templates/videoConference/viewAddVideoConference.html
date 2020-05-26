@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.videoConference.add})">
+</head>
+<link rel="stylesheet" th:href="@{../../css/questionniare.css}" type="text/css" />
+<link rel="stylesheet" th:href="@{../../css/message.css}" type="text/css" />
+<style>
+select::-ms-expand { display: none; }
+</style>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：
+   <span th:text="#{goldencudgel.menu.videoConference}"/></span> >
+   <span th:text="#{goldencudgel.menu.videoConference.add}"/></span> >
+  </div>
+  <br/>
+  <div class="main">
+  <form id="videoConference">
+     <table class="tb03" style="width:100%">
+     <tr>
+       <th colspan="4" class="tdback" style="text-align:center">與會者資訊</th>
+     </tr>
+     <tr>
+       <td class="tdback" rowspan="2"  style="text-align:right;width:20%"><span style="color:red">*</span>選擇與會人員：</td>
+       <td><span style="margin-left:10px;">請選擇區別：</span></td>
+       <td><span>請選擇組別：</span></td>
+       <td><span>請選經辦人：</span></td>
+     </tr>
+     <tr>
+       <td  style="witdh:26%">
+        <div style="border:2px solid #F2F2F2;width:250px;height:240px;" id="pAreaDiv">
+         <table>
+           <tr>
+             <td class="tdback" style="width:240px;"><span style="margin-left:10px;">
+		        <input type="radio" name="area" value="1" th:text="全選" th:onclick="selectAll(this)"/>&nbsp;&nbsp;&nbsp;&nbsp;
+		        <input type="radio" name="area" value="0" th:text="反選" th:onclick="selectAll(this)"/></span>
+		     </td>
+           </tr>
+           <tr>
+            <td>
+             <div style="margin-left:10px;height:200px;overflow:auto" id="areaDiv">
+              <span th:unless="${#lists.isEmpty(areaList)}" th:each="area:${areaList}">
+                 <input type="checkbox" name="area" class="checkbox" th:value="${area.key}" th:text="${area.value}" th:onclick="checkChange(this)"></input><br/>
+              </span>
+             </div>
+           </td>
+           </tr>
+        </table>
+       </div>
+       </td>
+       <td style="witdh:27%">
+        <div style="border:2px solid #F2F2F2;width:250px;height:240px;" id="pGroupDiv"></div>
+       </td>
+       <td style="witdh:27%">
+       <div style="border:2px solid #F2F2F2;width:250px;height:240px;" id="pUserDiv"></div>
+       </td>
+     </tr>
+    </table>
+    <br/>
+    <table class="tb03" style="width:100%">
+       <tr>
+          <th th:colspan="2" class="tdback" style="text-align:center">會議資訊</th>
+       </tr>
+        <tr style="height:25px;">
+            <td class="tdback" style="text-align:right;"><span style="color:red">*</span>webex賬號：</td>
+            <td >
+                <select id="webex" style="width:250px;text-align: center" class="select required">
+                    <option value="">--請選擇--</option>
+                    <option th:each="fbWebexConfigs:${fbWebexConfigs}" th:value="${fbWebexConfigs.account}" th:text="${fbWebexConfigs.accountName}"></option>
+                </select>
+            </td>
+
+        </tr>
+       <tr style="height:50px;">
+          <td class="tdback" style="text-align:right;width:20%"><span style="color:red">*</span>會議主旨：</td>
+          <td>
+            <input type="text" name="conferenceKeyNote" id="keyNotes"  placeholder=" 字數限制50字"  style="width:73%;" class="step_input required" maxlength="50"/>
+          </td>
+       </tr>
+       <tr>
+          <td class="tdback" style="text-align:right;width:20%">會議內容：</td>
+          <td>
+            <textarea id="_textarea" rows="4" cols="102" class="required" name="conferencecontext" placeholder=" 字數限制500字" maxlength="500"></textarea>
+            <input type="button" class="button_blue" style="position: relative;top: -30px" th:value="重新輸入" onclick="clearText();"/>
+          </td>
+       </tr>
+      </table>
+      <table class="tb03" style="width:100%">
+       <tr style="height:50px;">
+          <td class="tdback" style="text-align:right;width:10%" readOnly><span style="color:red">*</span>會議開始日期：</td>
+          <td style="text-align:left;;width:15%">
+             <input type="text" name="startDate" readOnly class="input required"/>&nbsp;<img id="startImg" src="../images/u22.png" />
+          </td>
+          <td class="tdback" style="text-align:right;width:10%"><span style="color:red">*</span>會議開始時間：</td>
+          <td style="width:15%">
+            <select id="hour" style="width:120px;" class="input1 required">
+              <option value="">--請選擇--</option>
+              <option th:each="i:${#numbers.sequence(9, 17)}" th:value="${i}" th:text="${i}"></option>
+            </select>
+            <select id="minute" style="width:120px;" class="input1 required">
+              <option value="">--請選擇--</option>
+              <option th:each="j:${#numbers.sequence(0, 59)}" th:value="${j}>9?${j}:'0'+${j}" th:text="${j}>9?${j}:'0'+${j}"></option>
+            </select>
+          </td>
+
+
+           <td class="tdback" style="text-align:right;width:10%"><span style="color:red">*</span>會議結束時間：</td>
+           <td style="width:15%">
+               <select id="endhour" style="width:120px;" class="input1 required">
+                   <option value="">--請選擇--</option>
+                   <option th:each="i:${#numbers.sequence(9, 17)}" th:value="${i}" th:text="${i}"></option>
+               </select>
+               <select id="endminute" style="width:120px;" class="input1 required">
+                   <option value="">--請選擇--</option>
+                   <option th:each="j:${#numbers.sequence(0, 59)}" th:value="${j}>9?${j}:'0'+${j}" th:text="${j}>9?${j}:'0'+${j}"></option>
+               </select>
+           </td>
+
+       </tr>
+     </table>
+    </form>
+     <div style="text-align:center;margin-top:15px;">
+	    <input type="button" class="button_blue" value="提交" onclick="javascript:addConference();" />
+	    <input type="button" class="button_blue" value="取消" onclick="javascript:cancel()" />
+     </div>
+  </div>
+ <div th:replace="~{common/footer :: footer}"></div>
+ <script type="text/javascript" src="../../js/videoConference/videoConference.js"></script> 
+ </body>
+</html>

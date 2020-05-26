@@ -1,0 +1,22 @@
+<table class="tb01 mgt" style="word-wrap:break-word;word-break:break-all;">
+        <tbody>
+        <tr>
+            <th width="25%">操作人</th>
+            <th width="25%">伺服器IP</th>
+            <th width="25%">操作類型</th>
+            <th width="25%">操作時間</th>
+        </tr>
+        <span th:unless="${#lists.isEmpty(datas)}">
+             <tr  th:each="connection,connectionStart : ${datas}">
+                <td th:text="${connection[0]}"></td>
+                <td th:text="${connection[1]}"></td>
+                <td th:text="${connection[2]}"></td>
+                <td th:text="${connection[3]}"></td>
+             </tr>
+            </span>
+        </tbody>
+</table>
+
+<p class="page">
+<div th:replace="~{common/page1 :: page('findLog')}" style="text-align: right"/>
+</p>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="common/header :: commonHeader('首页')">
+    <meta charset="UTF-8">
+</head>
+<body class="body_bg">
+    <div class="top" id="top">
+        <div class="logo">
+            <img src="../../images/u731.png" style="width:150px;margin:10px;">
+            <img src="../../images/u222.png" style="width:150px;margin:5px;">
+            <p class="user" th:inline="text">
+                <img src="../images/profile.png">用戶：<span th:text="${session.user.userName}"></span> │ <span id="time"></span>
+                <input id="lastRequestTime" th:value="${session.lastRequestTime}" type="hidden" />
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                    function setTime(){
+                        var dt=new Date();
+                        var arr_week=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+                        var strWeek=arr_week[dt.getDay()];
+                        var strHour=dt.getHours();
+                        var strMinutes=dt.getMinutes();
+                        var strSeconds=dt.getSeconds();
+                        if (strMinutes<10) strMinutes="0"+strMinutes;
+                        if (strSeconds<10) strSeconds="0"+strSeconds;
+                        var strYear=dt.getFullYear()+"年";
+                        var strMonth=(dt.getMonth()+1)+"月";
+                        var strDay=dt.getDate()+"日";
+                        <!--var strTime=strHour+":"+strMinutes+":"+strSeconds;-->
+                        strTime=strHour+":"+strMinutes;
+                        time.innerHTML=strYear+strMonth+strDay+" "+strTime;
+                    }
+                    setInterval("setTime()",1000);
+                    /*]]>*/
+                    
+                    function showMessage(){
+                        window.location.href = context_path + "/message/viewMessage";
+                    }
+                    
+                    function checkSession() {
+                        var now = new Date();
+                        var lastRequestTime = $("#lastRequestTime").val();
+                        var past = now - lastRequestTime; 
+                        if (past > 7200000) {
+                            console.log("lastRequestTime:" + $("#lastRequestTime").val());
+                            console.log("lastModified:" + document.lastModified);
+                            window.location.href = context_path + "/login";
+                        }
+                    }
+                </script>
+                <input type="submit" onclick="logout()" value="登出"/>
+            </p>
+            <div class="splitHeight"></div>
+            <div class="line30"></div>
+        </div>
+    </div>
+
+    <div class="menu" th:fragment="menu">
+        <ul class="nav" style="float:left; margin: 0px 0px 0px 100px">
+            <!--系统管理-->
+            <li class="li01" style="width: 120px; border:none;" th:if="${userUtil.hasFunction('WEB_SYSTEM_CONFIG')}" onmouseover="show('over','sub_li07')" onmouseout="show('out','sub_li07')">
+                <a href="javascript:void(0)" style="width: 120px;"><span th:text="#{goldencudgel.menu.systemManager}"></span><img src="../images/m_down.png" /></a>
+                <ul id="sub_li07" class="sub_menu" style="width: 120px;">
+                    <!--報表日誌-->
+                    <li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_DATA')}"style="width: 120px;">
+                        <a th:href="@{/systemData/viewSystemDataListForIT}"><span th:text="#{golden.menu.systemData}" style="width: 120px;"></span></a>
+                    </li>
+
+                    <!--系統日誌-->
+                    <li class="sub_li01" th:if="${userUtil.hasFunction('WEB_SYSTEM_LOGS')}"style="width: 120px;">
+                        <a th:href="@{/systemLogs/systemLogsForIt}"><span th:text="#{golden.system.logs}"style="width: 120px;"></span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="main">
+        <div style="background:url(../../images/welcome_bg.jpg) no-repeat right 0; height:540px; width:1000px; text-align:center;line-height:540px; color:#327B9C;font-weight:bold; margin:0 auto;">
+            <p style="font-size:30px;color:#327B9C;"><font style="color:red">歡迎登錄<strong>金箍棒</strong>系統</font>&nbsp; 
+            </p>
+        </div>
+    </div>
+
+    <div th:replace="~{common/footer :: footer}"> </div>
+</body>
+</html>

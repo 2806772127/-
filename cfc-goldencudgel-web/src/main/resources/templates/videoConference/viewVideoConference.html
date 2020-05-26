@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common/header :: commonHeader(#{goldencudgel.menu.videoConference})">
+</head>
+<body class="body_bg">
+    <div th:replace="index/index :: #top"/>
+    <div th:insert="~{index/index :: menu}"/>
+  <br/>
+  <div style="margin-left:50px;margin-top:5px;">當前位置：<span th:text="#{goldencudgel.menu.videoConference}"/></span></div>
+   <br/>
+  <div class="main">
+  <input id="backFlag" type="text" th:value="${backFlag}" style="display: none;" />
+  <table class="tb03">
+     <tr>
+      <th colspan="3" class="title">
+       <img src="../images/videoConference/u15483.png">
+        <span th:text="#{goldencudgel.menu.videoConference}" style="margin-left:5px;"/></span>
+      </th>
+     </tr>
+     <tr>
+       <td style="text-align:center">會議主旨：<input type="text" maxlength="50" placeholder=" 字數限制50字" id="keyNote" name="conferenceKeyNote" class="input"/></td>
+       <td style="text-align:center">
+                       會議開始日期：<!--<input type="text" name="startDate" readOnly class="input"/>&nbsp;<img src="../images/u22.png"/>
+            &nbsp;~&nbsp;<input type="text" name="endDate" readOnly/class="input">&nbsp;<img src="../images/u22.png" />-->
+           <input class="input" type="text" id="startDate" name ="startDate" readonly />&nbsp;<img id="startImg" src="../images/measureWord/u22.png" />
+           &nbsp;~&nbsp;<input class="input" type="text" id="endDate"   name ="endDate" readonly />&nbsp;<img id="endImg" src="../images/measureWord/u22.png" />
+
+       </td>
+       <td>
+          <div style="position: relative;float:left" onclick="javascript:queryConference(1);"> 
+		 
+		     <input type="button" value="查詢" class="button_blue" />
+	       </div>
+	       <div style="position: relative;float:left;margin-left:15px;" onclick="javascript:viewAddConference();"> 
+		     <div style="position: absolute;top:6px;left:10px;">
+		        <img src="../images/u9177.png"/>
+		     </div>  
+		     <input th:if="${userUtil.hasFunction('WEB_VIDEO_MEETING_ADD')}" type="button" value="新增" class="button_blue"/>
+	       </div>  
+        </td>
+     </tr>
+  </table>  
+  <div id="conference_list"></div>
+  <!--通过隐藏域（结果数据是否都有readTime）来判断是否已经全部把未读的消息全部读取完  -->
+       <input type="hidden" id="hasIsReadTime"/> 
+  </div>
+
+    <input th:value="${session.user.userCode}" style="display: none" th:id="username"/>
+
+   <div th:replace="~{common/footer :: footer}"/>
+   <script type="text/javascript" src="../../js/videoConference/videoConference.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+2019-12-10 14:01:57,922 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplication on DESKTOP-JTG5GDD with PID 2964 (D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web\target\classes started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-10 14:01:57,922 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-10 14:01:57,922 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-10 14:03:32,664 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplication on DESKTOP-JTG5GDD with PID 6380 (D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web\target\classes started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-10 14:03:32,680 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-10 14:03:32,680 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-10 14:03:40,124 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplication in 7.851 seconds (JVM running for 8.429)
+2019-12-10 14:04:05,238 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:05,460 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:05,579 INFO (InterfaceServiceImpl.java:119)- [web --> interface] request message : {"ServiceHeader":{"ServiceType":"getLeaderHomeInfo","ChannelType":"web","ReqTime":"2019-12-10 14:04","ReqNo":"","Token":"071f80818de340b18d1c725086c23b02","uuid":"0dfcef3e-b909-4319-b77e-61a07ab64056","DeviceFingerprint":""},"ServiceBody":{"message":"{\"uid\":\"0dfcef3e-b909-4319-b77e-61a07ab64056\"}"}}
+2019-12-10 14:04:05,589 INFO (InterfaceServiceImpl.java:155)- http://192.168.13.140:12001/goldenCudgel
+2019-12-10 14:04:05,683 INFO (InterfaceServiceImpl.java:169)- [interface --> web] response message : {"reachingRateInfo":[{"applyRate":"0.0353","achieveRate":"0","prodCode":"ALL","prodName":"全產品合計","applyCount":"3","applyAmount":"76980","achieveCount":"0","loanAmount":"0","statisticsTime":"20190924"},{"applyRate":"0","achieveRate":"0","prodCode":"COM","prodName":"公司戶貸款小計","applyCount":"0","applyAmount":"0","achieveCount":"0","loanAmount":"0","statisticsTime":"20190924"},{"applyRate":"0","achieveRate":"0","prodCode":"CREDIT","prodName":"企業主信貸","applyCount":"0","applyAmount":"0","achieveCount":"0","loanAmount":"0","statisticsTime":"20190924"},{"applyRate":"0.6","achieveRate":"0","prodCode":"HOUSE","prodName":"企業主房貸","applyCount":"3","applyAmount":"76980","achieveCount":"0","loanAmount":"0","statisticsTime":"20190924"}],"visitScheduler":[],"caseProgress":[]}
+2019-12-10 14:04:05,690 INFO (MissionStrokeController.java:142)- 调用接口耗时：199
+2019-12-10 14:04:06,241 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,241 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,241 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,241 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,241 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,264 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,264 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,264 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,264 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,272 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,282 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,284 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,305 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,305 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,307 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,307 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,315 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,333 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,346 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,346 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,365 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,397 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,420 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,425 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,433 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,440 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,482 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,482 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,482 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,482 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,488 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,488 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,644 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,644 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,644 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,644 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,644 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,645 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,649 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,693 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,711 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,711 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,975 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:06,975 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:07,043 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:07,101 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:07,120 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,728 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,871 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,873 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,873 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,873 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,874 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,874 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,884 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,884 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,940 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:09,941 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:10,022 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:10,022 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:10,022 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:10,023 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 14:04:10,023 DEBUG (ContextInterceptor.java:50)- begin to execute SessionContextInterceptor
+2019-12-10 16:20:22,427 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 10196 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-10 16:20:22,445 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-10 16:20:22,447 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-10 16:20:32,679 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 10.735 seconds (JVM running for 12.427)
+2019-12-10 16:21:06,621 INFO (StartupInfoLogger.java:50)- Starting CfcGoldencudgelWebApplicationTests on DESKTOP-JTG5GDD with PID 13596 (started by linfu in D:\huiXun\ideaProject\cfc-goldencudgel-web\cfc-goldencudgel-web)
+2019-12-10 16:21:06,623 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2019-12-10 16:21:06,626 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
+2019-12-10 16:21:16,795 INFO (StartupInfoLogger.java:59)- Started CfcGoldencudgelWebApplicationTests in 10.52 seconds (JVM running for 11.233)
